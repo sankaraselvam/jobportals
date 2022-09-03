@@ -1,0 +1,51 @@
+[30-Aug-2018 22:31:31 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 199233536 bytes) in /home/sheeda/public_html/job_portal/vendor/jrean/laravel-user-verification/src/UserVerification.php on line 199
+[10-Sep-2018 10:26:39 UTC] PHP Fatal error:  Trait method deleteJob has not been applied, because there are collisions with other trait methods on App\Http\Controllers\IndexController in /home/sheeda/public_html/job_portal/app/Http/Controllers/IndexController.php on line 19
+[12-Feb-2021 07:21:29 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [index] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('index', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/2698bd18c325b653a4517c6bf5f67989ff41aa1b.php(17): route('index')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminat in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372
+[12-Feb-2021 07:22:25 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [index] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('index', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/2698bd18c325b653a4517c6bf5f67989ff41aa1b.php(17): route('index')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminat in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372
+[20-Feb-2021 13:12:45 UTC] PHP Fatal error:  Uncaught ErrorException: Trying to get property 'page_title' of non-object in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php:41
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php(41): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Trying to get p...', '/home/yxdxrjfis...', 41, Array)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View\Engines\CompilerEngine->get('/home/yxdxrjfis...', Array)
+# in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php on line 41
+[22-Feb-2021 05:44:07 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [https://www.dawninfosystem.com/about.html] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('https://www.daw...', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php(25): route('https://www.daw...')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/ in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372
+[22-Feb-2021 05:52:13 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [jobs] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('jobs', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php(30): route('jobs')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\V in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372
+[22-Feb-2021 05:52:36 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [job] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('job', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php(31): route('job')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372
+[22-Feb-2021 05:52:47 UTC] PHP Fatal error:  Uncaught InvalidArgumentException: Route [job] not defined. in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:372
+Stack trace:
+#0 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(812): Illuminate\Routing\UrlGenerator->route('job', Array, true)
+#1 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/storage/framework/views/9c1abd861bd75a187eb8117cffdc888fe21b37e4.php(31): route('job')
+#2 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(43): include('/home/yxdxrjfis...')
+#3 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(59): Illuminate\View\Engines\PhpEngine->evaluatePath('/home/yxdxrjfis...', Array)
+#4 /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/View/View.php(142): Illuminate\View in /home/yxdxrjfiscia/public_html/udhyog.net/jobsportal/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php on line 372

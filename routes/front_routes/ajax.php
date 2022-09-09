@@ -8,3 +8,4 @@ Route::post('filter-lang-states-dropdown', 'AjaxController@filterLangStates')->n
 Route::post('filter-cities-dropdown', 'AjaxController@filterCities')->name('filter.cities.dropdown');
 Route::post('filter-states-dropdown', 'AjaxController@filterStates')->name('filter.states.dropdown');
 Route::post('filter-degree-types-dropdown', 'AjaxController@filterDegreeTypes')->name('filter.degree.types.dropdown');
+Route::post('filter-lang-roles-dropdown', 'AjaxController@filterDefaultRoles')->name('filter.lang.roles.dropdown');

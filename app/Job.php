@@ -39,6 +39,11 @@ class Job extends Model
 			}
 		}
     }
+
+	public function cities()
+    {
+        return $this->belongsTo('App\City', 'city_id', 'id');
+    }
 	
 	public function jobSkills()
     {

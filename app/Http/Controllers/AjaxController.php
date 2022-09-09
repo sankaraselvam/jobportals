@@ -39,6 +39,17 @@ class AjaxController extends Controller
         $dd = Form::select('state_id', ['' => __('Select State')] + $states, $state_id, array('id' => $new_state_id, 'class' => 'form-control'));
         echo $dd;
     }
+
+    public function filterDefaultRoles(Request $request)
+    {
+        $functional_area_id = $request->input('functional_area_id');
+        $role_id = $request->input('role_id');
+
+        $roles = DataArrayHelper::defaultRolesArray($functional_area_id);
+
+        $dd = Form::select('role_id', ['' => 'Select Roles'] + $roles, $role_id, array('id' => 'role_id', 'class' => 'form-control basic-select'));
+        echo $dd;
+    }
 	
     public function filterDefaultCities(Request $request)
     {
@@ -61,7 +72,7 @@ class AjaxController extends Controller
 
         $states = DataArrayHelper::langStatesArray($country_id);
 
-        $dd = Form::select('state_id', ['' => __('Select State')] + $states, $state_id, array('id' => $new_state_id, 'class' => 'form-control'));
+        $dd = Form::select('state_id', ['' => __('Select State')] + $states, $state_id, array('id' => $new_state_id, 'class' => 'form-control basic-select'));
         echo $dd;
     }
 	
@@ -72,7 +83,7 @@ class AjaxController extends Controller
 
         $cities = DataArrayHelper::langCitiesArray($state_id);
 		
-        $dd = Form::select('city_id', ['' => 'Select City'] + $cities, $city_id, array('id' => 'city_id', 'class' => 'form-control'));
+        $dd = Form::select('city_id', ['' => 'Select City'] + $cities, $city_id, array('id' => 'city_id', 'class' => 'form-control  basic-select'));
         echo $dd;
     }
 	
@@ -86,7 +97,7 @@ class AjaxController extends Controller
 
         $states = DataArrayHelper::langStatesArray($country_id);
 
-        $dd = Form::select('state_id[]', ['' => __('Select State')] + $states, $state_id, array('id' => $new_state_id, 'class' => 'form-control'));
+        $dd = Form::select('state_id[]', ['' => __('Select State')] + $states, $state_id, array('id' => $new_state_id, 'class' => 'form-control' ));
         echo $dd;
     }
 	

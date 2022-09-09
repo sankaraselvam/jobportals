@@ -19,6 +19,7 @@ use App\FunctionalArea;
 use App\MajorSubject;
 use App\ResultType;
 use App\LanguageLevel;
+use App\JobRole;
 use App\JobSkill;
 use App\JobExperience;
 use App\JobType;
@@ -194,6 +195,23 @@ class DataArrayHelper
         $array = FunctionalArea::select('functional_areas.functional_area', 'functional_areas.functional_area_id')->lang()->active()->sorted()->pluck('functional_areas.functional_area', 'functional_areas.functional_area_id')->toArray();
 		if((int)count($array) === 0){
 			$array = self::defaultFunctionalAreasArray();
+		}
+        return $array;
+    }
+
+    /*******************************/
+	
+	public static function defaultRolesArray($functional_area_id)
+    {
+        $array = JobRole::select('job_role.role', 'job_role.role_id')->where('functional_area_id',$functional_area_id)->isDefault()->active()->sorted()->pluck('job_role.role', 'job_role.role_id')->toArray();
+        return $array;
+    }
+	
+	public static function langRolesArray($functional_area_id)
+    {
+        $array = JobRole::select('job_role.role', 'job_role.role_id')->where('functional_area_id',$functional_area_id)->lang()->active()->sorted()->pluck('job_role.role', 'job_role.role_id')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultRolesArray($functional_area_id);
 		}
         return $array;
     }

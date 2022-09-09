@@ -253,7 +253,8 @@ trait JobTrait
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		
 		$jobSkillIds = array();
-
+		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->orderBy('jobs.id', 'DESC')->limit(5)->get();
+		// dd($postJobs);
         return view('job.add_edit_job')
                         ->with('countries', $countries)
 						->with('currencies', array_unique($currencies))
@@ -266,11 +267,13 @@ trait JobTrait
                         ->with('jobSkills', $jobSkills)
 						->with('jobSkillIds', $jobSkillIds)
 						->with('degreeLevels', $degreeLevels)
-						->with('salaryPeriods', $salaryPeriods);
+						->with('salaryPeriods', $salaryPeriods)
+						->with('postJobs', $postJobs);
     }
 
-    public function storeFrontJob(JobFrontFormRequest $request)
+    public function storeFrontJob(Request $request)
     {
+		dd($request->all());exit;
 		$company = Auth::guard('company')->user();
 		
         $job = new Job();

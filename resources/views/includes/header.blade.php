@@ -28,9 +28,9 @@
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recruiters <i class="fas fa-chevron-down fa-xs"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('contact.us') }}">Post a Job</a></li>  
+                                <li><a class="dropdown-item" href="{{route('register')}}">Post a Job</a></li>  
                                 <li><a class="dropdown-item" href="{{ route('contact.us') }}">Browse All Recruiter</a></li>
-                                <li><a class="dropdown-item" href="{{ route('contact.us') }}">Recruiter Connection</a></li>
+                                <li><a class="dropdown-item" href="{{ route('company.connection') }}">Recruiter Connection</a></li>
                             </ul>
                         </li>
 
@@ -97,7 +97,7 @@
                         </li>
                         @if(Auth::check())
                         <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Portal<i class="fas fa-chevron-down fa-xs"></i></a>
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Udhyog<i class="fas fa-chevron-down fa-xs"></i></a>
                                     <ul class="dropdown-menu left-side">
                                         <li><a class="dropdown-item" href="{{route('home')}}">Dashboard</a></li>
                                         <li><a class="dropdown-item" href="{{ route('my.profile') }}">Profile</a></li>
@@ -123,18 +123,18 @@
                                         <div class="col-sm-6 col-lg-4">
                                             <div class="menu-banner bg-dark p-3 pt-4 text-center border-radius h-100 d-none d-lg-block">
                                                 <h5 class="text-primary mb-3 pt-2">Advertise your job with us</h5>
-                                                <span class="text-light"> Starting from</span>
-                                                <h3 class="text-white my-3">$99 <small>/mo</small></h3>
-                                                <p class="text-primary p-2 small text-white">Save 30% for new customer</p>
-                                                <a class="btn btn-light btn-sm" href="post-a-job.html">Post a job now!</a>
+                                                <span class="text-light"> Free Now</span>
+                                                <h3 class="text-white my-3">Zero Cost</h3>
+                                                <p class="text-primary p-2 small text-white">Save 100% <br>Your Recruitment Fee</p>
+                                                <a class="btn btn-light btn-sm" href="{{ route('post.job') }}">Post a job now!</a>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-lg-5 mb-3 mb-lg-0">
                                             <ul class="list-unstyled mt-lg-3">
-                                                <li><a class="dropdown-item" href="{{ route('company.subscription') }}">Subscription Status</a></li>
+                                                <li><a class="dropdown-item" href="{{route('company.subscription.status')}}">Subscription Status</a></li>
                                                 <li><a class="dropdown-item" href="{{route('company.messages')}}">Company Message</a></li>
                                                 <li><a class="dropdown-item" href="{{route('company.followers')}}">Company Followers</a></li>                                                
-                                                <li><a class="dropdown-item" href="{{ route('contact.us') }}">Change Password</a></li>                                                
+                                                <li><a class="dropdown-item" href="{{route('company.change.password')}}">Change Password</a></li>                                                
                                             </ul>
                                         </div>
                                         <div class="col-sm-6 col-lg-3 mb-3 mb-sm-0">

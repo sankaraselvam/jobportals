@@ -89,7 +89,27 @@
                                     </tr>
                                 </tbody>
                             </table>
-
+                        </div>
+                         <div class="card-body mb-4" style="border: 1px solid #ddd;">
+                            <table class="table table-borderless">
+                                <thead class="bg-white">
+                                    <tr style="color: #505050;">
+                                        <th>Contact Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Mobile Number
+                                        </td>
+                                        <td>+91 77080 61387</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mail</td>
+                                        <td><a href="mailto:support@udhyog.com">support@udhyog.com</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 

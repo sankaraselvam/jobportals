@@ -6,7 +6,7 @@
                 <div class="col-lg-6 mb-lg-0 mb-4">
                     <div class="feature-info feature-info-02 p-4 p-lg-5 bg-primary">
                         <div class="feature-info-icon mb-3 mb-sm-0 text-dark">
-                            <i class="flaticon-team"></i>
+                            <i class="flaticon-team" style="color:#000;"></i>
                         </div>
                         <div class="feature-info-content text-white ps-sm-4 ps-0">
                             <p>Jobseeker</p>
@@ -38,7 +38,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-7 mb-4 mb-sm-5 mb-lg-0">
                     <div class="d-sm-flex">
-                        <div class="align-self-center footer-top-logo"><img class="img-fluid" src="{{asset('/')}}images/logo.png" alt=""></div>
+                        <div class="align-self-center footer-top-logo"><img class="img-fluid" src="{{asset('/')}}images/udhyog.png" alt=""></div>
                         <div class="ps-sm-3 ms-sm-3 mt-3 mt-sm-0 border-sm-start ">Create free account to find thousands of Jobs, Employment & Career Opportunities around you!</div>
                     </div>
                 </div>

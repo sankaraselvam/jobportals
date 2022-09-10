@@ -183,7 +183,7 @@
                         </div> -->
 
                         <div class="form-group col-md-3"></div>
-                        <div class="form-group col-md-3 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Industry <span style="color: red;">*</span> </label>
                             <select class="form-control basic-select">
                             <option value="value 01" selected="selected">Select Industry</option>
@@ -197,18 +197,18 @@
                           </select>
                         </div>
 
-                        <div class="form-group col-md-4 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Functional Area <span style="color: red;">*</span> </label>
                             {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, null, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}         
                           </select>
                         </div>
-                        <div class="form-group col-md-4 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Roles <span style="color: red;">*</span> </label>
                             <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], null, array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span>       
                           </select>
                         </div>
 
-                        <div class="form-group col-md-4 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Career Level <span style="color: red;">*</span> </label>
                             {!! Form::select('career_level_id', ['' => __('Select Career level')]+$careerLevels, null, array('class'=>'form-control basic-select', 'id'=>'career_level_id')) !!}      
                           </select>
@@ -224,11 +224,11 @@
                           </select>
                         </div>
 
-                        <div class="form-group col-md-3 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Number of Vacancies<span style="color: red;"> *</span> </label>
                             <input type="text" class="form-control" placeholder="Enter number of vacancies">
                         </div>
-                        <div class="form-group col-md-3 select-border mb-3">
+                        <div class="form-group col-md-6 select-border mb-3">
                             <label class="mb-2">Education <span style="color: red;"> *</span></label>
                             <select class="form-control basic-select">
                             <option value="value 01">Human Resources</option>

@@ -58,6 +58,33 @@ class CompanyController extends Controller
          LEFT JOIN jobs on jobs.id = job_apply.job_id where job_apply.user_id =".$user_id);
         return view('company_home',compact('results'));
     }
+    
+    public function companySubscriptionStatus()
+    {
+        //echo 1111111111111111111111111111111;exit;
+        return view('company.company_subscription_status')
+                        ->with('company', 'company')
+						->with('messages', 'messages');
+       
+    }
+
+    public function companyChangePassword()
+    {
+        //echo 1111111111111111111111111111111;exit;
+        return view('company.company_change_password')
+                        ->with('company', 'company')
+						->with('messages', 'messages');
+       
+    }
+    public function companyConnection()
+    {
+        //echo 1111111111111111111111111111111;exit;
+        return view('company.company_connection')
+                        ->with('company', 'company')
+						->with('messages', 'messages');
+       
+    }
+    
 	
 	public function companyProfile()
     {

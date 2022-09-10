@@ -1,4 +1,4 @@
-    <div class="col-lg-3">
+<div class="col-lg-3">
         <div class="sidebar">
                             <div class="widget">
                                 <div class="widget-title widget-collapse">
@@ -22,11 +22,11 @@
                                         <div class="form-check">
                                             <label class="form-check-label" for="specialism2"><a href="{{route('company.messages')}}">{{__('Company Message')}}</a></label>
                                         </div>
-                                        <div class="form-check">
-                                            <label class="form-check-label" for="specialism2"><a href="">{{__('Change Password')}}</a></label>
+                                          <div class="form-check">
+                                            <label class="form-check-label" for="specialism2"><a href="{{route('company.change.password')}}">{{__('Change Password')}}</a></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="specialism2"><a href="">{{__('Subscription Status')}}</a></label>
+                                            <label class="form-check-label" for="specialism2"><a href="{{route('company.subscription.status')}}">{{__('Subscription Status')}}</a></label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label" for="specialism2"><a href="{{ route('company.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{__('Log Out')}}</a>

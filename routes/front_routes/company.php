@@ -15,5 +15,8 @@ Route::get('user-profile/{id}', 'Company\CompanyController@userProfile')->name('
 Route::get('company-followers', 'Company\CompanyController@companyFollowers')->name('company.followers');
 Route::get('company-messages', 'Company\CompanyController@companyMessages')->name('company.messages');
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
-// subscription page
-Route::get('company_subscription', 'Company\CompanyController@index')->name('company.subscription');
+
+Route::get('company-subscription-status', 'Company\CompanyController@companySubscriptionStatus')->name('company.subscription.status');
+Route::get('company-change-password', 'Company\CompanyController@companyChangePassword')->name('company.change.password');
+
+Route::get('company-connection', 'Company\CompanyController@companyConnection')->name('company.connection');

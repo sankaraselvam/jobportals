@@ -75,6 +75,12 @@
                             <li><a href="#">Certification Courses</a></li>
                             <li><a href="#">Recruiter Connection</a></li>
                         </ul>
+
+                        <h5 class="text-dark mt-3">Invester Details</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ route('contact.us') }}">Contact Us</a></li>
+                            <li><a href="mailto:info@udhyog.com">or mail to info@udhyog.com</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4 mt-md-0" style="margin-bottom: 35px;">

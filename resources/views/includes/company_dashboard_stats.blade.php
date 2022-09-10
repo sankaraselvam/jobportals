@@ -14,16 +14,16 @@
                                     </thead>
                                     <tbody>
                                                
-@if(isset($results) && count($results))
-@foreach($results as $value) 
+@if(isset($postJobs) && count($postJobs))
+@foreach($postJobs as $jobs) 
     <tr>
         
-            <td><a href="{{route('job.detail', [$value->slug])}}"  title="{{$value->title}}" target="_blank" >{{$value->title}}</a></td>
+            <td><a href="{{route('job.detail', [$jobs->slug])}}"  title="{{$jobs->title}}" target="_blank" >{{$jobs->title}}</a></td>
             <td class="text-center">                              
-                {{ date("d-M-Y", strtotime($value->created_at)) }}                                       
+                {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
             </td>
             <td class="text-center">                                        
-                <a href="#" class="text-primary">{{count($results)}}</a>                                       
+                <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
             </td>
     </tr>
 

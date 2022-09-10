@@ -232,6 +232,23 @@ class DataArrayHelper
 		}
         return $array;
     }
+
+    /*******************************/
+	
+	public static function defaultIndustryArray()
+    {
+        $array = Industry::select('industries.industry', 'industries.industry_id')->isDefault()->active()->sorted()->pluck('industries.industry', 'industries.industry_id')->toArray();
+        return $array;
+    }
+	
+	public static function langIndustryArray()
+    {
+        $array = Industry::select('industries.industry', 'industries.industry_id')->lang()->active()->sorted()->pluck('industries.industry', 'industries.industry_id')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultIndustryArray();
+		}
+        return $array;
+    }
 	
 	/*******************************/
 	

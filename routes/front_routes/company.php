@@ -20,3 +20,4 @@ Route::get('company-subscription-status', 'Company\CompanyController@companySubs
 Route::get('company-change-password', 'Company\CompanyController@companyChangePassword')->name('company.change.password');
 
 Route::get('company-connection', 'Company\CompanyController@companyConnection')->name('company.connection');
+Route::get('company-manage-jobs', 'Company\CompanyController@companyManageJobs')->name('company.managejobs');

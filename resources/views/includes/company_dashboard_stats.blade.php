@@ -51,7 +51,7 @@
                                     </tbody>
                                
                             </table>
-                            <a href="job-listing" class="mb-2" style="float: right;">View all</a><br>
+                            <a href="{{route('company.managejobs')}}" class="mb-2" style="float: right;">View all</a><br>
                         </div>
                         <div class="card-header" style="border: 1px solid #ddd;">Product Permissions</div>
                         <div class="card-body mb-4" style="border: 1px solid #ddd;">

@@ -89,6 +89,14 @@ class CompanyController extends Controller
 						->with('messages', 'messages');
        
     }
+
+    public function companyManageJobs()
+        {
+            return view('company.company_manage_jobs')
+            ->with('company', 'company')
+            ->with('messages', 'messages');
+        }
+    
     
 	
 	public function companyProfile()

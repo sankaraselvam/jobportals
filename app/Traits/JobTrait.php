@@ -83,24 +83,34 @@ trait JobTrait
 	{
 		$job->title = $request->input('title');
         $job->description = $request->input('description');
+        $job->candidate_profile = $request->input('candidate_profile');
         $job->country_id = $request->input('country_id');
         $job->state_id = $request->input('state_id');
         $job->city_id = $request->input('city_id');
-        $job->is_freelance = $request->input('is_freelance');
+        //$job->is_freelance = isset($request->input('is_freelance'))?$request->input('is_freelance'):0;
         $job->career_level_id = $request->input('career_level_id');
         $job->salary_from = (int)$request->input('salary_from');
         $job->salary_to = (int)$request->input('salary_to');
-		$job->salary_currency = $request->input('salary_currency');
-        $job->hide_salary = $request->input('hide_salary');
+		//$job->salary_currency = isset($request->input('salary_currency'))?$request->input('salary_currency'):null;
+        //$job->hide_salary = isset($request->input('hide_salary'))?$request->input('hide_salary'):0;
+        $job->industry_id = $request->input('industry_id');
         $job->functional_area_id = $request->input('functional_area_id');
+        $job->role_id = $request->input('role_id');
         $job->job_type_id = $request->input('job_type_id');
         $job->job_shift_id = $request->input('job_shift_id');
         $job->num_of_positions = $request->input('num_of_positions');
         $job->gender_id = $request->input('gender_id');
         $job->expiry_date = $request->input('expiry_date');
         $job->degree_level_id = $request->input('degree_level_id');
-        $job->job_experience_id = $request->input('job_experience_id');
-		$job->salary_period_id = $request->input('salary_period_id');
+        $job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
+        $job->duration = $request->input('duration');
+        $job->timing = $request->input('timing');
+        $job->contact_person = $request->input('contact_person');
+        $job->contact_number = $request->input('contact_number');
+        $job->job_experience_id_from = $request->input('job_experience_id_from');
+        $job->job_experience_id_to = $request->input('job_experience_id_to');
+        //$job->job_experience_id = $request->input('job_experience_id');
+		//$job->salary_period_id = $request->input('salary_period_id');
         return $job;
 	}
 	public function createJob()
@@ -250,11 +260,12 @@ trait JobTrait
         $jobExperiences = DataArrayHelper::langJobExperiencesArray();
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
         $degreeLevels = DataArrayHelper::langDegreeLevelsArray();
+        $industry = DataArrayHelper::langIndustryArray();
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		
 		$jobSkillIds = array();
 		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->orderBy('jobs.id', 'DESC')->limit(5)->get();
-		// dd($postJobs);
+		
         return view('job.add_edit_job')
                         ->with('countries', $countries)
 						->with('currencies', array_unique($currencies))
@@ -267,13 +278,14 @@ trait JobTrait
                         ->with('jobSkills', $jobSkills)
 						->with('jobSkillIds', $jobSkillIds)
 						->with('degreeLevels', $degreeLevels)
+						->with('industry', $industry)
 						->with('salaryPeriods', $salaryPeriods)
 						->with('postJobs', $postJobs);
     }
 
     public function storeFrontJob(Request $request)
     {
-		dd($request->all());exit;
+		//dd($request->all());exit;
 		$company = Auth::guard('company')->user();
 		
         $job = new Job();

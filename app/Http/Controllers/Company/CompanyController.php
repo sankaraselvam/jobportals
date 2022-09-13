@@ -24,6 +24,7 @@ use App\FavouriteCompany;
 use App\FavouriteApplicant;
 use App\OwnershipType;
 use App\JobApply;
+use App\Job;
 use Carbon\Carbon;
 use App\Helpers\MiscHelper;
 use App\Helpers\DataArrayHelper;
@@ -54,9 +55,13 @@ class CompanyController extends Controller
     public function index()
     {
         $user_id = Auth::guard('company')->user()->id;
-        $results = DB::select("SELECT *,jobs.title,jobs.created_at FROM `job_apply`
-         LEFT JOIN jobs on jobs.id = job_apply.job_id where job_apply.user_id =".$user_id);
-        return view('company_home',compact('results'));
+        $postJobs = Job::select('id','title','created_at','slug')
+        ->with('appliedUsers')
+        ->whereHas('appliedUsers', function($q) use($user_id){
+            $q->where('job_apply.user_id','=',$user_id);
+        })
+        ->orderBy('jobs.id', 'DESC')->limit(5)->get();       
+        return view('company_home',compact('postJobs'));
     }
     
     public function companySubscriptionStatus()

@@ -39,6 +39,9 @@
         color: #b8b5b5;
         font-size:14px;
         }
+        span#name-error{
+            color:red;
+        }
                 
     </style>
 
@@ -52,22 +55,27 @@
                 <div class="col-lg-8" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;background:#fff;padding:25px;">   
 
                 {!! Form::open(array('method' => 'post', 'route' => array('store.front.job'), 'class' => 'row')) !!}
+                           
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Job Title / Designation <span style="color: red;"> *</span> </label>
                             <input type="text" class="form-control" name="title" value="" placeholder="Mention the designation or role">
+                            {!! APFrmErrHelp::showErrors($errors, 'title') !!}
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Employment Type re<span style="color: d;"> *</span></label>
-                            
                             {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, null, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'job_type_id') !!}
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2"> Job Description <span style="color: d;"> *</span></label>
                             <textarea class="form-control" name="description" id="job" rows="4" placeholder="Outline the activities a person in this role will perform on a regular basis"></textarea>
+                            {!! APFrmErrHelp::showErrors($errors, 'description') !!}
+
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2"> Candidate profile <span style="color: d;"> *</span></label>
                             <textarea class="form-control" name="candidate_profile" rows="4" placeholder="Specify required technical expertise, previous job experience or certification"></textarea>
+                            {!! APFrmErrHelp::showErrors($errors, 'candidate_profile') !!}
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2">Key Skills <span style="color:red;">*</span> </label><br>
@@ -76,19 +84,23 @@
                             $skills = old('skills', $jobSkillIds);
                             @endphp
                             {!! Form::select('skills[]', $jobSkills, $skills, array('class'=>'js-example-basic-multiple', 'id'=>'skills', 'multiple'=>'multiple')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'skills') !!}
                         </div>
 
                         <div class="form-group col-md-4 mb-3">
                             <label class="mb-2">Country <span style="color:red;">*</span> </label><br>
                             {!! Form::select('country_id', ['' => __('Select Country')]+$countries, old('country_id', (isset($job))? $job->country_id:$siteSetting->default_country_id), array('class'=>'form-control basic-select', 'id'=>'country_id')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'country_id') !!}
                         </div>
                         <div class="form-group col-md-4 mb-3">
                             <label class="mb-2">State <span style="color:red;">*</span> </label><br>
                             <span id="default_state_dd">{!! Form::select('state_id', ['' => __('Select State')], null, array('class'=>'form-control basic-select', 'id'=>'state_id')) !!}</span> 
+                            {!! APFrmErrHelp::showErrors($errors, 'state_id') !!}
                         </div>
                         <div class="form-group col-md-4 mb-3">
                             <label class="mb-2">City <span style="color:red;">*</span> </label><br>
                             <span id="default_city_dd">{!! Form::select('city_id', ['' => __('Select City')], null, array('class'=>'form-control basic-select', 'id'=>'city_id')) !!}</span>
+                            {!! APFrmErrHelp::showErrors($errors, 'city_id') !!}
                         </div>
                         <div class="form-group col-md-12">
                             <label class="mb-2">Work Experience (Years) <span style="color: red;"> *</span> </label>
@@ -96,11 +108,13 @@
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
                                 {!! Form::select('job_experience_id_from', ['' => __('Min')]+$jobExperiences, null, array('class'=>'form-control basic-select', 'id'=>'min-experience')) !!}
+                                {!! APFrmErrHelp::showErrors($errors, 'job_experience_id_from') !!}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
                             {!! Form::select('job_experience_id_to', ['' => __('Max')]+$jobExperiences, null, array('class'=>'form-control basic-select', 'id'=>'max-experience')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'job_experience_id_to') !!}
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -122,6 +136,7 @@
                                     <option value="450000">450000</option>
                                     <option value="500000">500000</option>
                                   </select>
+                                  {!! APFrmErrHelp::showErrors($errors, 'salary_from') !!}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -139,6 +154,7 @@
                                     <option value="450000">450000</option>
                                     <option value="500000">500000</option>
                                   </select>
+                                  {!! APFrmErrHelp::showErrors($errors, 'salary_to') !!}
                             </div>
                         </div>
                         <!-- <div class="col-md-4 mb-3">
@@ -152,44 +168,52 @@
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Industry <span style="color: red;">*</span> </label>
                             {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industry, null, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'industry_id') !!}
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Functional Area <span style="color: red;">*</span> </label>
-                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, null, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}         
+                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, null, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}   
+                            {!! APFrmErrHelp::showErrors($errors, 'functional_area_id') !!}      
                           </select>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Roles <span style="color: red;">*</span> </label>
-                            <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], null, array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span>       
+                            <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], null, array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span> 
+                            {!! APFrmErrHelp::showErrors($errors, 'role_id') !!}       
                           </select>
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Career Level <span style="color: red;">*</span> </label>
-                            {!! Form::select('career_level_id', ['' => __('Select Career level')]+$careerLevels, null, array('class'=>'form-control basic-select', 'id'=>'career_level_id')) !!}      
+                            {!! Form::select('career_level_id', ['' => __('Select Career level')]+$careerLevels, null, array('class'=>'form-control basic-select', 'id'=>'career_level_id')) !!} 
+                            {!! APFrmErrHelp::showErrors($errors, 'career_level_id') !!}       
                           </select>
                         </div>
                         
-                        <div class="form-group col-md-6 mb-3">
+                        <!-- <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Job Shift <span style="color: red;">*</span> </label>
-                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, null, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}       
+                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, null, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!} 
+                            {!! APFrmErrHelp::showErrors($errors, 'job_shift_id') !!}      
                           </select>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Number of Vacancies<span style="color: red;"> *</span> </label>
                             <input type="text" name="num_of_positions" class="form-control" placeholder="Enter number of vacancies">
+                            {!! APFrmErrHelp::showErrors($errors, 'num_of_positions') !!}  
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Education <span style="color: red;"> *</span></label>
                             {!! Form::select('degree_level_id', ['' =>__('Select Required Degree Level')]+$degreeLevels, null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
+                            {!! APFrmErrHelp::showErrors($errors, 'degree_level_id') !!} 
                         </div>
-                        <div class="form-group col-md-6 mb-3">
+                        <!-- <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Gender <span style="color: red;">*</span> </label>
-                            {!! Form::select('gender_id', ['' => __('No preference')]+$genders, null, array('class'=>'form-control basic-select', 'id'=>'gender_id')) !!}      
+                            {!! Form::select('gender_id', ['' => __('No preference')]+$genders, null, array('class'=>'form-control basic-select', 'id'=>'gender_id')) !!} 
+                            {!! APFrmErrHelp::showErrors($errors, 'gender_id') !!}      
                           </select>
-                        </div>
+                        </div> -->
 
                         <div class="form-group col-md-12 mb-3">
                             <div class="form-check">
@@ -201,7 +225,7 @@
                         <div class="form-group mt-0 mb-3 col-md-4 datetimepickers specialism_hide_show">
                             <label class="form-label">Walk-in Start Date <span style="color:red;">*</span></label>
                             <div class="input-group date" id="datetimepicker-01" data-target-input="nearest">
-                                <input type="text" name="start_date" class="form-control datetimepicker-input" placeholder="Date" data-target="#datetimepicker-01">
+                                <input type="text" name="start_date" class="form-control datetimepicker-input  walk-in-details" placeholder="Date" data-target="#datetimepicker-01">
                                 <div class="input-group-append d-flex" data-target="#datetimepicker-01" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                 </div>
@@ -210,7 +234,7 @@
 
                         <div class="form-group col-md-4 mb-3 specialism_hide_show">
                             <label class="mb-2">Duration (Days) <span style="color:red;">*</span> </label><br>
-                            <select class="form-control basic-select" name="duration">
+                            <select class="form-control basic-select  walk-in-details" name="duration">
                                 <option value="1" selected="selected">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -225,7 +249,7 @@
                             <label class="form-label">Walk-in timing <span style="color:red;">*</span></label>
                             
                             <div class="input-group time" id="timepicker-01" data-target-input="nearest">
-                                <input type="text" value="10:00 - 06:30" name="timing" class="form-control timepicker-input" placeholder="Time" data-target="#datetimepicker-02">
+                                <input type="text" value="10:00 - 06:30" name="timing" class="form-control timepicker-input  walk-in-details" placeholder="Time" data-target="#datetimepicker-02">
                                 <div class="input-group-append d-flex" data-target="#datetimepicker-02" data-toggle="timepicker">
                                
                                 </div>
@@ -233,12 +257,12 @@
                         </div>
                         <div class="form-group col-md-6 mb-3 specialism_hide_show">
                             <label class="mb-2">Contact Person <span style="color:red;">*</span> </label><br>
-                            <input type="text" name="contact_person" class="form-control" value="" placeholder="Recruiter Name">
+                            <input type="text" name="contact_person" class="form-control  walk-in-details" value="" placeholder="Recruiter Name">
                         </div>
 
                         <div class="form-group col-md-6 mb-3 specialism_hide_show">
                             <label class="mb-2">Contact Number <span style="color:red;">*</span> </label><br>
-                            <input type="text" name="contact_number" class="form-control" value="" placeholder="Add Mobile Number">
+                            <input type="text" name="contact_number" class="form-control  walk-in-details" value="" placeholder="Add Mobile Number">
                         </div>
 
                         <div class="form-group col-md-12 text-center">
@@ -295,7 +319,7 @@
                                         </div>
                                         <div class="job-list-option">
                                             <ul class="list-unstyled">                                            
-                                                <li><i class="fas fa-briefcase pe-2 mb-1"></i></i> 1 - {{isset($jobs->jobExperience->job_experience)?$jobs->jobExperience->job_experience:2 .'Years'}}</li>
+                                                <li><i class="fas fa-briefcase pe-2 mb-1"></i></i> {{isset($jobs->jobExperienceFrom->job_experience)?$jobs->jobExperienceFrom->job_experience:0}} - {{isset($jobs->jobExperienceTo->job_experience)?$jobs->jobExperienceTo->job_experience:1}}</li>
                                                 <li><i class="fas fa-map-marker-alt pe-3 mb-1"></i>{{$jobs->cities->city}}</li>
                                                 <li><i class="fas fa-address-card"></i><span class="ps-2"> ₹ {{$jobs->salary_from}} - {{$jobs->salary_to}} P.A</span></li>
                                             </ul>
@@ -385,11 +409,14 @@ $(document).ready(function($) {
     });
 
     $(".specialism_hide_show").hide();
+    $(".walk-in-details").prop("disabled", true);
     $('#specialism1').click(function() {       
         if(this.checked){
+            $(".walk-in-details").prop("disabled", false);
             $(".specialism_hide_show").show();
         }else{
             $(".specialism_hide_show").hide();
+            $(".walk-in-details").prop("disabled", true);
         }
     });
    

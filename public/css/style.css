@@ -62,6 +62,10 @@ NOTE: This is main stylesheet of template, This file contains the styling for th
 [ End table content ]
 ======================================*/
 
+/* Custom Css**/
+span.help-block {
+    color: red;
+}
 
 /*****************************
 	Typography 
@@ -4219,7 +4223,7 @@ button {
 }
 
 
-}
+
 .category-style-02 ul li:last-child {
     margin-bottom: 0px;
 }

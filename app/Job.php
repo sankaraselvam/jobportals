@@ -228,6 +228,17 @@ class Job extends Model
         return $this->belongsTo('App\JobExperience', 'job_experience_id', 'job_experience_id');
     }
 
+	public function jobExperienceFrom()
+    {
+        return $this->belongsTo('App\JobExperience', 'job_experience_id_from', 'job_experience_id');
+    }
+
+	public function jobExperienceTo()
+    {
+        return $this->belongsTo('App\JobExperience', 'job_experience_id_to', 'job_experience_id');
+    }
+
+
     public function getJobExperience($field = '')
     {
 		$jobExperience = $this->jobExperience()->lang()->first();

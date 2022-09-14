@@ -102,7 +102,7 @@ trait JobTrait
         $job->gender_id = $request->input('gender_id');
         $job->expiry_date = $request->input('expiry_date');
         $job->degree_level_id = $request->input('degree_level_id');
-        $job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
+        $job->start_date = ($request->input('start_date') !='')?date("Y-m-d", strtotime($request->input('start_date'))):null;
         $job->duration = $request->input('duration');
         $job->timing = $request->input('timing');
         $job->contact_person = $request->input('contact_person');
@@ -264,7 +264,7 @@ trait JobTrait
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		
 		$jobSkillIds = array();
-		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->orderBy('jobs.id', 'DESC')->limit(5)->get();
+		$postJobs = Job::with(['jobExperienceFrom','jobExperienceTo','jobSkills.jobSkill','cities'])->orderBy('jobs.id', 'DESC')->limit(5)->get();
 		
         return view('job.add_edit_job')
                         ->with('countries', $countries)
@@ -285,6 +285,7 @@ trait JobTrait
 
     public function storeFrontJob(Request $request)
     {
+		//JobForm
 		//dd($request->all());exit;
 		$company = Auth::guard('company')->user();
 		
@@ -292,6 +293,7 @@ trait JobTrait
         $job->id = $request->input('id');
         $job->company_id = $company->id;
         $job = $this->assignJobValues($job, $request);
+		//dd($job);exit;
 		$job->save();
 		/**********************************/
 		$job->slug = str_slug($job->title, '-').'-'.$job->id;

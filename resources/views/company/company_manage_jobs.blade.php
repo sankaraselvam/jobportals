@@ -24,7 +24,7 @@ span
 </style>
 <div class="container">
   <div class="col-lg-8 col-sm-12 mt-2 mb-4">           
-      <a href="{{route('company.home')}}">Back to Homepage</a>
+      <a href="{{route('company.home')}}">Back to Homepage </a>
   </div>
   <div class="col-lg-10 col-sm-12">
       <div class="browse-job d-flex border-0">
@@ -102,28 +102,32 @@ span
   </div>
   <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="tab-01">
-          
+      
       <div class="card-body mb-4" style="border: 1px solid #ddd;">
               <table class="table table-border table-hover table-responsive">
                   <thead class="bg-dark"  >
-                      <tr style="color: #fff;">
+                        <tr style="color: #fff;">
                           <th style="font-weight:100;color:#001935;width:10%;">S.No</th>
                           <th style="font-weight:200;">Job Title</th>
                           <th class="text-center" style="font-weight:200;">Responses</th>
                           <th class="text-center" style="font-weight:200;">Posted By</th>
                           <th class="text-center" style="font-weight:200;">Posted Date</th>
-                          
-                      </tr>
+                          <th class="text-center" style="font-weight:200;">Action<i class="fa fa-pencil-square-o"></i></th>
+                        </tr>
                   </thead>
                   <tbody>
-                    
-                      <tr>
-                          <td> <input type="checkbox" name="checkbox" id="checkbox" class="custom-control custom-checkbox mt-1 "></td>
-                          <td> <a href="" target="_blank" >Executive - Admin and HR</a> </td>                                   
-                          <td class="text-center"> <a href="#" class="text-primary">165</a> </td>
-                          <td class="text-center"><span>you</span></td>
-                          <td>15-Apr-22</td>
-                      </tr>
+                    @if(isset($postJobs) && count($postJobs))
+                    @foreach($postJobs as $jobs) 
+                    <tr>
+                        <td> <input type="checkbox" name="checkbox" id="checkbox" class="custom-control custom-checkbox mt-1 "></td>
+                        <td><a href="" target="_blank" >{{$jobs->title}}</a></td>                                   
+                        <td class="text-center"> <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a></td>
+                        <td class="text-center"><span>{{$user->name}}</span></td>
+                        <td>{{ date("d-M-Y", strtotime($jobs->created_at)) }} </td>
+                        <td><button type="button" class="btn btn-warning btn-sm">Active</button><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> </td>
+                    </tr>
+                    @endforeach
+                    @endif 
                   </tbody>
               </table>                        
           </div>
@@ -156,7 +160,7 @@ span
 </div>
 @include('includes.footer')
     @endsection
-
+   
 <script>
 $("#tab-01").on("click",function(){
 $("#pagetwo").hide();

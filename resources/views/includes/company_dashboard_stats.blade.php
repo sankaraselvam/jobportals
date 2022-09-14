@@ -14,22 +14,22 @@
                                     </thead>
                                     <tbody>
                                                
-@if(isset($postJobs) && count($postJobs))
-@foreach($postJobs as $jobs) 
-    <tr>
-        
-            <td><a href="{{route('job.detail', [$jobs->slug])}}"  title="{{$jobs->title}}" target="_blank" >{{$jobs->title}}</a></td>
-            <td class="text-center">                              
-                {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
-            </td>
-            <td class="text-center">                                        
-                <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
-            </td>
-    </tr>
+                                    @if(isset($postJobs) && count($postJobs))
+                                    @foreach($postJobs as $jobs) 
+                                        <tr>
+                                            
+                                                <td><a href="{{route('job.detail', [$jobs->slug])}}"  title="{{$jobs->title}}" target="_blank" >{{$jobs->title}}</a></td>
+                                                <td class="text-center">                              
+                                                    {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
+                                                </td>
+                                                <td class="text-center">                                        
+                                                    <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
+                                                </td>
+                                        </tr>
 
-@endforeach
+                                    @endforeach
 
-@endif  
+                                    @endif  
                                       
 <!--                                         
                                     @if(isset($company->jobs) && count($company->jobs))

@@ -9,7 +9,8 @@ class CandidateController extends Controller
 {
  
     public function myregistration(){
-        return view('candi.register1');
+        return view('register');
+       
     }
 
     public function myregistrationsave(Request $request){

@@ -114,6 +114,8 @@
                                     </ul>
                         </li>
                         @endif
+
+                        
                         @if(Auth::guard('company')->check())                        
                         <li class="dropdown nav-item mega-menu">
                             <a href="javascript:void(0)" class="nav-link" data-bs-toggle="dropdown">My Dashboard<i class="fas fa-chevron-down fa-xs"></i></a>
@@ -156,8 +158,18 @@
                     </ul>
                 </div>
                 @if(!Auth::user() && !Auth::guard('company')->user())
-                <div class="add-listing">
-                    <a class="btn btn-white btn-md" href="{{route('login')}}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" style="border-radius:50px;"> Login</a>
+                <div class="add-listing"> 
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle btn btn-white btn-md" href="javascript:void(0)" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 11px;    border-radius: 50px;
+    padding-left: 10px;">Login<i class="fas fa-chevron-down fa-xs" style="margin-left: 12px;"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('login') }}">Candidate Login</a></li>
+                                <li><a class="dropdown-item" href="{{ route('contact.us') }}">Employer Login</a></li>                                
+                            </ul>
+                        </li>
+                    </ul>
+                </a>
                 </div>
                 @endif 
             </div>

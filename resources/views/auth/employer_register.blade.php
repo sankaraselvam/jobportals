@@ -28,7 +28,7 @@
     padding: 25px;">
                     <div class="login-register">
                         <div class="section-title">
-                            <h4 class="text-center">JOBSEEKER REGISTRATION</h4>
+                            <h4 class="text-center">EMPLOYER REGISTRATION</h4>
                         </div> 
                             <form class="form-horizontal" method="POST" action="">
                                     <div class="row">
@@ -72,23 +72,6 @@
                                         </div>
                                     </div>
                             </form>
-                                <div class="mt-4">
-                                <fieldset>
-                                    <legend class="px-2">Login or Sign up with</legend>
-                                    <div class="social-login">
-                                        <ul class="list-unstyled d-flex mb-0">
-                                            <li class="facebook text-center">
-                                                <a href="#"> <i class="fab fa-facebook-f me-4"></i>Login with Facebook</a>
-                                            </li>
-                                            <li class="twitter text-center">
-                                                <a href="#"> <i class="fab fa-google me-4"></i>Login with Google</a>
-                                            </li> 
-                                        </ul>
-                                    </div>
-                                </fieldset>
-                       
-                            </div>
-                           
                         </div>                        
                     </div>
                 </div>

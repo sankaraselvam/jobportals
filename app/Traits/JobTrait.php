@@ -101,7 +101,7 @@ trait JobTrait
         $job->num_of_positions = $request->input('num_of_positions');
         $job->gender_id = $request->input('gender_id');
         $job->expiry_date = $request->input('expiry_date');
-        $job->degree_level_id = $request->input('degree_level_id');
+        $job->degree_level_id = $request->input('degree_level_id');		
         $job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
         $job->duration = $request->input('duration');
         $job->timing = $request->input('timing');

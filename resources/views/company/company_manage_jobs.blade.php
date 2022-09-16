@@ -24,7 +24,7 @@ span
 </style>
 <div class="container">
   <div class="col-lg-8 col-sm-12 mt-2 mb-4">           
-      <a href="{{route('company.home')}}">Back to Homepage</a>
+      <a href="{{route('company.home')}}"> testBack to Homepage</a>
   </div>
   <div class="col-lg-10 col-sm-12">
       <div class="browse-job d-flex border-0">

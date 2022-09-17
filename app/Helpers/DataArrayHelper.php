@@ -215,6 +215,25 @@ class DataArrayHelper
 		}
         return $array;
     }
+    
+    /*******************************/
+	
+	public static function defaultCategoryArray()
+    {
+        $array = Category::select('category.category', 'category.category_id')->isDefault()->active()->sorted()->pluck('category.category', 'category.category_id')->toArray();
+        return $array;
+    }
+	
+	public static function langCategoryArray()
+    {
+        $array = Category::select('category.category', 'category.category_id')->lang()->active()->sorted()->pluck('category.category', 'category.category_id')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultCategoryArray();
+		}
+        return $array;
+    }
+
+
 	
 	/*******************************/
 	

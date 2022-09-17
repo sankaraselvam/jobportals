@@ -67,3 +67,4 @@ Route::post('get-front-profile-language-edit-form/{id}', 'UserController@getFron
 Route::put('update-front-profile-language/{language_id}/{user_id}', 'UserController@updateFrontProfileLanguage')->name('update.front.profile.language');
 Route::delete('delete-front.profile-language', 'UserController@deleteProfileLanguage')->name('delete.front.profile.language');
 /*************************************/
+Route::post('update-personal-details', 'UserController@updatePersonalDetails')->name('update.personal.details');

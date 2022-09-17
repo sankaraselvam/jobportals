@@ -724,7 +724,8 @@
                     <!--================================= End Career Profile-->
 
                     <!--=================================Career Profile -->
-
+                   
+    
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -736,15 +737,15 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Date of Birth</label>
-                                    <p style="color: #000;">22 Mar 1989</p>
+                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($user->date_of_birth)) }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Gender</label>
-                                    <p style="color: #000;">Male</p>
+                                    <p style="color: #000;">{{ $user->gender->gender }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Marital Status</label>
-                                    <p style="color: #000;">Married</p>
+                                    <p style="color: #000;">{{ $user->maritalStatus->marital_status }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Category</label>
@@ -754,15 +755,15 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Permanent Address</label>
-                                    <p style="color: #000;">Selvam S/O Murugesan, Keelmathur(Vil), Andiyur(Po)</p>
+                                    <p style="color: #000;">{{ $user->street_address }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Area Pin Code</label>
-                                    <p style="color: #000;">635 207</p>
+                                    <p style="color: #000;">{{ $user->pincode }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Hometown</label>
-                                    <p style="color: #000;">Krishnagiri</p>
+                                    <p style="color: #000;">{{ $user->homedown }}</p>
                                 </div> 
                                 <div class="form-group mb-4">
                                     <label>Work permit of other countries</label>
@@ -1663,72 +1664,54 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="padding: 30px 78px 15px 77px">
             <div class="modal-content" style="padding: 30px">
                 <div class="modal-header p-2">
-                    <h4 class="mb-0 text-center">Personal Details</h4>
+                    <h4 class="mb-0 text-center">Personal Details</h4>                    
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="response_msg"></div>
                 <div class="modal-body">
                     <div class="login-register">
                         <div class="tab-content">
-                            <div class="tab-pane active">
-                                <form class="mt-4">
+                            <div class="tab-pane active">                                
+                                <form class="form" id="add_edit_profile_summary" method="POST" action="{{ route('update.personal.details') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" id="id" name="id" value="{{$user->id}}">
                                     <div class="row">
                                     <div class="form-group col-6 mb-2">
                                             <div class="row">
                                                 <label class="mb-2">Date Of Birth <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">      
-                                                    <input type="date" class="form-control datetimepicker-input" placeholder="Date of Birth" >                                                                                      
+                                                    <input type="text" name="date_of_birth" id="date_of_birth" value="{{date('Y-m-d', strtotime($user->date_of_birth))}}" class="form-control datepicker" placeholder="Date of Birth" >                      
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-6 mb-2">
                                             <label class="mb-2" for="Email2">Gender<span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="">Select Gender</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Transgender">Transgender</option> 
-                                            </select>
+                                            {!! Form::select('gender_id', ['' => __('Select Gender')]+$genders, $user->gender_id, array('class'=>'form-control basic-select', 'id'=>'gender_id')) !!}
                                         </div>
                                         <div class="form-group col-6 mb-2">
                                             <label class="mb-2" for="Email2">Marital Status<span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="">Select Marital Status</option>
-                                                <option value="Single/unmarried">Single/unmarried</option>
-                                                <option value="Married">Married</option>
-                                                <option value="Widowed">Widowed</option> 
-                                                <option value="Divorced">Divorced</option> 
-                                                <option value="Separated">Separated</option> 
-                                                <option value="Other">Other</option> 
-                                            </select>
+                                                {!! Form::select('marital_status_id', ['' => 'Select Marital Status']+$maritalStatuses, $user->marital_status_id, array('class'=>'form-control basic-select', 'id'=>'marital_status_id')) !!}
                                         </div>
                                         <div class="form-group col-6 mb-2">
                                             <label class="mb-2" for="Email2">Category<span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="">Select Category</option>
-                                                <option value="General">General</option>
-                                                <option value="Scheduled Caste(SC)">Scheduled Caste(SC)</option>
-                                                <option value="Scheduled Tribe(ST)">Scheduled Tribe(ST)</option> 
-                                                <option value="OBC - Creamy">OBC - Creamy</option> 
-                                                <option value="OBC- Non Creamy">OBC- Non Creamy</option> 
-                                                <option value="Other">Other</option> 
-                                            </select>
+                                            {!! Form::select('category_id', ['' => 'Select Category']+$category, $user->category_id, array('class'=>'form-control basic-select', 'id'=>'category_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Permanent Address<span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter your Permanent Address">
+                                            <input type="text" name="street_address" value="{{$user->street_address}}" id="street_address" class="form-control" placeholder="Enter your Permanent Address">
                                         </div>
                                         <div class="form-group col-6 mb-4">
                                             <label class="mb-2" for="password2">Home Town <span style="color: red;">*</span></label><br>
                                             <div class="form-group col-12 mb-2">                                               
-                                              <input class="form-control" type="text" name="hometown" placeholder="Enter your HomeTown" >                                            
+                                              <input class="form-control" id="hometown" value="{{$user->homedown}}"  type="text" name="hometown" placeholder="Enter your HomeTown" >                                            
                                             </div>                                            
                                         </div>
                                         <div class="form-group col-6 mb-4">
                                             <label class="mb-2" for="password2">Pincode <span style="color: red;">*</span></label><br>
                                             <div class="form-group col-12 mb-2">                                               
-                                              <input class="form-control" type="text" name="hometown" placeholder="Enter your Pincode" >                                            
+                                              <input class="form-control" type="text" value="{{$user->pincode}}"  id="pincode" name="pincode" placeholder="Enter your Pincode" >                                            
                                             </div>                                            
                                         </div>                                        
                                         <div class="form-group col-12 mb-2">
@@ -1749,11 +1732,12 @@
                                         </div>                                       
                                     </div>
                                     <div class="row mt-2" style="float: right;">
+                                    
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid"  data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="btnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="btnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1790,16 +1774,17 @@
         <div class="row">
       <div class="col-md-12">
         <div class="userccount">
-          <div class="formpanel"> @include('flash::message') 
+          <div class="formpanel"> 
+            @include('flash::message') 
             <!-- Personal Information -->
-            @include('user.inc.profile')
-            @include('user.inc.summary')
-            @include('user.forms.cv.cvs')
+            <!-- @include('user.inc.profile') -->
+            <!-- @include('user.inc.summary') -->
+            <!-- @include('user.forms.cv.cvs')
             @include('user.forms.project.projects')
             @include('user.forms.experience.experience')
             @include('user.forms.education.education')
             @include('user.forms.skill.skills')
-            @include('user.forms.language.languages')
+            @include('user.forms.language.languages') -->
           </div>
         </div>
       </div>
@@ -1816,5 +1801,100 @@
 </style>
 @endpush
 @push('scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/themes/cupertino/jquery-ui.css">
+
+
+
+<script type="text/javascript">
+$(function() {
+   
+    $(".datepicker").datepicker({
+		autoclose: true,
+        dateFormat: 'yy-mm-dd'	
+	});
+    // $("#personalForm").validate({
+    //     rules: { 
+    //         hometown: 'required',
+    //         pincode: {
+    //             required: true,
+    //             minlength: 6
+    //         },
+    //     },
+    //     messages: {
+    //         hometown: "Please provide some data",
+    //         pincode: {
+    //         required: "Please enter some data",
+    //         minlength: "Your data must be at least 6 characters"
+    //         },
+    //     },
+    //     submitHandler: function(form) {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "",
+    //             data: {"_token": "{{ csrf_token() }}"},
+    //             data: $(form).serialize(),
+    //             success: function(response) {
+    //                 location.replace(location + "pay-vip.php");
+    //                 alert("Send mail")
+    //             }            
+    //         });
+    //     }
+    // });
+
+    $("#btnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_profile_summary").validate({
+            rules: { 
+                hometown: 'required',
+                pincode: {
+                    required: true,
+                    minlength: 6
+                },
+            },
+            messages: {
+                hometown: "Please provide some data",
+                pincode: {
+                required: "Please enter some data",
+                minlength: "Your data must be at least 6 characters"
+                },
+            },
+            submitHandler: function() {
+                submitProfileDetailsForm();
+            }
+            
+        });
+        
+    });
+    
+   
+});
+function submitProfileDetailsForm(){  
+  
+    var form = $('#add_edit_profile_summary');
+    $.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+        dataType: 'json',
+		success : function (json){
+            if(json.status==200){
+                $("#response_msg").html('<div class="alert alert-success">Personal details successfully updated..</div>');
+                setTimeout(function () {
+                    $("#response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		},
+		error: function(json){
+			console.log(4444444);
+		}
+	}); 
+      
+}
+</script>
 @include('includes.immediate_available_btn')
 @endpush

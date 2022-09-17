@@ -88,10 +88,13 @@ class UserController extends Controller
 		$careerLevels = DataArrayHelper::langCareerLevelsArray();
 		$industries = DataArrayHelper::langIndustriesArray();
 		$functionalAreas = DataArrayHelper::langFunctionalAreasArray();
+		$category = DataArrayHelper::langCategoryArray();
 		
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
-        $user = User::findOrFail(Auth::user()->id);
+        //$user = User::findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city'])->findOrFail(Auth::user()->id);
+        // dd($functionalAreas);
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -102,6 +105,7 @@ class UserController extends Controller
                         ->with('industries', $industries)
                         ->with('functionalAreas', $functionalAreas)
                         ->with('user', $user)
+                        ->with('category', $category)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
@@ -209,6 +213,19 @@ class UserController extends Controller
 		return view('user.applicant_message_detail')
                         ->with('user', $user)
 						->with('message', $message);
+    }
+
+    public function updatePersonalDetails(Request $request){            
+        $user = User::findOrFail($request->input('id'));
+        $user->date_of_birth = $request->input('date_of_birth');
+        $user->gender_id = $request->input('gender_id');
+        $user->marital_status_id = $request->input('marital_status_id');
+        $user->category_id = $request->input('category_id');
+        $user->street_address = $request->input('street_address');
+        $user->homedown = $request->input('hometown');
+        $user->pincode = $request->input('pincode');
+        $user->update();
+        return response()->json(array('success' => true, 'status' => 200), 200);
     }
 
 }

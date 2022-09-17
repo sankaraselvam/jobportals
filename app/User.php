@@ -37,7 +37,7 @@ class User extends Authenticatable
 	
 	public function profileSummary()
     {
-        return $this->hasMany('App\ProfileSummary', 'user_id', 'id');
+        return $this->hasOne('App\ProfileSummary', 'user_id', 'id');
     }
 	
 	public function getProfileSummary($field = '')

@@ -614,20 +614,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($user->profileLanguages as $data)
                                         <tr>
-                                            <td>Tamil</td>
+                                            <td>{{ $data->language->lang }}</td>
                                             <td>Expert</td>
-                                            <td><i class="fa fa-check" style="color:green;"></i></td>
+                                            <td><i class="fa fa-times" style="color:red;"></i></td>
                                             <td><i class="fa fa-check" style="color:green;"></i></td>
                                             <td><i class="fa fa-check" style="color:green;"></i></td>  
                                         </tr>
-                                        <tr>
-                                            <td>English</td>
-                                            <td>Proficient</td>
-                                            <td><i class="fa fa-check" style="color:green;"></i></td>
-                                            <td><i class="fa fa-check" style="color:green;"></i></td>
-                                            <td><i class="fa fa-check" style="color:green;"></i></td>                                            
-                                        </tr>
+                                        @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -658,14 +654,23 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#profilesummary"> Add Profile Summary</a>
                         </div>
-                        <small>Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</small>
+                        <small>{{ $user->profileSummary->summary }}</small>
                     </div>
 
                     <!--================================= End Profile Summary-->
 
                      
                     <!--=================================Career Profile -->
-
+                    @php
+                        $cityArray=[];
+                        $cityidArray=[];
+                   
+                    foreach ($profileCareer->cities as $location){
+                        $cityArray[]=$location->city;
+                        $cityidArray[]=$location->id;
+                    }
+                  
+                    @endphp
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -677,46 +682,56 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Current Industry</label>
-                                    <p style="color: #000;">IT Services & Consulting</p>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label>Role Category</label>
-                                    <p style="color: #000;">Software Development</p>
+                                    <p style="color: #000;">{{ $profileCareer->industry->industry }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Availability to Join</label>
-                                    <p style="color: #000;">May, 2022</p>
+                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($profileCareer->date_of_join)) }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Employment Type</label>
-                                    <p style="color: #000;">Full Time</p>
+                                    <p style="color: #000;">{{ $profileCareer->jobShift->job_shift }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Preferred Work Location</label>
-                                    <p style="color: #000;">Vellore, Chennai, Salem</p>
+                                    <p style="color: #000;">{{ implode(' , ',$cityArray) }}</p>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label>Expected Salary</label>
+                                    <p style="color: #000;">INR {{ $profileCareer->salary_from }} Lakh(s) {{ $profileCareer->salary_to }} Thousand </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Department</label>
-                                    <p style="color: #000;">Engineering - Software & QA</p>
+                                    <p style="color: #000;">{{ $profileCareer->functionalArea->functional_area }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Job Role</label>
-                                    <p style="color: #000;">Full Stack Developer</p>
+                                    <p style="color: #000;">{{ $profileCareer->jobrole->role }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Job Type</label>
-                                    <p style="color: #000;">Permanent</p>
+                                    <p style="color: #000;">{{ $profileCareer->jobType->job_type }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Shift</label>
-                                    <p style="color: #000;">Day</p>
+                                    <p style="color: #000;">
+                                    @php
+                                        $working_from='';
+                                        if($profileCareer->working_from==1){
+                                            $working_from='Day';
+                                        }else if($profileCareer->working_from==2)
+                                        {
+                                            $working_from='Night';
+                                        }else if($profileCareer->working_from==3){
+                                            $working_from='Flexible';
+                                        }
+                                    @endphp
+                                    {{ $working_from }}
+                                    </p>
                                 </div>
-                                <div class="form-group mb-4">
-                                    <label>Expected Salary</label>
-                                    <p style="color: #000;">INR 10 Lakh(s) 60 Thousand </p>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -1235,14 +1250,15 @@
                                             <div class="row">
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Language<span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="Email22" placeholder="Enter Language">
+                                                    {!! Form::select('language_id', ['' =>__('Select Industry')]+$languages, null, array('class'=>'form-control basic-select', 'id'=>'language_id')) !!}
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Proficiency <span style="color: red;">*</span></label>
                                                     <select class="form-control basic-select">
-                                                        <option value="value 00">Beginner</option>
-                                                        <option value="value 01">Proficient</option>
-                                                        <option value="value 01">Expert</option>                                                       
+                                                        <option value="">Please select proficiency</option>
+                                                        <option value="1">Beginner</option>
+                                                        <option value="2">Proficient</option>
+                                                        <option value="3">Expert</option>                                                       
                                                   </select>
                                                 </div>
                                             </div>
@@ -1250,26 +1266,31 @@
                                         <div class="form-group col-12 mb-2">
                                             <div class="row">                                                
                                                 <div class="form-group col-md-12 select-border mb-3">
-                                                    <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="Read"> Read
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="Write"> Write
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio"  class="form-group" name="Speak"> Speak
-                                                    </label>                                                    
-                                                </div>                                                
+                                                    <div class="form-check form-check-inline">
+                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox1" name="language_read" value="1">
+                                                    <label class="form-check-label">Read</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox2" name="language_write" value="2">
+                                                    <label class="form-check-label">Write</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox3" name="language_speak" value="3">
+                                                    <label class="form-check-label">Speak</label>
+                                                    </div> 
+                                                </div>                                             
                                             </div>
                                         </div>
                                        
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="languageBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="languageBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1412,64 +1433,27 @@
                     <h4 class="mb-0 text-center">Profile Summary</h4>                    
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>               </div>
-                <div class="modal-body">
-                    <small>Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</small>
-                    <div class="login-register">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
-                                    <div class="row">
-                                        <div class="form-group col-12 mb-2">
-
-                                            <textarea name="" class="form-control" rows="4" placeholder="Type here.."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2" style="float: right;">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    </button>               
                 </div>
-            </div>
-        </div>
-    </div>
-    <!--====================== Profile Summary-->
-
-    <!--=============== Profile Summary -->
-    <div class="modal fade" id="profilesummary" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="padding: 30px 78px 15px 77px">
-            <div class="modal-content" style="padding: 30px">
-                <div class="modal-header p-2">
-                    <h4 class="mb-0 text-center">Profile Summary</h4>                    
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>               </div>
+                <div id="summary_response_msg"></div>
                 <div class="modal-body">
                     <small>Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</small>
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_profile_summary" method="POST" action="{{ route('update.front.profile.summary', [$user->id]) }}">
+                                    {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
-
-                                            <textarea name="" class="form-control" rows="4" placeholder="Type here.."></textarea>
+                                            <textarea class="form-control" name="summary" id="summary" rows="4" placeholder="Type here..">{{ $user->profileSummary->summary }}</textarea>
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid"  data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="profilesummaryBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="profilesummaryBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1492,62 +1476,46 @@
                         <span aria-hidden="true">&times;</span>
                     </button>                     
                 </div>
+                <div id="career_response_msg"></div>
                 <div class="modal-body">
                 <p style="color:#000;">This information will help the recruiters and udhyog know about your current job profile and also your desired job criteria. This will also help us personalize your job recommendations.</p>
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_career_details" method="POST" action="{{ route('update.career.details') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" id="id" name="id" value="{{$user->id}}">
+                                <input type="hidden" id="profile_career_id" name="profile_career_id" value="{{$profileCareer->id}}">
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Current Industry <span style="color: red;">*</span></label>
-                                                <select class="form-control basic-select">
-                                                    <option value="value 00">Select Industry</option>
-                                                    <option value="value 01">Analytics / KPO / Research</option>
-                                                    <option value="value 02">BPO / Call Centre </option>
-                                                    <option value="value 03">IT Services & Consulting </option>  
-                                                    <option value="value 03">Electronic Components / Semiconductors </option> 
-                                                     
-                                                </select>
+                                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, $profileCareer->industry_id, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Department <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Department</option>
-                                                <option value="value 01">BFSI, Investments & Trading</option>
-                                                <option value="value 02">Customer Success, Service & Operations </option>
-                                                <option value="value 03">Data Science & Analytics </option> 
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Role <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Role</option>
-                                                <option value="value 01">DBA / Data warehousing  </option>
-                                                <option value="value 02">DevOps </option>
-                                                <option value="value 03">Quality Assurance and Testing </option> 
-                                            </select>
+                                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, $profileCareer->functional_area_id, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Job Role <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Job Role</option>
-                                                <option value="value 01">Automation Architect  </option>
-                                                <option value="value 02">Automation Developer </option>
-                                                <option value="value 03">Back End Developer </option> 
-                                            </select>
+                                            <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], null, array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span>
                                         </div>
                                        
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                                <select class="form-control basic-select">
-                                                    <option value="value 00">Select Employment Type</option>
-                                                    <option value="value 01">Full Time - Permanent</option>
-                                                    <option value="value 02">Full Time - Contractual</option>
-                                                    <option value="value 03">Part Time - Permanent</option>  
-                                                    <option value="value 03">Part Time - Contractual</option> 
-                                                </select>
+                                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, $profileCareer->job_type_id, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
+                                            <div class="form-group">
+                                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, $profileCareer->job_shift_id, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}   
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Date of join <span style="color: red;">*</span></label><br>
+                                            <div class="form-group col-md-12 select-border mb-3">      
+                                            <input type="text" name="date_of_join" id="date_of_join"  class="form-control datepicker" value="{{date('Y-m-d', strtotime($profileCareer->date_of_join))}}" placeholder="Date of join" >                      
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">
@@ -1555,44 +1523,50 @@
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="day" checked> Day
+                                                        <input class="form-group" type="radio" name="working_from" value="1" {{ ($profileCareer->working_from=="1")? "checked" : "" }}> Day
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="night" checked> Night
+                                                        <input class="form-group" type="radio" name="working_from" value="2" {{ ($profileCareer->working_from=="2")? "checked" : "" }}> Night
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio"  class="form-group" name="flexible" > Flexible
+                                                        <input type="radio"  class="form-group" name="working_from" value="3" {{ ($profileCareer->working_from=="3")? "checked" : "" }}> Flexible
                                                     </label>                                                    
                                                 </div>                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Location <span style="color: red;">*</span></label><br>
+                                            <div class="form-group">
+                                            {!! Form::select('city_id[]', $cities, $cityidArray, array('class'=>'form-control js-example-basic-multiple', 'id'=>'city_id','multiple'=>'multiple')) !!} 
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">                                           
                                             <div class="row">
                                                 <label class="mb-2">Expexted Salary<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">                                                      
-                                                      <option value="value 01">0 Lac</option>
-                                                      <option value="">1 Lac</option>
-                                                      <option value="">2 Lac</option> 
-                                                      <option value="">3 Lac</option> 
-                                                      <option value="">4 Lac</option> 
-                                                      <option value="">5 Lac</option> 
-                                                      <option value="">6 Lac</option> 
-                                                      <option value="">7 Lac</option> 
-                                                      <option value="">8 Lac</option> 
-                                                      <option value="">9 Lac</option> 
-                                                      <option value="">10 Lac</option> 
-                                                      <option value="">11 Lac</option> 
-                                                      <option value="">12 Lac</option> 
-                                                      <option value="">13 Lac</option> 
-                                                      <option value="">14 Lac</option> 
-                                                      <option value="">15 Lac</option> 
-                                                      <option value="">16 Lac</option> 
-                                                      <option value="">17 Lac</option> 
-                                                      <option value="">18 Lac</option> 
-                                                      <option value="">19 Lac</option> 
-                                                      <option value="">20 Lac</option> 
-                                                      <option value="">21 Lac</option> 
+                                                    <select class="form-control basic-select" name="salary_from" id="salary_from">
+                                                      <option value="0">0 Lac</option>
+                                                      <option value="1">1 Lac</option>
+                                                      <option value="2">2 Lac</option> 
+                                                      <option value="3">3 Lac</option> 
+                                                      <option value="4">4 Lac</option> 
+                                                      <option value="5">5 Lac</option> 
+                                                      <option value="6">6 Lac</option> 
+                                                      <option value="7">7 Lac</option> 
+                                                      <option value="8">8 Lac</option> 
+                                                      <option value="9">9 Lac</option> 
+                                                      <option value="10">10 Lac</option> 
+                                                      <option value="11">11 Lac</option> 
+                                                      <option value="12">12 Lac</option> 
+                                                      <option value="13">13 Lac</option> 
+                                                      <option value="14">14 Lac</option> 
+                                                      <option value="15">15 Lac</option> 
+                                                      <option value="16">16 Lac</option> 
+                                                      <option value="17">17 Lac</option> 
+                                                      <option value="18">18 Lac</option> 
+                                                      <option value="19">19 Lac</option> 
+                                                      <option value="20">20 Lac</option> 
+                                                      <!-- <option value="">21 Lac</option> 
                                                       <option value="">22 Lac</option> 
                                                       <option value="">23 Lac</option> 
                                                       <option value="">24 Lac</option> 
@@ -1611,31 +1585,31 @@
                                                       <option value="">37 Lac</option> 
                                                       <option value="">38 Lac</option> 
                                                       <option value="">39 Lac</option> 
-                                                      <option value="">40 Lac</option> 
+                                                      <option value="">40 Lac</option>  -->
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 01">0 Thousand</option>
-                                                      <option value="">5 Thousand</option>
-                                                      <option value="">10 Thousand</option> 
-                                                      <option value="">15 Thousand</option> 
-                                                      <option value="">20 Thousand</option> 
-                                                      <option value="">25 Thousand</option> 
-                                                      <option value="">30 Thousand</option> 
-                                                      <option value="">35 Thousand</option> 
-                                                      <option value="">40 Thousand</option> 
-                                                      <option value="">45 Thousand</option> 
-                                                      <option value="">50 Thousand</option> 
-                                                      <option value="">55 Thousand</option> 
-                                                      <option value="">60 Thousand</option> 
-                                                      <option value="">65 Thousand</option> 
-                                                      <option value="">70 Thousand</option> 
-                                                      <option value="">75 Thousand</option> 
-                                                      <option value="">80 Thousand</option> 
-                                                      <option value="">85 Thousand</option> 
-                                                      <option value="">90 Thousand</option> 
-                                                      <option value="">95 Thousand</option>                                                       
+                                                    <select class="form-control basic-select" name="salary_to" id="salary_to">
+                                                      <option value="0">0 Thousand</option>
+                                                      <option value="5">5 Thousand</option>
+                                                      <option value="10">10 Thousand</option> 
+                                                      <option value="15">15 Thousand</option> 
+                                                      <option value="20">20 Thousand</option> 
+                                                      <option value="25">25 Thousand</option> 
+                                                      <option value="30">30 Thousand</option> 
+                                                      <option value="35">35 Thousand</option> 
+                                                      <option value="40">40 Thousand</option> 
+                                                      <option value="45">45 Thousand</option> 
+                                                      <option value="50">50 Thousand</option> 
+                                                      <option value="55">55 Thousand</option> 
+                                                      <option value="60">60 Thousand</option> 
+                                                      <option value="65">65 Thousand</option> 
+                                                      <option value="70">70 Thousand</option> 
+                                                      <option value="75">75 Thousand</option> 
+                                                      <option value="80">80 Thousand</option> 
+                                                      <option value="85">85 Thousand</option> 
+                                                      <option value="90">90 Thousand</option> 
+                                                      <option value="95">95 Thousand</option>                                                       
                                                     </select>
                                                 </div>
                                             </div>
@@ -1643,10 +1617,10 @@
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="careeBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="careerBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1674,7 +1648,7 @@
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active">                                
-                                <form class="form" id="add_edit_profile_summary" method="POST" action="{{ route('update.personal.details') }}">
+                                <form class="form" id="add_edit_personal_details" method="POST" action="{{ route('update.personal.details') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id" name="id" value="{{$user->id}}">
                                     <div class="row">
@@ -1731,8 +1705,7 @@
                                             </div>
                                         </div>                                       
                                     </div>
-                                    <div class="row mt-2" style="float: right;">
-                                    
+                                    <div class="row mt-2" style="float: right;">                                    
                                         <div class="col-md-6">
                                             <button type="button" class="btn btn-danger d-grid" id="btnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
@@ -1775,7 +1748,7 @@
       <div class="col-md-12">
         <div class="userccount">
           <div class="formpanel"> 
-            @include('flash::message') 
+            <!-- @include('flash::message')  -->
             <!-- Personal Information -->
             <!-- @include('user.inc.profile') -->
             <!-- @include('user.inc.summary') -->
@@ -1801,7 +1774,7 @@
 </style>
 @endpush
 @push('scripts')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 
 <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
@@ -1811,43 +1784,25 @@
 
 <script type="text/javascript">
 $(function() {
-   
+    
     $(".datepicker").datepicker({
 		autoclose: true,
         dateFormat: 'yy-mm-dd'	
 	});
-    // $("#personalForm").validate({
-    //     rules: { 
-    //         hometown: 'required',
-    //         pincode: {
-    //             required: true,
-    //             minlength: 6
-    //         },
-    //     },
-    //     messages: {
-    //         hometown: "Please provide some data",
-    //         pincode: {
-    //         required: "Please enter some data",
-    //         minlength: "Your data must be at least 6 characters"
-    //         },
-    //     },
-    //     submitHandler: function(form) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "",
-    //             data: {"_token": "{{ csrf_token() }}"},
-    //             data: $(form).serialize(),
-    //             success: function(response) {
-    //                 location.replace(location + "pay-vip.php");
-    //                 alert("Send mail")
-    //             }            
-    //         });
-    //     }
-    // });
+
+    $('.js-example-basic-multiple').select2({
+    	placeholder: "{{__('Select City')}}",
+    	allowClear: true
+	});
+
+    $('#salary_from').val("{{$profileCareer->salary_from }}");
+    $('#salary_from').select2().trigger('change');
+    $('#salary_to').val("{{$profileCareer->salary_to }}");
+    $('#salary_to').select2().trigger('change');
 
     $("#btnSaveIt").on('click', function (e) {
         e.preventDefault;
-        $("#add_edit_profile_summary").validate({
+        $("#add_edit_personal_details").validate({
             rules: { 
                 hometown: 'required',
                 pincode: {
@@ -1865,16 +1820,57 @@ $(function() {
             submitHandler: function() {
                 submitProfileDetailsForm();
             }
-            
-        });
-        
+        });        
     });
+
+    $("#careerBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_career_details").validate({
+            rules: { 
+                industry_id: 'required',
+                date_of_join: 'required',
+            },
+            messages: {
+                industry_id: "Please select Industry",
+                date_of_join: "Please select date",
+            },
+            submitHandler: function() {
+                submitCareerDetailsForm();
+            }
+        });        
+    });
+
+    $("#profilesummaryBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_profile_summary").validate({
+            rules: { 
+                summary: {
+                    required: true,
+                    minlength: 50
+                },
+            },
+            messages: {
+                summary: {
+                    required: "Please enter some data",
+                    minlength: "Your data must be at least 50 characters"
+                }
+            },
+            submitHandler: function() {
+                submitProfileSummaryForm();
+            }
+        });        
+    });
+
     
-   
+    
+    $('#functional_area_id').on('change', function (e) {
+        e.preventDefault();
+        filterLangRoles($(this).val());
+    });
+    filterLangRoles('{{ $profileCareer->functional_area_id }}');
 });
-function submitProfileDetailsForm(){  
-  
-    var form = $('#add_edit_profile_summary');
+function submitProfileDetailsForm(){    
+    var form = $('#add_edit_personal_details');
     $.ajax({
 		url     : form.attr('action'),
 		type    : form.attr('method'),
@@ -1893,8 +1889,67 @@ function submitProfileDetailsForm(){
 			console.log(4444444);
 		}
 	}); 
-      
 }
+
+function submitCareerDetailsForm(){    
+    var form = $('#add_edit_career_details');
+    $.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+        dataType: 'json',
+		success : function (json){
+            console.log(json)
+            if(json.status==200){
+                $("#career_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#career_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		},
+		error: function(json){
+			console.log(4444444);
+		}
+	}); 
+}
+
+function submitProfileSummaryForm() {
+	var form = $('#add_edit_profile_summary');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#summary_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#summary_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+
+function filterLangRoles(functional_area_id){
+        var career_role_id = '{{ isset($profileCareer->role_id)?$profileCareer->role_id :""}}'; 
+        var functional_area_id = $('#functional_area_id').val();
+        var role_id = $('#role_id').val();
+        if (functional_area_id != ''){
+        $.post("{{ route('filter.lang.roles.dropdown') }}", {functional_area_id: functional_area_id, role_id: role_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+                .done(function (response) {
+                    
+                    $('#default_role_dd').html(response);
+                    $('#role_id').select2();
+                    if(career_role_id !=""){                        
+                        $('#role_id').val(career_role_id);
+                        $('#role_id').select2().trigger('change');
+                    }
+                });
+        }
+    }
 </script>
 @include('includes.immediate_available_btn')
 @endpush

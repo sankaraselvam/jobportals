@@ -64,6 +64,13 @@ class DataArrayHelper
 		}
         return $array;
     }
+    public static function langCitiesArrays()
+    {
+        $country_id=101;
+        $statearray = State::select('states.state_id')->where('states.country_id', '=', $country_id)->lang()->active()->sorted()->pluck('states.state_id')->toArray();
+        $array = City::select('cities.city', 'cities.city_id')->whereIn('cities.state_id', $statearray)->lang()->active()->sorted()->pluck('cities.city', 'cities.city_id')->toArray();
+		return $array;
+    }
 	/*******************************/
 	public static function defaultDegreeTypesArray($degree_level_id)
     {

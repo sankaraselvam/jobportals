@@ -68,3 +68,4 @@ Route::put('update-front-profile-language/{language_id}/{user_id}', 'UserControl
 Route::delete('delete-front.profile-language', 'UserController@deleteProfileLanguage')->name('delete.front.profile.language');
 /*************************************/
 Route::post('update-personal-details', 'UserController@updatePersonalDetails')->name('update.personal.details');
+Route::post('update-career-details', 'UserController@updateCareerDetails')->name('update.career.details');

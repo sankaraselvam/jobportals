@@ -44,4 +44,9 @@ class City extends Model
 		return $city;
     }
 
+	public function locations()
+    {
+        return $this->belongsToMany('App\ProfileCareer', 'profile_career_location','city_id', 'profile_career_id');
+    }
+
 }

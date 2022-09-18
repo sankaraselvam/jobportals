@@ -260,16 +260,19 @@
                     </div>
                 </div>
                 <div class="col-lg-8" style="margin-bottom:80px;">
-                    <div class="user-dashboard-info-box">
-                        <div class="form-group col-md-12 p-0">
-                            <h5>Attach Resume</h5>
-                            <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
-                            <div class="text-center">
-                                <input type="file"><br>
-                                <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
+                    <form class="form" id="add_edit_profile_cv" method="POST" action="{{ route('store.front.profile.cv', [$user->id]) }}">{{csrf_field()}}
+                        <div class="user-dashboard-info-box">
+                            <div class="form-group col-md-12 p-0">
+                                <h5>Attach Resume</h5>
+                                <div id="cv_response_msg"></div>
+                                <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
+                                <div class="text-center">
+                                    <input name="cv_file" id="cv_file" type="file" /><br>
+                                    <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -1338,35 +1341,26 @@
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_project" method="POST" action="{{ route('update.front.profile.summary', [$user->id]) }}">
+                                    {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Project Title <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter Project Title">
+                                            <input type="text" class="form-control" name="project_title" placeholder="Enter Project Title">
                                         </div>
+                                        
                                         <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Tag this project with your Employment/Education <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Employment/Education</option>
-                                                <option value="value 01">Doctorate/PhD </option>
-                                                <option value="value 02">Masters/Post-Graduation</option>
-                                                <option value="value 03">Graduation/Diploma</option>  
-                                                <option value="value 03">12th</option>  
-                                                <option value="value 03">10th</option>  
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Client<span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter Client Name">
+                                            <label class="mb-2" for="Email2">Company / College Name<span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" name="organization_name"  placeholder="Enter the Name">
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Project Status <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
                                                 <label>
-                                              <input class="form-group" type="radio" name="optradio" checked> In Progress
+                                              <input class="form-group" type="radio" name="project_status" checked> In Progress
                                             </label>
-                                                <label class="radio-inline">
-                                              <input type="radio" name="optradio"> Finished
+                                            <label class="radio-inline">
+                                              <input type="radio" name="project_status"> Finished
                                             </label>
 
                                             </div>
@@ -1375,20 +1369,36 @@
                                             <div class="row">
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 00">Select Year</option>
-                                                    <option value="value 01">2022</option>
-                                                    <option value="value 02">2021</option>
-                                                    <option value="value 03">2020</option>                                                   
+                                                    <select class="form-control basic-select" name="working_from">
+                                                        <option value="">Years</option>
+                                                        <option value="0">0 Years</option>
+                                                        <option value="1">1 Years</option>
+                                                        <option value="2">2 Years</option>
+                                                        <option value="3">3 Years</option>
+                                                        <option value="4">4 Years</option>
+                                                        <option value="5">5 Years</option>
+                                                        <option value="6">6 Years</option> 
+                                                        <option value="7">7 Years</option> 
+                                                        <option value="8">8 Years</option> 
+                                                        <option value="9">9 Years</option> 
+                                                        <option value="10">10 Years</option>                               
 
                                                   </select>
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 001">Select Month</option>
-                                                    <option value="value 01">10000</option>
-                                                    <option value="value 02">25000</option>
-                                                    <option value="value 03">35000</option>
+                                                    <select class="form-control basic-select" name="working_to">
+                                                        <option value="">Months</option>
+                                                        <option value="0">0 Months</option>
+                                                        <option value="1">1 Months</option>
+                                                        <option value="2">2 Months</option>
+                                                        <option value="3">3 Months</option>
+                                                        <option value="4">4 Months</option>
+                                                        <option value="5">5 Months</option>
+                                                        <option value="6">6 Months</option> 
+                                                        <option value="7">7 Months</option> 
+                                                        <option value="8">8 Months</option> 
+                                                        <option value="9">9 Months</option> 
+                                                        <option value="10">10 Months</option>
                                                   </select>
                                                 </div>
                                             </div>
@@ -1397,43 +1407,25 @@
                                             <div class="row">
                                                 <label class="mb-2">Worked Till<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
+                                                    <select class="form-control basic-select" name="worked_till">
                                                         <option value="present">Present</option>                                                     
-                                                      </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
-                                                <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 00">Select Year</option>
-                                                      <option value="value 01">2022</option>
-                                                      <option value="value 02">2021</option>
-                                                      <option value="value 03">2020</option> 
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 001">Select Month</option>
-                                                      <option value="value 01">10000</option>
-                                                      <option value="value 02">25000</option>
-                                                      <option value="value 03">35000</option>
                                                     </select>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Details of Project<span style="color: red;">*</span></label>
-                                            <textarea name="" class="form-control" rows="4"></textarea>
-                                            <p style="text-align:right;">1000 Character(s) Left</p>
+                                            <textarea name="discription" class="form-control" rows="4"></textarea>
+                                           
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="projectBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="projectBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1770,14 +1762,14 @@
           <div class="formpanel"> 
             <!-- @include('flash::message')  -->
             <!-- Personal Information -->
-            <!-- @include('user.inc.profile')
+            @include('user.inc.profile')
             @include('user.inc.summary')
             @include('user.forms.cv.cvs')
             @include('user.forms.project.projects')
             @include('user.forms.experience.experience')
             @include('user.forms.education.education')
             @include('user.forms.skill.skills')
-            @include('user.forms.language.languages') -->
+            @include('user.forms.language.languages')
           </div>
         </div>
       </div>
@@ -1951,6 +1943,32 @@ $(function() {
                 submitKeySkillForm();
             }
         });        
+    });
+
+    $("#cv_file").on('change',function() {
+        var form = $('#add_edit_profile_cv');
+        var formData = new FormData(document.getElementById("add_edit_profile_cv"));
+        formData.append("_token", $('input[name=_token]').val());
+        if(document.getElementById("cv_file").value != "") {
+            formData.append("cv_file", $('#cv_file')[0].files[0]);
+        }
+        $.ajax({
+            url     : form.attr('action'),
+            type    : 'POST',
+            data    : formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success : function (json){
+                if(json.status==200){
+                $("#cv_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#cv_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+            }
+        });
     });
 
     

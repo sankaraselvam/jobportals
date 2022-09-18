@@ -98,15 +98,15 @@ trait ProfileLanguageTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function storeFrontProfileLanguage(ProfileLanguageFormRequest $request, $user_id)
+	public function storeFrontProfileLanguage(Request $request, $user_id)
     {
-        
+        //print_r($request->all());exit;
 		$profileLanguage = new ProfileLanguage();
         $profileLanguage = $this->assignLanguageValues($profileLanguage, $request, $user_id);
 		$profileLanguage->save();
 		/*         * ************************************ */
-		$returnHTML = view('user.forms.language.language_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('user.forms.language.language_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Language added successfully"), 200);
     }
 	
 	public function getProfileLanguageEditForm(Request $request, $user_id)
@@ -176,6 +176,9 @@ trait ProfileLanguageTrait
 		$profileLanguage->user_id = $user_id;
         $profileLanguage->language_id = $request->input('language_id');
 		$profileLanguage->language_level_id = $request->input('language_level_id');
+		$profileLanguage->language_read = $request->input('language_read');
+		$profileLanguage->language_write = $request->input('language_write');
+		$profileLanguage->language_speak = $request->input('language_speak');
 		return $profileLanguage;
 	}
 	

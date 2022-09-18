@@ -99,17 +99,18 @@ trait ProfileSkillTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function storeFrontProfileSkill(ProfileSkillFormRequest $request, $user_id)
+	public function storeFrontProfileSkill(Request $request, $user_id)
     {
-        
-		$profileSkill = new ProfileSkill();
-        $profileSkill->user_id = $user_id;
-        $profileSkill->job_skill_id = $request->input('job_skill_id');
-		$profileSkill->job_experience_id = $request->input('job_experience_id');
-		$profileSkill->save();
+       foreach($request->input('job_skill_id') as $itms){
+			$profileSkill = new ProfileSkill();
+			$profileSkill->user_id = $user_id;
+			$profileSkill->job_skill_id = $itms;
+			$profileSkill->save();
+		}
+		
 		/*         * ************************************ */
-		$returnHTML = view('user.forms.skill.skill_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('user.forms.skill.skill_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'html' => "Skill added successfully"), 200);
     }
 	
 	public function getProfileSkillEditForm(Request $request, $user_id)

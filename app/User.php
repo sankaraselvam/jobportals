@@ -53,6 +53,28 @@ class User extends Authenticatable
 			return '';
 		}
     }
+    public function ProfileItSkills()
+    {
+        return $this->hasMany('App\ProfileItSkills', 'user_id', 'id');
+    }
+    public function profileResumeSummary()
+    {
+        return $this->hasOne('App\ProfileResumeSummary', 'user_id', 'id');
+    }
+	
+	public function getProfileResumeSummary($field = '')
+    {
+        if(null !== $this->profileResumeSummary->first()){
+			$profileResumeSummary = $this->profileResumeSummary->first();
+			if($field != ''){
+				return $profileResumeSummary->$field;
+			}else{
+				return $profileResumeSummary;
+			}
+		}else{
+			return '';
+		}
+    }
 	
 	public function profileProjects()
     {

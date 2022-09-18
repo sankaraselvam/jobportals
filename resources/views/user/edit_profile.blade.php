@@ -280,7 +280,7 @@
 
                         <div class="form-group col-md-12 p-0">
                             <div class="form-group col-md-12 p-0">
-                                <p>Advanced web developer with 5 years of experience in structuring, developing and implementing interactive websites. Looking for an opportunity where my knowledge, skills and ability are best utilized for the growth of organization.</p>
+                                <p>{{ isset($user->profileResumeSummary->summary)?$user->profileResumeSummary->summary:'' }}</p>
                             </div>
                         </div>
                     </div>
@@ -292,12 +292,11 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#keyskill"> Add Skill</a>
                         </div>
-                        <div class="blog-post-tags mb-4 align-items-center d-flex">
-                
+                        <div class="blog-post-tags mb-4 align-items-center d-flex">                
                             <ul class="list-inline mb-0 mt-2 mt-sm-0 ms-sm-3">
-                            <li class="list-inline-item"><a href="#">Career</a></li>
-                            <li class="list-inline-item"><a href="#">Advice</a></li>
-                            <li class="list-inline-item"><a href="#">Recruitment</a></li>
+                                @foreach ($user->profileSkills as $skils)
+                                    <li class="list-inline-item">{{ $skils->jobSkill->job_skill }} <a href="#"><i class="fa fa-times" style="color:red;"></i></a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -570,22 +569,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($user->ProfileItSkills as $skill)
                                         <tr>
-                                            <td>core php</td>
-                                            <td>7.4</td>
-                                            <td>2019</td>
-                                            <td>1 Year 2 Months </td>
+                                            <td>{{ $skill->skill_name }}</td>
+                                            <td>{{ $skill->version }}</td>
+                                            <td>{{ $skill->last_used }}</td>
+                                            <td>{{ $skill->experience_from }} Year {{ $skill->experience_to }} Months </td>
                                             <td><i class="fas fa-pencil-alt text-info"></i></td>
                                             <td><i class="fas fa-trash-alt text-danger"></i></td>
                                         </tr>
-                                        <tr>
-                                            <td>core php</td>
-                                            <td>7.4</td>
-                                            <td>2019</td>
-                                            <td>1 Year 2 Months </td>
-                                            <td><i class="fas fa-pencil-alt text-info"></i></td>
-                                            <td><i class="fas fa-trash-alt text-danger"></i></td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -611,16 +604,30 @@
                                             <th>Read</th>
                                             <th>Write</th>
                                             <th>Speak</th>                                            
+                                            <th>Action</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($user->profileLanguages as $data)
                                         <tr>
                                             <td>{{ $data->language->lang }}</td>
-                                            <td>Expert</td>
-                                            <td><i class="fa fa-times" style="color:red;"></i></td>
+                                            <td>{{ $data->languageLevel->language_level }}</td>
+                                            @if ($data->language_read==1)
                                             <td><i class="fa fa-check" style="color:green;"></i></td>
-                                            <td><i class="fa fa-check" style="color:green;"></i></td>  
+                                            @else
+                                            <td><i class="fa fa-times" style="color:red;"></i></td> 
+                                            @endif
+                                            @if ($data->language_write==1)
+                                            <td><i class="fa fa-check" style="color:green;"></i></td>
+                                            @else
+                                            <td><i class="fa fa-times" style="color:red;"></i></td> 
+                                            @endif
+                                            @if ($data->language_speak==1)
+                                            <td><i class="fa fa-check" style="color:green;"></i></td>
+                                            @else
+                                            <td><i class="fa fa-times" style="color:red;"></i></td> 
+                                            @endif
+                                            <td><a href="javascripr:;" onclick="delete_profile_language('{{$data->id}}');"><i class="fas fa-trash-alt text-danger"></i></a></td>  
                                         </tr>
                                         @endforeach
                                         
@@ -805,23 +812,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="headline_response_msg"></div>
                 <div class="modal-body">
                     <p>It is the first thing recruiters notice in your profile. Write concisely what makes you unique and right person for the job you are looking for.</p>
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_resume_headline" method="POST" action="{{ route('update.profile.resume.summary', [$user->id]) }}">
+                            {{ csrf_field() }}
                                     <div class="row">
-                                        <div class="form-group col-12">
-                                            <textarea class="form-control" rows="4" placeholder="Minimum 3 Words..,"></textarea>
+                                        <div class="form-group col-12 mb-2">
+                                            <textarea class="form-control" name="summary" id="summary" rows="4" placeholder="Type here..">{{ isset($user->profileResumeSummary->summary)?$user->profileResumeSummary->summary:'' }}</textarea>
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="profileHeadlineBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="profileHeadlineBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -844,23 +853,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="keyskill_response_msg"></div>
                 <div class="modal-body">
                     <p>Tell recruiters what you know or what you are known for e.g. Direct Marketing, Oracle, Java etc. We will send you job recommendations based on these skills. Each skill is separated by a comma.</p>
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_keyskill" method="POST" action="{{ route('store.front.profile.skill',[$user->id]) }}">
+                                {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <input type="text" class="form-control" placeholder="Enter your area of Expertise/Specialization">
+                                        {!! Form::select('job_skill_id[]', $jobSkills, null, array('class'=>'form-control js-example-jobskill-multiple', 'id'=>'job_skill_id', 'multiple'=>'multiple')) !!}
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="jobSkillBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="jobSkillBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1147,35 +1158,38 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="itskills_response_msg"></div>
                 <div class="modal-body">
                     <p style="color:#000;">Specify details about programming languages (such as Java, Python, C/C++, Oracle, SQL etc), softwares (Microsoft Word, Excel, Tally etc) or any other software related knowledge.</p>
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_itskills" method="POST" action="{{ route('add.profile.it.skill') }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="user_id" value="{{$user->id}}">
                                     <div class="row">
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2"> Skill / Software Name<span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="Email22" placeholder="Please enter ">
+                                            <input type="text" name="skill_name" class="form-control" id="Email22" placeholder="Please enter ">
                                         </div>
 
                                         <div class="form-group col-12 mb-4">
                                             <div class="row">
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Version <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="Email22" placeholder="Version">
+                                                    <input type="text" name="version" class="form-control" id="Email22" placeholder="Version">
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Last Used </label>
-                                                    <select class="form-control basic-select">
-                                                        <option value="value 00">Last Used</option>
-                                                        <option value="value 01">2022</option>
-                                                        <option value="value 01">2021</option>
-                                                        <option value="value 01">2020</option>
-                                                        <option value="value 01">2019</option>
-                                                        <option value="value 01">2018</option>
-                                                        <option value="value 02">2017</option>
-                                                        <option value="value 03">2016</option> 
+                                                    <select class="form-control basic-select" name="last_used">
+                                                        <option value="">Please select</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2016">2016</option> 
                                                   </select>
                                                 </div>
                                             </div>
@@ -1184,28 +1198,36 @@
                                             <div class="row">
                                                 <label class="mb-2" for="Email2">Experience</label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                        <option value="value 00">Years</option>
-                                                        <option value="value 01">0 Years</option>
-                                                        <option value="value 01">1 Years</option>
-                                                        <option value="value 01">2 Years</option>
-                                                        <option value="value 01">3 Years</option>
-                                                        <option value="value 01">4 Years</option>
-                                                        <option value="value 02">5 Years</option>
-                                                        <option value="value 03">6 Years</option> 
+                                                    <select class="form-control basic-select" name="experience_from">
+                                                        <option value="">Years</option>
+                                                        <option value="0">0 Years</option>
+                                                        <option value="1">1 Years</option>
+                                                        <option value="2">2 Years</option>
+                                                        <option value="3">3 Years</option>
+                                                        <option value="4">4 Years</option>
+                                                        <option value="5">5 Years</option>
+                                                        <option value="6">6 Years</option> 
+                                                        <option value="7">7 Years</option> 
+                                                        <option value="8">8 Years</option> 
+                                                        <option value="9">9 Years</option> 
+                                                        <option value="10">10 Years</option> 
                                                   </select>
                                                 </div>
 
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                        <option value="value 00">Months</option>
-                                                        <option value="value 01">0 Months</option>
-                                                        <option value="value 01">1 Months</option>
-                                                        <option value="value 01">2 Months</option>
-                                                        <option value="value 01">3 Months</option>
-                                                        <option value="value 01">4 Months</option>
-                                                        <option value="value 02">5 Months</option>
-                                                        <option value="value 03">6 Months</option> 
+                                                    <select class="form-control basic-select" name="experience_to">
+                                                        <option value="">Months</option>
+                                                        <option value="0">0 Months</option>
+                                                        <option value="1">1 Months</option>
+                                                        <option value="2">2 Months</option>
+                                                        <option value="3">3 Months</option>
+                                                        <option value="4">4 Months</option>
+                                                        <option value="5">5 Months</option>
+                                                        <option value="6">6 Months</option> 
+                                                        <option value="7">7 Months</option> 
+                                                        <option value="8">8 Months</option> 
+                                                        <option value="9">9 Months</option> 
+                                                        <option value="10">10 Months</option> 
                                                   </select>
                                                 </div>
                                             </div>
@@ -1213,10 +1235,10 @@
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="skillBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="skillBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1240,26 +1262,23 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="language_response_msg"></div>
                 <div class="modal-body">                    
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_profile_language" method="POST" action="{{ route('store.front.profile.language', [$user->id]) }}">
+                                    {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-4">
                                             <div class="row">
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Language<span style="color: red;">*</span></label>
-                                                    {!! Form::select('language_id', ['' =>__('Select Industry')]+$languages, null, array('class'=>'form-control basic-select', 'id'=>'language_id')) !!}
+                                                    {!! Form::select('language_id', ['' =>__('Select Language')]+$languages, null, array('class'=>'form-control basic-select', 'id'=>'language_id')) !!}
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <label class="mb-2" for="Email2">Proficiency <span style="color: red;">*</span></label>
-                                                    <select class="form-control basic-select">
-                                                        <option value="">Please select proficiency</option>
-                                                        <option value="1">Beginner</option>
-                                                        <option value="2">Proficient</option>
-                                                        <option value="3">Expert</option>                                                       
-                                                  </select>
+                                                    {!! Form::select('language_level_id', ['' =>__('Select Language Level')]+$languagesLevel, null, array('class'=>'form-control basic-select', 'id'=>'language_level_id')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -1272,12 +1291,12 @@
                                                     </div>
 
                                                     <div class="form-check form-check-inline">
-                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox2" name="language_write" value="2">
+                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox2" name="language_write" value="1">
                                                     <label class="form-check-label">Write</label>
                                                     </div>
 
                                                     <div class="form-check form-check-inline">
-                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox3" name="language_speak" value="3">
+                                                    <input class="form-check-input form-group" type="checkbox" id="inlineCheckbox3" name="language_speak" value="1">
                                                     <label class="form-check-label">Speak</label>
                                                     </div> 
                                                 </div>                                             
@@ -1314,6 +1333,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="project_response_msg"></div>
                 <div class="modal-body">
                     <div class="login-register">
                         <div class="tab-content">
@@ -1750,9 +1770,9 @@
           <div class="formpanel"> 
             <!-- @include('flash::message')  -->
             <!-- Personal Information -->
-            <!-- @include('user.inc.profile') -->
-            <!-- @include('user.inc.summary') -->
-            <!-- @include('user.forms.cv.cvs')
+            <!-- @include('user.inc.profile')
+            @include('user.inc.summary')
+            @include('user.forms.cv.cvs')
             @include('user.forms.project.projects')
             @include('user.forms.experience.experience')
             @include('user.forms.education.education')
@@ -1792,6 +1812,10 @@ $(function() {
 
     $('.js-example-basic-multiple').select2({
     	placeholder: "{{__('Select City')}}",
+    	allowClear: true
+	});
+    $('.js-example-jobskill-multiple').select2({
+    	placeholder: "{{__('Select Skill')}}",
     	allowClear: true
 	});
 
@@ -1857,6 +1881,74 @@ $(function() {
             },
             submitHandler: function() {
                 submitProfileSummaryForm();
+            }
+        });        
+    });
+
+    $("#profileHeadlineBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_resume_headline").validate({
+            rules: { 
+                summary: {
+                    required: true,
+                    minlength: 20
+                },
+            },
+            messages: {
+                summary: {
+                    required: "Please enter some data",
+                    minlength: "Your data must be at least 20 characters"
+                }
+            },
+            submitHandler: function() {
+                submitProfileResumeSummaryForm();
+            }
+        });        
+    });
+    
+    $("#languageBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_profile_language").validate({
+            rules: { 
+                language_id: 'required',
+                language_level_id: 'required',
+            },
+            messages: {
+                language_id: 'Please select Language',
+                language_level_id: 'Please select Language Level',
+            },
+            submitHandler: function() {
+                submitProfileLanguageForm();
+            }
+        });        
+    });
+    $("#skillBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_itskills").validate({
+            rules: { 
+                skill_name: 'required',
+                version: 'required',
+            },
+            messages: {
+                language_id: 'Please enter skill name',
+                language_level_id: 'Please enter version',
+            },
+            submitHandler: function() {
+                submitItSkillForm();
+            }
+        });        
+    });
+    $("#jobSkillBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_keyskill").validate({
+            rules: { 
+                job_skill_id: 'required',
+            },
+            messages: {
+                language_id: 'Please select skill name',
+            },
+            submitHandler: function() {
+                submitKeySkillForm();
             }
         });        
     });
@@ -1931,6 +2023,96 @@ function submitProfileSummaryForm() {
             }
 		}
 	});
+}
+
+function submitProfileResumeSummaryForm() {
+	var form = $('#add_edit_resume_headline');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#headline_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#headline_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+
+function submitProfileLanguageForm() {
+	var form = $('#add_edit_profile_language');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#language_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#language_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+function submitItSkillForm() {
+	var form = $('#add_edit_itskills');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#itskills_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#itskills_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+function submitKeySkillForm() {
+	var form = $('#add_edit_keyskill');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#keyskill_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#keyskill_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+
+function delete_profile_language(id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.front.profile.language') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+                    location.replace("{{ route('my.profile') }}");
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
 }
 
 function filterLangRoles(functional_area_id){

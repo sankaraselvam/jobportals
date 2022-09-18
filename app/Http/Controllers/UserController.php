@@ -27,6 +27,8 @@ use App\Industry;
 use App\FunctionalArea;
 use App\ProfileCareer;
 use App\ProfileCareerLocation;
+use App\ProfileResumeSummary;
+use App\ProfileItSkills;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -95,10 +97,12 @@ class UserController extends Controller
 		$category = DataArrayHelper::langCategoryArray();
 		$cities = DataArrayHelper::langCitiesArrays();
 		$languages = DataArrayHelper::languagesArray();
+		$languagesLevel = DataArrayHelper::langLanguageLevelsArray();
+		$jobSkills = DataArrayHelper::langJobSkillsArray();
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language'])->findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill'])->findOrFail(Auth::user()->id);
         $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         // dd($user);
         return view('user.edit_profile')
@@ -116,7 +120,9 @@ class UserController extends Controller
                         ->with('category', $category)
                         ->with('cities', $cities)
                         ->with('languages', $languages)
+                        ->with('languagesLevel', $languagesLevel)
                         ->with('profileCareer', $profileCareer)
+                        ->with('jobSkills', $jobSkills)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
@@ -289,6 +295,30 @@ class UserController extends Controller
             $ProfileCareerLocation->save();
         }
     }
+
+    public function updateProfileResumeSummary($user_id, Request $request)
+    {
+        ProfileResumeSummary::where('user_id', '=', $user_id)->delete();
+		$summary = $request->input('summary');
+		$ProfileSummary = new ProfileResumeSummary();
+		$ProfileSummary->user_id = $user_id;
+		$ProfileSummary->summary = $summary;
+		$ProfileSummary->save();//ProfileItSkills	
+        return response()->json(array('success' => true, 'status' => 200,'message'=>"Resume headeline updated successfully... "), 200);
+    }
+    public function addProfileItSkill(Request $request)
+    {
+      	$profileItSkill = new ProfileItSkills();	
+		$profileItSkill->user_id = $request->input('user_id');
+		$profileItSkill->skill_name = $request->input('skill_name');
+		$profileItSkill->version = $request->input('version');	
+		$profileItSkill->last_used = $request->input('last_used');
+		$profileItSkill->experience_from = $request->input('experience_from');
+		$profileItSkill->experience_to = $request->input('experience_to');
+        $profileItSkill->save();
+        return response()->json(array('success' => true, 'status' => 200,'message'=>"It Skill successfully added..."), 200);
+    }
+
 
 
 }

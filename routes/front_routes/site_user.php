@@ -69,3 +69,5 @@ Route::delete('delete-front.profile-language', 'UserController@deleteProfileLang
 /*************************************/
 Route::post('update-personal-details', 'UserController@updatePersonalDetails')->name('update.personal.details');
 Route::post('update-career-details', 'UserController@updateCareerDetails')->name('update.career.details');
+Route::post('update-profile-resume-summary/{id}', 'UserController@updateProfileResumeSummary')->name('update.profile.resume.summary');
+Route::post('add-profile-it-skill', 'UserController@addProfileItSkill')->name('add.profile.it.skill');

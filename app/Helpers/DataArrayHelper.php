@@ -64,6 +64,13 @@ class DataArrayHelper
 		}
         return $array;
     }
+    public static function langCitiesArrays()
+    {
+        $country_id=101;
+        $statearray = State::select('states.state_id')->where('states.country_id', '=', $country_id)->lang()->active()->sorted()->pluck('states.state_id')->toArray();
+        $array = City::select('cities.city', 'cities.city_id')->whereIn('cities.state_id', $statearray)->lang()->active()->sorted()->pluck('cities.city', 'cities.city_id')->toArray();
+		return $array;
+    }
 	/*******************************/
 	public static function defaultDegreeTypesArray($degree_level_id)
     {
@@ -215,6 +222,25 @@ class DataArrayHelper
 		}
         return $array;
     }
+    
+    /*******************************/
+	
+	public static function defaultCategoryArray()
+    {
+        $array = Category::select('category.category', 'category.category_id')->isDefault()->active()->sorted()->pluck('category.category', 'category.category_id')->toArray();
+        return $array;
+    }
+	
+	public static function langCategoryArray()
+    {
+        $array = Category::select('category.category', 'category.category_id')->lang()->active()->sorted()->pluck('category.category', 'category.category_id')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultCategoryArray();
+		}
+        return $array;
+    }
+
+
 	
 	/*******************************/
 	

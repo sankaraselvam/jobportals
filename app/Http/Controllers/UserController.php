@@ -25,6 +25,10 @@ use App\JobApply;
 use App\CareerLevel;
 use App\Industry;
 use App\FunctionalArea;
+use App\ProfileCareer;
+use App\ProfileCareerLocation;
+use App\ProfileResumeSummary;
+use App\ProfileItSkills;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -87,11 +91,20 @@ class UserController extends Controller
 		$jobExperiences = DataArrayHelper::langJobExperiencesArray();
 		$careerLevels = DataArrayHelper::langCareerLevelsArray();
 		$industries = DataArrayHelper::langIndustriesArray();
-		$functionalAreas = DataArrayHelper::langFunctionalAreasArray();
-		
+        $functionalAreas = DataArrayHelper::langFunctionalAreasArray();
+		$jobTypes = DataArrayHelper::langJobTypesArray();
+		$jobShifts = DataArrayHelper::langJobShiftsArray();
+		$category = DataArrayHelper::langCategoryArray();
+		$cities = DataArrayHelper::langCitiesArrays();
+		$languages = DataArrayHelper::languagesArray();
+		$languagesLevel = DataArrayHelper::langLanguageLevelsArray();
+		$jobSkills = DataArrayHelper::langJobSkillsArray();
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
-        $user = User::findOrFail(Auth::user()->id);
+        //$user = User::findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill'])->findOrFail(Auth::user()->id);
+        $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
+        // dd($user);
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -101,7 +114,15 @@ class UserController extends Controller
                         ->with('careerLevels', $careerLevels)
                         ->with('industries', $industries)
                         ->with('functionalAreas', $functionalAreas)
+                        ->with('jobTypes', $jobTypes)
+                        ->with('jobShifts', $jobShifts)
                         ->with('user', $user)
+                        ->with('category', $category)
+                        ->with('cities', $cities)
+                        ->with('languages', $languages)
+                        ->with('languagesLevel', $languagesLevel)
+                        ->with('profileCareer', $profileCareer)
+                        ->with('jobSkills', $jobSkills)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
@@ -210,5 +231,94 @@ class UserController extends Controller
                         ->with('user', $user)
 						->with('message', $message);
     }
+
+    public function updatePersonalDetails(Request $request){            
+        $user = User::findOrFail($request->input('id'));
+        $user->date_of_birth = $request->input('date_of_birth');
+        $user->gender_id = $request->input('gender_id');
+        $user->marital_status_id = $request->input('marital_status_id');
+        $user->category_id = $request->input('category_id');
+        $user->street_address = $request->input('street_address');
+        $user->homedown = $request->input('hometown');
+        $user->pincode = $request->input('pincode');
+        $user->update();
+        return response()->json(array('success' => true, 'status' => 200), 200);
+    }
+    public function updateCareerDetails(Request $request){
+        
+        $exitsCareer = ProfileCareer::select('id')->where('user_id', '=', $request->input('id'))->first();    
+       
+        if(!isset($exitsCareer->id)){
+            $ProfileCareer = new ProfileCareer();
+            $ProfileCareer->user_id = $request->input('id');
+            $ProfileCareer->industry_id = $request->input('industry_id');
+            $ProfileCareer->functional_area_id = $request->input('functional_area_id');
+            $ProfileCareer->role_id = $request->input('role_id');
+            $ProfileCareer->job_type_id = $request->input('job_type_id');
+            $ProfileCareer->job_shift_id = $request->input('job_shift_id');
+            $ProfileCareer->date_of_join = date("Y-m-d", strtotime($request->input('date_of_join')));
+            $ProfileCareer->working_from = $request->input('working_from');
+            $ProfileCareer->salary_from = $request->input('salary_from');
+            $ProfileCareer->salary_to = $request->input('salary_to');
+            $ProfileCareer->save();
+
+            $ProfileCareer->profile_career_id = $ProfileCareer->id;
+            $ProfileCareer->update();
+            $this->insertProfileCareerLocation($request->input('city_id'),$ProfileCareer->id);
+            return response()->json(array('success' => true, 'status' => 200,'message'=>"Career details successfully added... "), 200);
+        } else{
+            $ProfileCareer = ProfileCareer::findOrFail($request->input('profile_career_id'));
+            $ProfileCareer->user_id = $request->input('id');
+            $ProfileCareer->industry_id = $request->input('industry_id');
+            $ProfileCareer->functional_area_id = $request->input('functional_area_id');
+            $ProfileCareer->role_id = $request->input('role_id');
+            $ProfileCareer->job_type_id = $request->input('job_type_id');
+            $ProfileCareer->job_shift_id = $request->input('job_shift_id');
+            $ProfileCareer->date_of_join = date("Y-m-d", strtotime($request->input('date_of_join')));
+            $ProfileCareer->working_from = $request->input('working_from');
+            $ProfileCareer->salary_from = $request->input('salary_from');
+            $ProfileCareer->salary_to = $request->input('salary_to');
+            $ProfileCareer->update();
+            $this->insertProfileCareerLocation($request->input('city_id'),$request->input('profile_career_id'));
+            return response()->json(array('success' => true, 'status' => 200, 'message'=>"Career details successfully updated... "), 200);
+        }
+        
+    }
+
+    public function insertProfileCareerLocation($location, $profile_career_id){
+        ProfileCareerLocation::where('profile_career_id', '=', $profile_career_id)->delete();
+        
+        foreach($location as $cities_id){
+            $ProfileCareerLocation = new ProfileCareerLocation();
+            $ProfileCareerLocation->profile_career_id = $profile_career_id;
+            $ProfileCareerLocation->city_id = $cities_id;
+            $ProfileCareerLocation->save();
+        }
+    }
+
+    public function updateProfileResumeSummary($user_id, Request $request)
+    {
+        ProfileResumeSummary::where('user_id', '=', $user_id)->delete();
+		$summary = $request->input('summary');
+		$ProfileSummary = new ProfileResumeSummary();
+		$ProfileSummary->user_id = $user_id;
+		$ProfileSummary->summary = $summary;
+		$ProfileSummary->save();//ProfileItSkills	
+        return response()->json(array('success' => true, 'status' => 200,'message'=>"Resume headeline updated successfully... "), 200);
+    }
+    public function addProfileItSkill(Request $request)
+    {
+      	$profileItSkill = new ProfileItSkills();	
+		$profileItSkill->user_id = $request->input('user_id');
+		$profileItSkill->skill_name = $request->input('skill_name');
+		$profileItSkill->version = $request->input('version');	
+		$profileItSkill->last_used = $request->input('last_used');
+		$profileItSkill->experience_from = $request->input('experience_from');
+		$profileItSkill->experience_to = $request->input('experience_to');
+        $profileItSkill->save();
+        return response()->json(array('success' => true, 'status' => 200,'message'=>"It Skill successfully added..."), 200);
+    }
+
+
 
 }

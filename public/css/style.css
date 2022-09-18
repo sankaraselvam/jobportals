@@ -7863,4 +7863,9 @@ iframe {
     }
 }
 
+
+/* Custom Css*/
+label.error {
+    color: red;
+}
 /*# sourceMappingURL=../css/style.css.map */

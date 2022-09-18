@@ -37,7 +37,7 @@ class User extends Authenticatable
 	
 	public function profileSummary()
     {
-        return $this->hasMany('App\ProfileSummary', 'user_id', 'id');
+        return $this->hasOne('App\ProfileSummary', 'user_id', 'id');
     }
 	
 	public function getProfileSummary($field = '')
@@ -48,6 +48,28 @@ class User extends Authenticatable
 				return $profileSummary->$field;
 			}else{
 				return $profileSummary;
+			}
+		}else{
+			return '';
+		}
+    }
+    public function ProfileItSkills()
+    {
+        return $this->hasMany('App\ProfileItSkills', 'user_id', 'id');
+    }
+    public function profileResumeSummary()
+    {
+        return $this->hasOne('App\ProfileResumeSummary', 'user_id', 'id');
+    }
+	
+	public function getProfileResumeSummary($field = '')
+    {
+        if(null !== $this->profileResumeSummary->first()){
+			$profileResumeSummary = $this->profileResumeSummary->first();
+			if($field != ''){
+				return $profileResumeSummary->$field;
+			}else{
+				return $profileResumeSummary;
 			}
 		}else{
 			return '';

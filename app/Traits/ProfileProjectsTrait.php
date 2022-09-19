@@ -195,27 +195,30 @@ trait ProfileProjectsTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function storeFrontProfileProject(ProfileProjectFormRequest $request, $user_id)
+	public function storeFrontProfileProject(Request $request, $user_id)
     {
-        
-		$profileProject = new ProfileProject();
+       	$profileProject = new ProfileProject();
         $profileProject = $this->assignProjectValues($profileProject, $request, $user_id);
 		$profileProject->save();
 		
-		$this->addProfileProjectImage($request, $profileProject);
+		//$this->addProfileProjectImage($request, $profileProject);
 		
-		$returnHTML = view('admin.user.forms.project.project_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('admin.user.forms.project.project_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Project added successfully..."), 200);
     }
 	
 	private function assignProjectValues($profileProject, $request, $user_id)
 	{
 		$profileProject->user_id = $user_id;
-        $profileProject->name = $request->input('name');
-		$profileProject->url = $request->input('url');
-		$profileProject->date_start = $request->input('date_start');
-		$profileProject->date_end = $request->input('date_end');
-		$profileProject->is_on_going = $request->input('is_on_going');
+        $profileProject->name = $request->input('project_title');
+		$profileProject->url = $request->input('organization_name');
+		$profileProject->project_status = $request->input('project_status');
+		$profileProject->working_from = $request->input('working_from');
+		$profileProject->working_to = $request->input('working_to');
+		$profileProject->worked_till = $request->input('worked_till');
+		//$profileProject->date_start = $request->input('date_start');
+		//$profileProject->date_end = $request->input('date_end');
+		//$profileProject->is_on_going = $request->input('is_on_going');
 		$profileProject->description = $request->input('description');
 		return $profileProject;
 	}
@@ -249,6 +252,12 @@ trait ProfileProjectsTrait
 							->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
+
+    public function editProfileProject(Request $request, $user_id){
+        $project_id = $request->input('project_id');
+        $profileProject = ProfileProject::find($project_id);
+        return response()->json(array('success' => true, 'data' => $profileProject));
+    }
 	
 	public function updateProfileProject(ProfileProjectFormRequest $request, $project_id, $user_id)
     {
@@ -263,17 +272,17 @@ trait ProfileProjectsTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function updateFrontProfileProject(ProfileProjectFormRequest $request, $project_id, $user_id)
+	public function updateFrontProfileProject(Request $request, $project_id, $user_id)
     {
         
 		$profileProject = ProfileProject::find($project_id);
         $profileProject = $this->assignProjectValues($profileProject, $request, $user_id);
 		$profileProject->update();
 		
-		$this->addProfileProjectImage($request, $profileProject);
+		//$this->addProfileProjectImage($request, $profileProject);
 		
-		$returnHTML = view('user.forms.project.project_edit_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('user.forms.project.project_edit_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Project updated successfully..."), 200);
     }
 	
 	private function addProfileProjectImage($request, $profileProject)

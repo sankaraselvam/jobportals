@@ -102,7 +102,7 @@ class UserController extends Controller
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill'])->findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects'])->findOrFail(Auth::user()->id);
         $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         // dd($user);
         return view('user.edit_profile')

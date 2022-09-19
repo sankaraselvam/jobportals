@@ -71,3 +71,5 @@ Route::post('update-personal-details', 'UserController@updatePersonalDetails')->
 Route::post('update-career-details', 'UserController@updateCareerDetails')->name('update.career.details');
 Route::post('update-profile-resume-summary/{id}', 'UserController@updateProfileResumeSummary')->name('update.profile.resume.summary');
 Route::post('add-profile-it-skill', 'UserController@addProfileItSkill')->name('add.profile.it.skill');
+
+Route::post('edit-profile-project/{user_id}', 'UserController@editProfileProject')->name('edit-profile-project');

@@ -260,16 +260,19 @@
                     </div>
                 </div>
                 <div class="col-lg-8" style="margin-bottom:80px;">
-                    <div class="user-dashboard-info-box">
-                        <div class="form-group col-md-12 p-0">
-                            <h5>Attach Resume</h5>
-                            <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
-                            <div class="text-center">
-                                <input type="file"><br>
-                                <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
+                    <form class="form" id="add_edit_profile_cv" method="POST" action="{{ route('store.front.profile.cv', [$user->id]) }}">{{csrf_field()}}
+                        <div class="user-dashboard-info-box">
+                            <div class="form-group col-md-12 p-0">
+                                <h5>Attach Resume</h5>
+                                <div id="cv_response_msg"></div>
+                                <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
+                                <div class="text-center">
+                                    <input name="cv_file" id="cv_file" type="file" /><br>
+                                    <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -646,7 +649,40 @@
                                 <h4 class="mb-0">Projects</h4>
                                 <small>Add details about projects you have done in college, internship or at work.</small>
                             </div>
-                            <a class="btn btn-md ms-sm-auto btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#projects"> Add Projects</a>
+                            <a class="btn btn-md ms-sm-auto btn-primary mb-4" id="add_project" data-bs-toggle="modal" data-bs-target="#projects"> Add Projects</a>
+                        </div>
+                        <div class="jobber-candidate-timeline mt-4">
+                            <div class="jobber-timeline-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            @foreach ($user->profileProjects as $project)
+                            <div class="jobber-timeline-item">
+                                <div class="jobber-timeline-cricle">
+                                    <i class="far fa-circle"></i>
+                                </div>
+                                <div class="jobber-timeline-info">
+                                    <div class="dashboard-timeline-info">
+                                        <div class="dashboard-timeline-edit">
+                                            <ul class="list-unstyled d-flex">
+                                                <li>
+                                                    <a class="text-end" href="javascript:void(0);" onclick="showProfileProjectEditModal('{{$project->id}}');" > <i class="fas fa-pencil-alt text-info me-2"></i> </a>
+                                                </li>
+                                                <li><a href="javascript:void(0);" onclick="delete_profile_project('{{$project->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
+                                            </ul>
+                                        </div>                                        
+                                        <h6 class="mb-2">{{ $project->name }}</h6>
+                                        <span>- {{ $project->url }}</span>
+                                        <br>
+                                        @if ($project->project_status=="1")
+                                            <span class="jobber-timeline-time"><i>{{ $project->worked_till }}</i></span>
+                                        @else
+                                            <span class="jobber-timeline-time"><i>{{ $project->working_from }} Year {{ $project->working_to }} Month</i></span>
+                                        @endif
+                                        <p class="mt-2">{{ $project->description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <!--================================= End Projects-->
@@ -1338,102 +1374,91 @@
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_project" method="POST" action="{{ route('store.front.profile.project', [$user->id]) }}">
+                                    {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Project Title <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter Project Title">
+                                            <input type="text" class="form-control" name="project_title" id="project_title" placeholder="Enter Project Title">
                                         </div>
+                                        
                                         <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Tag this project with your Employment/Education <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Employment/Education</option>
-                                                <option value="value 01">Doctorate/PhD </option>
-                                                <option value="value 02">Masters/Post-Graduation</option>
-                                                <option value="value 03">Graduation/Diploma</option>  
-                                                <option value="value 03">12th</option>  
-                                                <option value="value 03">10th</option>  
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Client<span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Enter Client Name">
+                                            <label class="mb-2" for="Email2">Company / College Name<span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" name="organization_name" id="organization_name"  placeholder="Enter the Name">
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Project Status <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
                                                 <label>
-                                              <input class="form-group" type="radio" name="optradio" checked> In Progress
+                                              <input class="form-group project_status" type="radio" name="project_status" value="1" checked> In Progress
                                             </label>
-                                                <label class="radio-inline">
-                                              <input type="radio" name="optradio"> Finished
+                                            <label class="radio-inline">
+                                              <input class="form-group project_status" type="radio" name="project_status" value="2"> Finished
                                             </label>
 
                                             </div>
                                         </div>
-                                        <div class="form-group col-10 mb-2">
+                                        <div class="form-group col-10 mb-2 working_from">
                                             <div class="row">
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 00">Select Year</option>
-                                                    <option value="value 01">2022</option>
-                                                    <option value="value 02">2021</option>
-                                                    <option value="value 03">2020</option>                                                   
+                                                    <select class="form-control basic-select" name="working_from" id="working_from">
+                                                        <option value="">Years</option>
+                                                        <option value="0">0 Years</option>
+                                                        <option value="1">1 Years</option>
+                                                        <option value="2">2 Years</option>
+                                                        <option value="3">3 Years</option>
+                                                        <option value="4">4 Years</option>
+                                                        <option value="5">5 Years</option>
+                                                        <option value="6">6 Years</option> 
+                                                        <option value="7">7 Years</option> 
+                                                        <option value="8">8 Years</option> 
+                                                        <option value="9">9 Years</option> 
+                                                        <option value="10">10 Years</option>                               
 
                                                   </select>
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 001">Select Month</option>
-                                                    <option value="value 01">10000</option>
-                                                    <option value="value 02">25000</option>
-                                                    <option value="value 03">35000</option>
+                                                    <select class="form-control basic-select" name="working_to" id="working_to">
+                                                        <option value="">Months</option>
+                                                        <option value="0">0 Months</option>
+                                                        <option value="1">1 Months</option>
+                                                        <option value="2">2 Months</option>
+                                                        <option value="3">3 Months</option>
+                                                        <option value="4">4 Months</option>
+                                                        <option value="5">5 Months</option>
+                                                        <option value="6">6 Months</option> 
+                                                        <option value="7">7 Months</option> 
+                                                        <option value="8">8 Months</option> 
+                                                        <option value="9">9 Months</option> 
+                                                        <option value="10">10 Months</option>
                                                   </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-10 mb-2">
+                                        <div class="form-group col-10 mb-2 worked_till">
                                             <div class="row">
                                                 <label class="mb-2">Worked Till<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
+                                                    <select class="form-control basic-select" name="worked_till" id="worked_till">
+                                                        <option value="">Please Select</option>                                                     
                                                         <option value="present">Present</option>                                                     
-                                                      </select>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
-                                                <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 00">Select Year</option>
-                                                      <option value="value 01">2022</option>
-                                                      <option value="value 02">2021</option>
-                                                      <option value="value 03">2020</option> 
-                                                    </select>
-                                                </div>
-                                                <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 001">Select Month</option>
-                                                      <option value="value 01">10000</option>
-                                                      <option value="value 02">25000</option>
-                                                      <option value="value 03">35000</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Details of Project<span style="color: red;">*</span></label>
-                                            <textarea name="" class="form-control" rows="4"></textarea>
-                                            <p style="text-align:right;">1000 Character(s) Left</p>
+                                            <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                                           
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="projectBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="projectBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1770,14 +1795,14 @@
           <div class="formpanel"> 
             <!-- @include('flash::message')  -->
             <!-- Personal Information -->
-            <!-- @include('user.inc.profile')
+            @include('user.inc.profile')
             @include('user.inc.summary')
             @include('user.forms.cv.cvs')
             @include('user.forms.project.projects')
             @include('user.forms.experience.experience')
             @include('user.forms.education.education')
             @include('user.forms.skill.skills')
-            @include('user.forms.language.languages') -->
+            @include('user.forms.language.languages')
           </div>
         </div>
       </div>
@@ -1804,6 +1829,25 @@
 
 <script type="text/javascript">
 $(function() {
+    $(".working_from").hide();
+    $("#working_from").prop('disabled', true);
+    $("#working_to").prop('disabled', true);
+    $(".project_status").on('change', function (e) {
+        if($(this).val()==1){
+            $("#working_from").prop('disabled', true);
+            $("#working_to").prop('disabled', true);
+            $("#worked_till").prop('disabled', false);
+            $(".working_from").hide();
+            $(".worked_till").show();
+        }else{
+            $(".working_from").show();
+            $(".worked_till").hide();
+            $("#working_from").prop('disabled', false);
+            $("#working_to").prop('disabled', false);
+            $("#worked_till").prop('disabled', true);
+        }
+       
+    });
     
     $(".datepicker").datepicker({
 		autoclose: true,
@@ -1951,6 +1995,50 @@ $(function() {
                 submitKeySkillForm();
             }
         });        
+    });
+    $("#projectBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_project").validate({
+            rules: { 
+                project_title: 'required',
+                organization_name: 'required',
+                description: 'required',
+            },
+            messages: {
+                project_title: 'Please enter project title',
+                organization_name: 'Please enter company / college name',
+                description: 'Please enter project details',
+            },
+            submitHandler: function() {
+                submitProfileProjectForm();
+            }
+        });        
+    });
+
+    $("#cv_file").on('change',function() {
+        var form = $('#add_edit_profile_cv');
+        var formData = new FormData(document.getElementById("add_edit_profile_cv"));
+        formData.append("_token", $('input[name=_token]').val());
+        if(document.getElementById("cv_file").value != "") {
+            formData.append("cv_file", $('#cv_file')[0].files[0]);
+        }
+        $.ajax({
+            url     : form.attr('action'),
+            type    : 'POST',
+            data    : formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success : function (json){
+                if(json.status==200){
+                $("#cv_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#cv_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+            }
+        });
     });
 
     
@@ -2113,6 +2201,83 @@ function delete_profile_language(id) {
 				  }
 			  });
   }
+}
+function delete_profile_project(id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.front.profile.project') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+                    location.replace("{{ route('my.profile') }}");
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
+}
+
+function submitProfileProjectForm() {
+	var form = $('#add_edit_project');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#project_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#project_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		},
+		
+	});
+}
+function showProfileProjectEditModal(project_id){
+    console.log(project_id)
+    // $('#projects').modal('toggle');
+    $('#projects').modal('show');
+    $.ajax({
+	type: "POST",
+			url: "{{ route('edit-profile-project', $user->id) }}",
+			data: {"project_id": project_id, "_token": "{{ csrf_token() }}"},
+			datatype: 'json',
+			success: function (json) {
+                var userid = "{{$user->id}}";
+                var update = "{{ url('update-front-profile-project')}}" + '/' + project_id + '/' + userid;
+                $("#add_edit_project").attr('action', update);
+                $("#add_edit_project").attr('method', "PUT");
+                $("#projectBtnSaveIt").text("Update");
+                $("#project_title").val(json.data.name);
+                $("#organization_name").val(json.data.url);
+                $("#description").val(json.data.description);
+                if(json.data.project_status==1){
+                    $('input[name=project_status][value=1]').attr('checked', true);
+                    $("#working_from").prop('disabled', true);
+                    $("#working_to").prop('disabled', true);
+                    $("#worked_till").prop('disabled', false);
+                    $(".working_from").hide();
+                    $(".worked_till").show();
+                    $("#worked_till").val(json.data.worked_till);
+                    $('#worked_till').select2().trigger('change');
+                }else{
+                    $('input[name=project_status][value=2]').attr('checked', true);
+                    $(".working_from").show();
+                    $(".worked_till").hide();
+                    $("#working_from").prop('disabled', false);
+                    $("#working_to").prop('disabled', false);
+                    $("#worked_till").prop('disabled', true);
+                    $("#working_from").val(json.data.working_from);
+                    $("#working_to").val(json.data.working_to);
+                    $('#working_from').select2().trigger('change');
+                    $('#working_to').select2().trigger('change');
+                }
+			}
+	});
 }
 
 function filterLangRoles(functional_area_id){

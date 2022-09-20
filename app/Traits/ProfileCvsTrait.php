@@ -48,7 +48,7 @@ trait ProfileCvsTrait
 		$fileName = '';
         if ($request->hasFile('cv_file')) {
             $cv_file = $request->file('cv_file');
-            $fileName = ImgUploader::UploadDoc('cvs', $cv_file, $request->input('title'));
+            $fileName = ImgUploader::UploadDoc('cvs', $cv_file, "my-resume");
         }
 		return $fileName;
     }
@@ -67,15 +67,15 @@ trait ProfileCvsTrait
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
-    public function storeProfileCv(ProfileCvFormRequest $request, $user_id)
+    public function storeProfileCv(Request $request, $user_id)
     {
-        
-		$profileCv = new ProfileCv();
+        ProfileCv::where('user_id', '=', $user_id)->delete();
+        $profileCv = new ProfileCv();
         $profileCv = $this->assignValues($profileCv, $request, $user_id);
 		$profileCv->save();
 		
-		$returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200,'message'=>"CV added successfully"), 200);
     }
 	
 	public function storeFrontProfileCv(ProfileCvFormRequest $request, $user_id)

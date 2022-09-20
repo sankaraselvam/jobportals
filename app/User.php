@@ -78,7 +78,7 @@ class User extends Authenticatable
 	
 	public function profileProjects()
     {
-        return $this->hasMany('App\ProfileProject', 'user_id', 'id');
+        return $this->hasMany('App\ProfileProject', 'user_id', 'id')->orderBy('profile_projects.id', 'desc');
     }
 	
 	

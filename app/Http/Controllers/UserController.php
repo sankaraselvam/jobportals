@@ -44,6 +44,7 @@ use App\Traits\ProfileLanguageTrait;
 use App\Traits\Skills;
 use App\Http\Requests\Front\UserFrontFormRequest;
 use App\Helpers\DataArrayHelper;
+use App\Helpers\MiscHelper;
 
 class UserController extends Controller
 {
@@ -99,12 +100,18 @@ class UserController extends Controller
 		$languages = DataArrayHelper::languagesArray();
 		$languagesLevel = DataArrayHelper::langLanguageLevelsArray();
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
+		$degreeLevels = DataArrayHelper::langDegreelevelsArray();
+		$majorSubjects = DataArrayHelper::langMajorSubjectsArray();
+		$resultTypes = DataArrayHelper::langResultTypesArray();
+		$jobRole = DataArrayHelper::langRolesArrays();
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects'])->findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole'])->findOrFail(Auth::user()->id);
         $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         // dd($user);
+        // dd(MiscHelper::getSalaryThousands());
+       
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -123,6 +130,10 @@ class UserController extends Controller
                         ->with('languagesLevel', $languagesLevel)
                         ->with('profileCareer', $profileCareer)
                         ->with('jobSkills', $jobSkills)
+                        ->with('degreeLevels', $degreeLevels)
+                        ->with('majorSubjects', $majorSubjects)
+                        ->with('resultTypes', $resultTypes)
+                        ->with('jobRole', $jobRole)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
@@ -317,6 +328,18 @@ class UserController extends Controller
 		$profileItSkill->experience_to = $request->input('experience_to');
         $profileItSkill->save();
         return response()->json(array('success' => true, 'status' => 200,'message'=>"It Skill successfully added..."), 200);
+    }
+
+    public function deleteProfileItSkill(Request $request){
+        $id = $request->input('id');
+        try {
+            $profileSkill = ProfileItSkills::findOrFail($id);
+	       $profileSkill->delete();
+
+            echo 'ok';
+        } catch (ModelNotFoundException $e) {
+            echo 'notok';
+        }
     }
 
 

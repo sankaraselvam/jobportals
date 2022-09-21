@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Redirect;
 use App\User;
 use App\ProfileExperience;
+use App\ProfileExperienceSkills;
 use App\Country;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -141,31 +142,55 @@ trait ProfileExperienceTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function storeFrontProfileExperience(ProfileExperienceFormRequest $request, $user_id)
+	public function storeFrontProfileExperience(Request $request, $user_id)
     {
-        
-		$profileExperience = new ProfileExperience();
+        $profileExperience = new ProfileExperience();
         $profileExperience = $this->assignExperienceValues($profileExperience, $request, $user_id);
 		$profileExperience->save();
-		
-		$returnHTML = view('user.forms.experience.experience_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		/*         * ************************************ */
+        $this->storeprofileExperienceSkills($request, $profileExperience->id);
+		/*         * ************************************ */
+		// $returnHTML = view('user.forms.experience.experience_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Experience added successfully..."), 200);
     }
 	
 	private function assignExperienceValues($profileExperience, $request, $user_id)
 	{
 		$profileExperience->user_id = $user_id;
-        $profileExperience->title = $request->input('title');
-		$profileExperience->company = $request->input('company');
-		$profileExperience->country_id = $request->input('country_id');
-		$profileExperience->state_id = $request->input('state_id');
-		$profileExperience->city_id = $request->input('city_id');
-		$profileExperience->date_start = $request->input('date_start');
-		$profileExperience->date_end = $request->input('date_end');
+        // $profileExperience->title = $request->input('title');
+		$profileExperience->role_id = $request->input('job_role_id');
+		$profileExperience->company = $request->input('organization');
+		// $profileExperience->country_id = $request->input('country_id');
+		// $profileExperience->state_id = $request->input('state_id');
+		// $profileExperience->city_id = $request->input('city_id');
+		// $profileExperience->date_start = $request->input('date_start');
+		// $profileExperience->date_end = $request->input('date_end');
 		$profileExperience->is_currently_working = $request->input('is_currently_working');
-		$profileExperience->description = $request->input('description');
+		$profileExperience->emp_working_from_year = $request->input('emp_working_from_year');
+		$profileExperience->emp_working_from_month = $request->input('emp_working_from_month');
+		$profileExperience->emp_working_to_year = $request->input('emp_working_to_year');
+		$profileExperience->emp_working_to_month = $request->input('emp_working_to_month');
+		$profileExperience->emp_worked_till = $request->input('emp_worked_till');
+		$profileExperience->emp_salary_from = $request->input('emp_salary_from');
+		$profileExperience->emp_salary_to = $request->input('emp_salary_to');
+		$profileExperience->notice_period = $request->input('notice_period');
+		$profileExperience->description = $request->input('job_profile');
 		return $profileExperience;
 	}
+
+	private function storeprofileExperienceSkills($request, $profile_experiences_id)
+    {
+        if ($request->has('job_skills_id')) {
+            ProfileExperienceSkills::where('profile_experiences_id', '=', $profile_experiences_id)->delete();
+            $job_skills_id = $request->input('job_skills_id');
+        	foreach ($job_skills_id as $job_skill) {
+                $profileExperienceSkills = new ProfileExperienceSkills();
+                $profileExperienceSkills->profile_experiences_id = $profile_experiences_id;
+                $profileExperienceSkills->job_skill_id = $job_skill;
+                $profileExperienceSkills->save();
+            }
+        }
+    }
 	
 	public function getProfileExperienceEditForm(Request $request, $user_id)
     {
@@ -224,15 +249,18 @@ trait ProfileExperienceTrait
 	
 	public function deleteProfileExperience(Request $request)
     {
-
-        $id = $request->input('id');
-        try {
-            $profileExperience = ProfileExperience::findOrFail($id);
-            $profileExperience->delete();
-
-            echo 'ok';
+		$id = $request->input('id');
+        echo $this->removeProfileExperience($id);
+    }
+	private function removeProfileExperience($id)
+    {
+		try {
+            $profileEducation = ProfileExperience::findOrFail($id);
+			ProfileExperienceSkills::where('profile_experiences_id', '=', $id)->delete();
+            $profileEducation->delete();
+            return 'ok';
         } catch (ModelNotFoundException $e) {
-            echo 'notok';
+            return 'notok';
         }
     }
 	

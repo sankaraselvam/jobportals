@@ -313,11 +313,12 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary" data-bs-toggle="modal" data-bs-target="#employment" style="border-radius:50px;">Add Experience</a>
                         </div>
-
+                        @if(count($user->profileExperience) > 0)
                         <div class="jobber-candidate-timeline mt-4">
                             <div class="jobber-timeline-icon">
                                 <i class="fas fa-briefcase"></i>
                             </div>
+                            @foreach ($user->profileExperience as $experience) 
                             <div class="jobber-timeline-item">
                                 <div class="jobber-timeline-cricle">
                                     <i class="far fa-circle"></i>
@@ -329,136 +330,23 @@
                                                 <li>
                                                     <a class="text-end" data-bs-toggle="collapse" href="#dateposted-06" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
                                                 </li>
-                                                <li><a href="#"><i class="far fa-trash-alt text-danger"></i></a></li>
+                                                <li><a href="javascript:void(0);" onclick="delete_profile_experience('{{ $experience->id }}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
                                         </div>
-                                        <span class="jobber-timeline-time">2020-6-01 to 2020-6-01</span>
-                                        <h6 class="mb-2">Web Designer</h6>
-                                        <span>- Inwave Studio</span>
-                                        <p class="mt-2">One of the main areas that I work on with my clients is shedding these non-supportive beliefs and replacing them with beliefs that will help them to accomplish their desires.</p>
-                                    </div>
-                                    <div class="collapse" id="dateposted-06">
-                                        <div class="bg-light p-3">
-                                            <form class="row collapse show" id="dateposted-form-01">
-                                                <div class="form-group mb-3 col-md-12">
-                                                    <label for="Email2">Your Designation </label>
-                                                    <input type="text" class="form-control" value="Type Your Designation">
-                                                </div>
-                                                <div class="form-group mb-3 col-md-12">
-                                                    <label class="form-label">Your Organization</label>
-                                                    <input type="text" class="form-control" value="Type Your Organization">
-                                                </div>
-                                                <div class="form-group mb-3 col-md-12">
-                                                    <label class="form-label">Is this your current company?</label><br>
-                                                    <label>
-                                                        <input class="form-group" type="radio" name="optradio" checked> Yes
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        <input type="radio" name="optradio"> No
-                                                    </label>
-                                                </div>
-                                                <div class="form-group col-10 mb-2">
-                                                    <div class="row">
-                                                        <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                            <option value="value 00">Select Year</option>
-                                                            <option value="value 01">2022</option>
-                                                            <option value="value 02">2021</option>
-                                                            <option value="value 03">2020</option>                                                   
-        
-                                                          </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                                <option value="">Select Month</option>
-                                                                <option value="JAn">Jan</option>
-                                                                <option value="Feb">Feb</option>
-                                                                <option value="Mar">Mar</option>
-                                                          </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-10 mb-2">
-                                                    <div class="row">
-                                                        <label class="mb-2">Worked Till<span style="color: red;">*</span></label>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                                <option value="present">Present</option>                                                     
-                                                              </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                              <option value="value 00">Select Year</option>
-                                                              <option value="value 01">2022</option>
-                                                              <option value="value 02">2021</option>
-                                                              <option value="value 03">2020</option> 
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                            <option value="value 001">Select Month</option>
-                                                              <option value="value 01">10000</option>
-                                                              <option value="value 02">25000</option>
-                                                              <option value="value 03">35000</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-10 mb-2">
-                                                    <div class="row">
-                                                        <label class="mb-2">Current Salary<span style="color: red;">*</span></label>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                          <option value="value 0">0 Lac</option>
-                                                          <option value="value 1">1 Lac</option>
-                                                          <option value="value 2">2 Lac</option>
-                                                          <option value="value 3">3 Lac</option> 
-                                                        </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                        <option value="value 0">0 Thousands</option>
-                                                          <option value="value 05">5 Thousands</option>
-                                                          <option value="value 10">10 Thousands</option>
-                                                          <option value="value 15">15 Thousands</option>
-                                                        </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-12 mb-2">
-                                                    <label class="mb-2" for="Email2">Top 5 key skills that you think are important for current employment <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="Email22" placeholder="Type Your Designation">
-                                                </div>
-                                                <div class="form-group col-12">
-                                                    <label class="mb-2" for="Email2 ">Describe your Job Profile <span style="color: red;">*</span></label>
-                                                    <textarea class="form-control mb-2" rows="4" placeholder="Type here.."></textarea>
-                                                </div>
-                                                <div class="form-group col-12 mb-2">
-                                                    <div class="row">
-                                                        <label class="mb-2">Notice Period<span style="color: red;">*</span></label>
-                                                        <div class="form-group col-md-12 select-border mb-3">
-                                                            <select class="form-control basic-select">
-                                                              <option value="value 0">Select Notice Period</option>
-                                                              <option value="15 Days or less">15 Days or less</option>
-                                                              <option value="1 Months">1 Months</option>
-                                                              <option value="2 Months">2 Months</option> 
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-12 mb-0">
-                                                    <a class="btn btn-md btn-primary" href="#">Update</a>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        @if ($experience->is_currently_working==1)
+                                        <span class="jobber-timeline-time">{{ $experience->emp_working_from_year }} Yr {{ $experience->emp_working_from_month }} Mon - {{ $experience->emp_worked_till }}</span>
+                                        @else    
+                                        <span class="jobber-timeline-time">{{ $experience->emp_working_from_year }} Yr {{ $experience->emp_working_from_month }} Mon - {{ $experience->emp_working_to_year }} Yr {{ $experience->emp_working_to_month }} Mon</span>
+                                        @endif                                        
+                                        <h6 class="mb-2">{{ isset($experience->jobRole->role)?$experience->jobRole->role:'' }}</h6>
+                                        <span>- {{ $experience->company }}</span>
+                                        <p class="mt-2">{{ $experience->description }}</p>
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+                        @endif
                     </div>
                     <!--=================================     Work & Experience -->
 
@@ -470,11 +358,12 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary" data-bs-toggle="modal" data-bs-target="#Education" style="border-radius:50px;">Add Education</a>
                         </div>
-
+                        @if(count($user->profileEducation) > 0)
                         <div class="jobber-candidate-timeline mt-4">
                             <div class="jobber-timeline-icon">
                                 <i class="fas fa-graduation-cap"></i>
                             </div>
+                            @foreach ($user->profileEducation as $education)   
                             <div class="jobber-timeline-item">
                                 <div class="jobber-timeline-cricle">
                                     <i class="far fa-circle"></i>
@@ -484,69 +373,21 @@
                                         <div class="dashboard-timeline-edit">
                                             <ul class="list-unstyled d-flex">
                                                 <li>
-                                                    <a class="text-end" data-bs-toggle="collapse" href="#dateposted-02" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
+                                                    <a class="text-end" href="javascript:void(0);" onclick="showProfileEducationEditModal('{{$education->id}}','{{$education->degree_type_id}}');"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
                                                 </li>
-                                                <li><a href="#"><i class="far fa-trash-alt text-danger"></i></a></li>
+                                                <li><a href="javascript:void(0);" onclick="delete_profile_education('{{$education->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
                                         </div>
-                                        <span class="jobber-timeline-time">2018 - Pres</span>
-                                        <h6 class="mb-2">Masters in Software Engineering</h6>
-                                        <span>- Engineering University</span>
-                                        <p class="mt-2">This is the beginning of creating the life that you want to live. Know what the future holds for you as a result of the choice you can make today.</p>
-                                    </div>
-                                    <div class="collapse" id="dateposted-02">
-                                        <div class="bg-light p-3">
-                                            <form class="row collapse show" id="dateposted-01">
-                                                <div class="form-group mb-3 col-md-12">
-                                                    <label class="form-label">Title</label>
-                                                    <input type="text" class="form-control" value="Masters in Software Engineering">
-                                                </div>
-                                                <div class="form-group mb-3 col-md-6 select-border">
-                                                    <label class="form-label">Year</label>
-                                                    <select class="form-control basic-select" >
-                                                        <option value="value 01" selected="selected">2020</option>
-                                                        <option value="value 02">2008</option>
-                                                        <option value="value 03">2009</option>
-                                                        <option value="value 04">2010</option>
-                                                        <option value="value 05">2011</option>
-                                                        <option value="value 06">2012</option>
-                                                        <option value="value 07">2013</option>
-                                                        <option value="value 08">2014</option>
-                                                        <option value="value 09">2015</option>
-                                                        <option value="value 10">2016</option>
-                                                        <option value="value 11">2017</option>
-                                                        <option value="value 12">2018</option>
-                                                        <option value="value 13">2019</option>
-                                                        <option value="value 14">2020</option>
-                                                        <option value="value 15">2021</option>
-                                                        <option value="value 16">2022</option>
-                                                        <option value="value 17">2023</option>
-                                                        <option value="value 18">2024</option>
-                                                        <option value="value 19">2025</option>
-                                                        <option value="value 20">2026</option>
-                                                        <option value="value 21">2027</option>
-                                                        <option value="value 22">2028</option>
-                                                        <option value="value 23">2029</option>
-                                                        <option value="value 14">2030</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group mb-3 col-md-6">
-                                                    <label class="form-label">Institute</label>
-                                                    <input type="text" class="form-control" value="Engineering University">
-                                                </div>
-                                                <div class="form-group mb-3 col-md-12">
-                                                    <label class="form-label">Description</label>
-                                                    <textarea class="form-control" rows="4" placeholder="This is the beginning of creating the life that you want to live. Know what the future holds for you as a result of the choice you can make today."></textarea>
-                                                </div>
-                                                <div class="form-group col-md-12 mb-0">
-                                                    <a class="btn btn-md btn-primary" href="#">Update</a>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <span class="jobber-timeline-time">{{ $education->date_completion }} - Pres</span>
+                                        <h6 class="mb-2">{{ $education->degreeType->degree_type }}</h6>
+                                        <span>- {{ $education->institution }}</span>
+                                        <p class="mt-2"></p>
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+                        @endif
                     </div>
                     <!--=================================     Education  -->
 
@@ -567,7 +408,6 @@
                                             <th>Version</th>
                                             <th>Last Used</th>
                                             <th>UsedExperience</th>
-                                            <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
                                     </thead>
@@ -578,8 +418,7 @@
                                             <td>{{ $skill->version }}</td>
                                             <td>{{ $skill->last_used }}</td>
                                             <td>{{ $skill->experience_from }} Year {{ $skill->experience_to }} Months </td>
-                                            <td><i class="fas fa-pencil-alt text-info"></i></td>
-                                            <td><i class="fas fa-trash-alt text-danger"></i></td>
+                                            <td><a href="javascript:void(0);" onclick="delete_profile_it_skill('{{$skill->id}}');"><i class="fas fa-trash-alt text-danger"></i></a></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -651,6 +490,7 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary mb-4" id="add_project" data-bs-toggle="modal" data-bs-target="#projects"> Add Projects</a>
                         </div>
+                        @if(count($user->profileProjects)>0)
                         <div class="jobber-candidate-timeline mt-4">
                             <div class="jobber-timeline-icon">
                                 <i class="fas fa-graduation-cap"></i>
@@ -674,9 +514,9 @@
                                         <span>- {{ $project->url }}</span>
                                         <br>
                                         @if ($project->project_status=="1")
-                                            <span class="jobber-timeline-time"><i>{{ $project->worked_till }}</i></span>
+                                            <span class="jobber-timeline-time"><i>{{ $project->working_from_year }} Yr {{ $project->working_from_month }} Mon - {{ $project->worked_till }}</i></span>
                                         @else
-                                            <span class="jobber-timeline-time"><i>{{ $project->working_from }} Year {{ $project->working_to }} Month</i></span>
+                                            <span class="jobber-timeline-time"><i>{{ $project->working_from_year }} Yr {{ $project->working_from_month }} Mon - {{ $project->working_to_year }} Yr {{ $project->working_to_month }} Mon</i></span>
                                         @endif
                                         <p class="mt-2">{{ $project->description }}</p>
                                     </div>
@@ -684,6 +524,7 @@
                             </div>
                             @endforeach
                         </div>
+                        @endif
                     </div>
                     <!--================================= End Projects-->
 
@@ -930,76 +771,57 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="experience_response_msg"></div>
                 <div class="modal-body">
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                            <form class="form" id="add_edit_profile_experience" method="POST" action="{{ route('store.front.profile.experience', [$user->id]) }}">{{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2">Your Designation <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="Email22" placeholder="Type Your Designation">
+                                            {!! Form::select('job_role_id', [''=>__('Select Designation')]+$jobRole, '', array('class'=>'form-control basic-select', 'id'=>'job_role_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Your Organization <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="Email22" placeholder="Type Your Organization">
+                                            <input type="text" class="form-control" name="organization" id="organization" placeholder="Type Your Organization">
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Is this your current company? <span style="color: red;">*</span></label><br>
                                             <label>
-                                              <input class="form-group" type="radio" name="optradio" checked> Yes
+                                              <input class="form-group is_currently_working" type="radio" name="is_currently_working"  value="1" checked> Yes
                                             </label>
                                             <label class="radio-inline">
-                                              <input type="radio" name="optradio" class="form-group"> No
+                                              <input type="radio" name="is_currently_working" class="form-group is_currently_working" value="0"> No
                                             </label>
                                         </div>
                                         <div class="form-group col-10 mb-2">
                                             <div class="row">
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 00">Select Year</option>
-                                                    <option value="value 01">2022</option>
-                                                    <option value="value 02">2021</option>
-                                                    <option value="value 03">2020</option>  
-                                                  </select>
+                                                    {!! Form::select('emp_working_from_year', [''=>__('Select Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'emp_working_from_year')) !!}
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 001">Select Month</option>
-                                                    <option value="value 01">10000</option>
-                                                    <option value="value 02">25000</option>
-                                                    <option value="value 03">35000</option>
-                                                  </select>
+                                                    {!! Form::select('emp_working_from_month', [''=>__('Select Month')]+MiscHelper::getMonth(), null, array('class'=>'form-control basic-select', 'id'=>'emp_working_from_month')) !!}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">
-                                            <div class="row">
+                                            <div class="row emp_worked_till">
                                                 <label class="mb-2">Worked Till<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
+                                                    <select class="form-control basic-select" name="emp_worked_till" id="emp_worked_till">
                                                         <option value="present">Present</option>                                                     
                                                       </select>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
+                                            <div class="row" id="emp_working_to">
+                                                <label class="mb-2">Started Working To <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 00">Select Year</option>
-                                                      <option value="value 01">2022</option>
-                                                      <option value="value 02">2021</option>
-                                                      <option value="value 03">2020</option> 
-                                                    </select>
+                                                    {!! Form::select('emp_working_to_year', [''=>__('Select Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'emp_working_to_year')) !!}
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                    <option value="value 001">Select Month</option>
-                                                      <option value="value 01">10000</option>
-                                                      <option value="value 02">25000</option>
-                                                      <option value="value 03">35000</option>
-                                                    </select>
+                                                    {!! Form::select('emp_working_to_month', [''=>__('Select Month')]+MiscHelper::getMonth(), null, array('class'=>'form-control basic-select', 'id'=>'emp_working_to_month')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -1007,38 +829,28 @@
                                             <div class="row">
                                                 <label class="mb-2">Current Salary<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                  <option value="value 0">0 Lac</option>
-                                                  <option value="value 1">1 Lac</option>
-                                                  <option value="value 2">2 Lac</option>
-                                                  <option value="value 3">3 Lac</option> 
-                                                </select>
+                                                {!! Form::select('emp_salary_from', [''=>__('Select Lakhs')]+MiscHelper::getSalaryLakhs(), null, array('class'=>'form-control basic-select', 'id'=>'emp_salary_from')) !!}
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select">
-                                                <option value="value 0">0 Thousands</option>
-                                                  <option value="value 05">5 Thousands</option>
-                                                  <option value="value 10">10 Thousands</option>
-                                                  <option value="value 15">15 Thousands</option>
-                                                </select>
+                                                {!! Form::select('emp_salary_to', [''=>__('Select Thousands')]+MiscHelper::getSalaryThousands(), null, array('class'=>'form-control basic-select', 'id'=>'emp_salary_to')) !!}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2">Skills Used <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="Email22" placeholder="Type Your Designation">
+                                            {!! Form::select('job_skills_id[]', $jobSkills, null, array('class'=>'form-control js-example-jobskills-multiple', 'id'=>'job_skills_id', 'multiple'=>'multiple')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2 ">Job Profile <span style="color: red;">*</span></label>
-                                            <textarea class="form-control" rows="4" placeholder="Type here.."></textarea>
-                                            <p style="text-align:right;">4000 character(s) left</p>
+                                            <textarea class="form-control" name="job_profile" to="job_profile" rows="4" placeholder="Type here.."></textarea>
+                                            <p style="text-align:right;">1000 character(s) left</p>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <div class="row">
                                                 <label class="mb-2">Notice Period<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                      <option value="value 0">Select Notice Period</option>
+                                                    <select class="form-control basic-select" name="notice_period" id="notice_period">
+                                                      <option value="">Select Notice Period</option>
                                                       <option value="15 Days or less">15 Days or less</option>
                                                       <option value="1 Months">1 Months</option>
                                                       <option value="2 Months">2 Months</option> 
@@ -1050,10 +862,10 @@
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="experienceBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="experienceBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1076,60 +888,41 @@
                         <span aria-hidden="true">&times;</span>
                     </button>          
                 </div>
+                <div id="eduction_response_msg"></div>
                 <div class="modal-body">
                     <div class="login-register">
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4">
+                                <form class="form" id="add_edit_profile_education" method="POST" action="{{ route('store.front.profile.education', [$user->id]) }}">{{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Education <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Education</option>
-                                                <option value="value 01">Doctorate/PhD </option>
-                                                <option value="value 02">Masters/Post-Graduation</option>
-                                                <option value="value 03">Graduation/Diploma</option>  
-                                                <option value="value 03">12th</option>  
-                                                <option value="value 03">10th</option>  
-                                            </select>
+                                            {!! Form::select('degree_level_id', [''=>__('Select Education')]+$degreeLevels, '', array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
+
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Course <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Course</option>
-                                                <option value="value 01">Doctorate/PhD </option>
-                                                <option value="value 02">Masters/Post-Graduation</option>
-                                                <option value="value 03">Graduation/Diploma</option>  
-                                                <option value="value 03">12th</option>  
-                                                <option value="value 03">10th</option>  
-                                            </select>
+                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                            <select class="form-control basic-select">
-                                                <option value="value 00">Select Specialization</option>
-                                                <option value="value 01">Doctorate/PhD </option>
-                                                <option value="value 02">Masters/Post-Graduation</option>
-                                                <option value="value 03">Graduation/Diploma</option>  
-                                                <option value="value 03">12th</option>  
-                                                <option value="value 03">10th</option>  
-                                            </select>
+                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="Email22" placeholder="Select university/institute">
+                                            <input type="text" class="form-control" name="institution" id="institution" placeholder="Select university/institute">
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
                                                 <label>
-                                              <input class="form-group" type="radio" name="optradio" checked> Full Time
+                                              <input class="form-group" type="radio" name="course_type" value="1" checked> Full Time
                                             </label>
                                                 <label class="radio-inline">
-                                              <input type="radio" name="optradio"> Part Time
+                                              <input type="radio" name="course_type" value="2"> Part Time
                                             </label>
                                                 <label class="radio-inline">
-                                                <input type="radio" name="optradio"> Correspondence/Distance learning
+                                                <input type="radio" name="course_type" value="3"> Correspondence/Distance learning
                                               </label>
                                             </div>
                                         </div>
@@ -1137,16 +930,7 @@
                                             <div class="row">
                                                 <label class="mb-2">Passing Out Year <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                        <option value="value 00">Select Year</option>
-                                                        <option value="value 01">2026</option>
-                                                        <option value="value 01">2025</option>
-                                                        <option value="value 01">2024</option>
-                                                        <option value="value 01">2023</option>
-                                                        <option value="value 01">2022</option>
-                                                        <option value="value 02">2021</option>
-                                                        <option value="value 03">2020</option> 
-                                                  </select>
+                                                    {!! Form::select('date_completion', [''=>__('Select Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion')) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -1155,23 +939,17 @@
                                             <div class="row">
                                                 <label class="mb-2">Grading System<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
-                                                    <select class="form-control basic-select">
-                                                        <option value="value 0"> Select Grading System </option>
-                                                        <option value="value 0"> Scale 10 Grading System </option>
-                                                        <option value="value 1"> Scale 4 Grading System </option>
-                                                        <option value="value 2"> % Marks of 100 Maximum </option>
-                                                        <option value="value 3"> Course Requires a Pass </option>
-                                                    </select>
+                                                {!! Form::select('result_type_id', [''=>__('Select Result Type')]+$resultTypes, '', array('class'=>'form-control basic-select', 'id'=>'result_type_id')) !!}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
-                                            <a class="btn btn-danger d-grid" data-bs-dismiss="modal" href="#">Cancel</a>
+                                            <button type="button" class="btn btn-danger d-grid" id="educationBtnCloseIt" data-bs-dismiss="modal">Close</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a class="btn btn-primary d-grid" href="#">Save</a>
+                                            <button type="submit" class="btn  btn-primary d-grid" id="educationBtnSaveIt" >Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1384,7 +1162,7 @@
                                         
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Company / College Name<span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" name="organization_name" id="organization_name"  placeholder="Enter the Name">
+                                            <input type="text" class="form-control" name="organization_name" id="organization_name"  placeholder="Enter the Company / College Name">
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Project Status <span style="color: red;">*</span></label><br>
@@ -1402,36 +1180,31 @@
                                             <div class="row">
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
-                                                    <select class="form-control basic-select" name="working_from" id="working_from">
+                                                    <select class="form-control basic-select" name="working_from_year" id="working_from_year">
                                                         <option value="">Years</option>
-                                                        <option value="0">0 Years</option>
-                                                        <option value="1">1 Years</option>
-                                                        <option value="2">2 Years</option>
-                                                        <option value="3">3 Years</option>
-                                                        <option value="4">4 Years</option>
-                                                        <option value="5">5 Years</option>
-                                                        <option value="6">6 Years</option> 
-                                                        <option value="7">7 Years</option> 
-                                                        <option value="8">8 Years</option> 
-                                                        <option value="9">9 Years</option> 
-                                                        <option value="10">10 Years</option>                               
-
+                                                        <option value="2022">2022</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2016">2016</option>
                                                   </select>
                                                 </div>
                                                 <div class="form-group col-md-6 select-border mb-4">
-                                                    <select class="form-control basic-select" name="working_to" id="working_to">
+                                                    <select class="form-control basic-select" name="working_from_month" id="working_from_month">
                                                         <option value="">Months</option>
-                                                        <option value="0">0 Months</option>
-                                                        <option value="1">1 Months</option>
-                                                        <option value="2">2 Months</option>
-                                                        <option value="3">3 Months</option>
-                                                        <option value="4">4 Months</option>
-                                                        <option value="5">5 Months</option>
-                                                        <option value="6">6 Months</option> 
-                                                        <option value="7">7 Months</option> 
-                                                        <option value="8">8 Months</option> 
-                                                        <option value="9">9 Months</option> 
-                                                        <option value="10">10 Months</option>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option> 
+                                                        <option value="7">7</option> 
+                                                        <option value="8">8</option> 
+                                                        <option value="9">9</option> 
+                                                        <option value="10">10</option>
                                                   </select>
                                                 </div>
                                             </div>
@@ -1441,9 +1214,41 @@
                                                 <label class="mb-2">Worked Till<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-6 select-border mb-3">
                                                     <select class="form-control basic-select" name="worked_till" id="worked_till">
-                                                        <option value="">Please Select</option>                                                     
                                                         <option value="present">Present</option>                                                     
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-10 mb-2 working_to">
+                                            <div class="row">
+                                                <label class="mb-2">Started Working To <span style="color: red;">*</span></label>
+                                                <div class="form-group col-md-6 select-border mb-3">
+                                                    <select class="form-control basic-select" name="working_to_year" id="working_to_year">
+                                                        <option value="">Years</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2016">2016</option>
+                                                  </select>
+                                                </div>
+                                                <div class="form-group col-md-6 select-border mb-4">
+                                                    <select class="form-control basic-select" name="working_to_month" id="working_to_month">
+                                                        <option value="">Months</option>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option> 
+                                                        <option value="7">7</option> 
+                                                        <option value="8">8</option> 
+                                                        <option value="9">9</option> 
+                                                        <option value="10">10</option>
+                                                  </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -1829,22 +1634,43 @@
 
 <script type="text/javascript">
 $(function() {
-    $(".working_from").hide();
-    $("#working_from").prop('disabled', true);
-    $("#working_to").prop('disabled', true);
+    $(".working_to").hide();
+    $("#emp_working_to").hide();
+    $("#working_to_year").prop('disabled', true);
+    $("#working_to_month").prop('disabled', true);
+    $("#emp_working_to_year").prop('disabled', true);
+    $("#emp_working_to_month").prop('disabled', true);
+    
     $(".project_status").on('change', function (e) {
         if($(this).val()==1){
-            $("#working_from").prop('disabled', true);
-            $("#working_to").prop('disabled', true);
+            $("#working_to_year").prop('disabled', true);
+            $("#working_to_month").prop('disabled', true);
             $("#worked_till").prop('disabled', false);
-            $(".working_from").hide();
+            $(".working_to").hide();
             $(".worked_till").show();
         }else{
-            $(".working_from").show();
+            $(".working_to").show();
             $(".worked_till").hide();
-            $("#working_from").prop('disabled', false);
-            $("#working_to").prop('disabled', false);
+            $("#working_to_year").prop('disabled', false);
+            $("#working_to_month").prop('disabled', false);
             $("#worked_till").prop('disabled', true);
+        }       
+    });
+
+    $(".is_currently_working").on('change', function (e) {
+        console.log($(this).val());
+        if($(this).val()==1){
+            $("#emp_working_to_year").prop('disabled', true);
+            $("#emp_working_to_month").prop('disabled', true);
+            $("#emp_worked_till").prop('disabled', false);
+            $("#emp_working_to").hide();
+            $(".emp_worked_till").show();
+        }else if($(this).val()==0){
+            $(".emp_worked_till").hide();
+            $("#emp_working_to").show();
+            $("#emp_working_to_year").prop('disabled', false);
+            $("#emp_working_to_month").prop('disabled', false);
+            $("#emp_worked_till").prop('disabled', true);
         }
        
     });
@@ -1859,6 +1685,10 @@ $(function() {
     	allowClear: true
 	});
     $('.js-example-jobskill-multiple').select2({
+    	placeholder: "{{__('Select Skill')}}",
+    	allowClear: true
+	});
+    $('.js-example-jobskills-multiple').select2({
     	placeholder: "{{__('Select Skill')}}",
     	allowClear: true
 	});
@@ -2014,6 +1844,70 @@ $(function() {
             }
         });        
     });
+    $("#educationBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_profile_education").validate({
+            rules: { 
+                degree_level_id: 'required',
+                degree_type_id: 'required',
+                "major_subjects[]": 'required',
+                institute: 'required',
+                course_type: 'required',
+                date_completion: 'required',
+                result_type_id: 'required',
+            },
+            messages: {
+                degree_level_id: 'Please select education',
+                degree_type_id: 'Please select course',
+                "major_subjects[]": 'Please select specialization ',
+                institute: 'Please enter University/Institute',
+                course_type: 'Please choose course type',
+                date_completion: 'Please select passing year',
+                result_type_id: 'Please select grading system',
+            },
+            submitHandler: function() {
+                submitProfileEducationForm();
+            }
+        });        
+    });
+
+    $("#experienceBtnSaveIt").on('click', function (e) {
+        e.preventDefault;
+        $("#add_edit_profile_experience").validate({
+            rules: { 
+                job_role_id: 'required',
+                organization: 'required',
+                "job_skills_id[]": 'required',
+                emp_salary_from: 'required',
+                is_currently_working: 'required',
+                emp_salary_to: 'required',
+                job_profile:{
+                    required: true,
+                    minlength: 50,
+                    maxlength: 1000,
+                },
+                notice_period: 'required',
+            },
+            messages: {
+                job_role_id: 'Please select designation',
+                organization: 'Please enter organization',
+                "job_skills_id[]": 'Please select skill ',
+                emp_salary_from: 'Please select salary from',
+                is_currently_working: 'Please choose current company',
+                emp_salary_to: 'Please select salary to',
+                job_profile: {
+                    required: 'Please enter profile',
+                    minlength: "Your data must be at least 50 characters",
+                    maxlength: "Your data must be maximum 1000 characters",
+                },
+                notice_period: 'Please select notice period',
+            },
+            submitHandler: function() {
+                submitProfileExperienceForm()
+            }
+        });        
+    });
+    
 
     $("#cv_file").on('change',function() {
         var form = $('#add_edit_profile_cv');
@@ -2046,6 +1940,11 @@ $(function() {
     $('#functional_area_id').on('change', function (e) {
         e.preventDefault();
         filterLangRoles($(this).val());
+    });
+
+    $('#degree_level_id').on('change',function (e) {
+    e.preventDefault();
+        filterDegreeTypes(0);
     });
     filterLangRoles('{{ $profileCareer->functional_area_id }}');
 });
@@ -2187,6 +2086,45 @@ function submitKeySkillForm() {
 	});
 }
 
+function submitProfileEducationForm() {
+	var form = $('#add_edit_profile_education');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#eduction_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#eduction_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		}
+	});
+}
+
+function submitProfileExperienceForm() {
+	var form = $('#add_edit_profile_experience');
+	$.ajax({
+		url     : form.attr('action'),
+		type    : form.attr('method'),
+		data    : form.serialize(),
+		dataType: 'json',
+		success : function (json){
+			if(json.status==200){
+                $("#experience_response_msg").html('<div class="alert alert-success">'+json.message+'</div>');
+                setTimeout(function () {
+                    $("#experience_response_msg").html("");
+                    location.replace("{{ route('my.profile') }}");
+                }, 2000)
+            }
+		},
+		
+	});
+}
+
 function delete_profile_language(id) {
   var msg = "{{__('Are you sure! you want to delete?')}}";
   if (confirm(msg)) {
@@ -2206,6 +2144,52 @@ function delete_profile_project(id) {
   var msg = "{{__('Are you sure! you want to delete?')}}";
   if (confirm(msg)) {
 	  $.post("{{ route('delete.front.profile.project') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+                    location.replace("{{ route('my.profile') }}");
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
+}
+function delete_profile_education(id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.front.profile.education') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+                    location.replace("{{ route('my.profile') }}");
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
+}
+
+function delete_profile_experience(id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.front.profile.experience') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+                    location.replace("{{ route('my.profile') }}");
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
+}
+function delete_profile_it_skill(id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.profile.it.skill') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
 			  .done(function (response) {
 				  if (response == 'ok')
 				  {
@@ -2257,24 +2241,38 @@ function showProfileProjectEditModal(project_id){
                 $("#description").val(json.data.description);
                 if(json.data.project_status==1){
                     $('input[name=project_status][value=1]').attr('checked', true);
-                    $("#working_from").prop('disabled', true);
-                    $("#working_to").prop('disabled', true);
+                    $("#working_from_year").prop('disabled', false);
+                    $("#working_from_month").prop('disabled', false);
                     $("#worked_till").prop('disabled', false);
-                    $(".working_from").hide();
+                    $(".working_to").hide();
+                    $(".working_from").show();
                     $(".worked_till").show();
                     $("#worked_till").val(json.data.worked_till);
+                    $("#working_from_year").val(json.data.working_from_year);
+                    $("#working_from_month").val(json.data.working_from_month);
+                    $('#working_from_year').select2().trigger('change');
+                    $('#working_from_month').select2().trigger('change');
                     $('#worked_till').select2().trigger('change');
+                    $("#working_to_year").val('');
+                    $("#working_to_month").val('');
                 }else{
                     $('input[name=project_status][value=2]').attr('checked', true);
                     $(".working_from").show();
+                    $(".working_to").show();
                     $(".worked_till").hide();
-                    $("#working_from").prop('disabled', false);
-                    $("#working_to").prop('disabled', false);
+                    $("#working_from_year").prop('disabled', false);
+                    $("#working_from_month").prop('disabled', false);
+                    $("#working_to_year").prop('disabled', false);
+                    $("#working_to_month").prop('disabled', false);
                     $("#worked_till").prop('disabled', true);
-                    $("#working_from").val(json.data.working_from);
-                    $("#working_to").val(json.data.working_to);
-                    $('#working_from').select2().trigger('change');
-                    $('#working_to').select2().trigger('change');
+                    $("#working_from_year").val(json.data.working_from_year);
+                    $("#working_from_month").val(json.data.working_from_month);
+                    $("#working_to_year").val(json.data.working_to_year);
+                    $("#working_to_month").val(json.data.working_to_month);
+                    $('#working_from_year').select2().trigger('change');
+                    $('#working_from_month').select2().trigger('change');
+                    $('#working_to_year').select2().trigger('change');
+                    $('#working_to_month').select2().trigger('change');
                 }
 			}
 	});
@@ -2296,7 +2294,18 @@ function filterLangRoles(functional_area_id){
                     }
                 });
         }
+}
+
+function filterDegreeTypes(degree_type_id){
+    var degree_level_id = $('#degree_level_id').val();
+    if (degree_level_id != ''){
+    $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id, degree_type_id: degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+            .done(function (response) {
+            	$('#degree_types_dd').html(response); 
+                $('#degree_type_id').select2();           
+            });
     }
+}
 </script>
 @include('includes.immediate_available_btn')
 @endpush

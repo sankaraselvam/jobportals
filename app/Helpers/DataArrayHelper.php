@@ -222,6 +222,12 @@ class DataArrayHelper
 		}
         return $array;
     }
+
+    public static function langRolesArrays()
+    {
+        $array = JobRole::select('job_role.role', 'job_role.role_id')->lang()->active()->sorted()->pluck('job_role.role', 'job_role.role_id')->toArray();
+        return $array;
+    }
     
     /*******************************/
 	

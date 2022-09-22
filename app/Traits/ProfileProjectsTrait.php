@@ -197,6 +197,7 @@ trait ProfileProjectsTrait
 	
 	public function storeFrontProfileProject(Request $request, $user_id)
     {
+        // print_r($request->all());exit;
        	$profileProject = new ProfileProject();
         $profileProject = $this->assignProjectValues($profileProject, $request, $user_id);
 		$profileProject->save();
@@ -213,9 +214,11 @@ trait ProfileProjectsTrait
         $profileProject->name = $request->input('project_title');
 		$profileProject->url = $request->input('organization_name');
 		$profileProject->project_status = $request->input('project_status');
-		$profileProject->working_from = $request->input('working_from');
-		$profileProject->working_to = $request->input('working_to');
+		$profileProject->working_from_year = $request->input('working_from_year');
+		$profileProject->working_from_month = $request->input('working_from_month');
 		$profileProject->worked_till = $request->input('worked_till');
+        $profileProject->working_to_year = $request->input('working_to_year');
+		$profileProject->working_to_month = $request->input('working_to_month');
 		//$profileProject->date_start = $request->input('date_start');
 		//$profileProject->date_end = $request->input('date_end');
 		//$profileProject->is_on_going = $request->input('is_on_going');

@@ -32,4 +32,8 @@ class ProfileExperience extends Model
             return '';
         }
     }
+    public function jobRole()
+    {
+        return $this->belongsTo('App\JobRole', 'role_id', 'role_id');
+    }
 }

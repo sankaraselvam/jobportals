@@ -115,7 +115,7 @@ class User extends Authenticatable
 	
 	public function profileExperience()
     {
-        return $this->hasMany('App\ProfileExperience', 'user_id', 'id');
+        return $this->hasMany('App\ProfileExperience', 'user_id', 'id')->orderBy('profile_experiences.id', 'desc');
     }
 	
 	public function profileEducation()

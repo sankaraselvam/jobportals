@@ -154,17 +154,16 @@ trait ProfileEducationTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function storeFrontProfileEducation(ProfileEducationFormRequest $request, $user_id)
+	public function storeFrontProfileEducation(Request $request, $user_id)
     {
-        
-		$profileEducation = new ProfileEducation();
+        $profileEducation = new ProfileEducation();
 		$profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
         $profileEducation->save();
 		/*         * ************************************ */
         $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
 		/*         * ************************************ */
-		$returnHTML = view('user.forms.education.education_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		// $returnHTML = view('user.forms.education.education_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Education added successfully"), 200);
     }
 	
 	private function assignEducationValues($profileEducation, $request, $user_id)
@@ -172,13 +171,14 @@ trait ProfileEducationTrait
 		$profileEducation->user_id = $user_id;
         $profileEducation->degree_level_id = $request->input('degree_level_id');
 		$profileEducation->degree_type_id = $request->input('degree_type_id');
-		$profileEducation->degree_title = $request->input('degree_title');
-		$profileEducation->country_id = $request->input('country_id');
-		$profileEducation->state_id = $request->input('state_id');
-		$profileEducation->city_id = $request->input('city_id');
+		// $profileEducation->degree_title = $request->input('degree_title');
+		// $profileEducation->country_id = $request->input('country_id');
+		// $profileEducation->state_id = $request->input('state_id');
+		// $profileEducation->city_id = $request->input('city_id');
+		$profileEducation->course_type = $request->input('course_type');
 		$profileEducation->date_completion = $request->input('date_completion');
 		$profileEducation->institution = $request->input('institution');
-		$profileEducation->degree_result = $request->input('degree_result');
+		// $profileEducation->degree_result = $request->input('degree_result');
 		$profileEducation->result_type_id = $request->input('result_type_id');
 		return $profileEducation;
 	}

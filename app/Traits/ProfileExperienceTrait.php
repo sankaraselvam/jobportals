@@ -224,6 +224,11 @@ trait ProfileExperienceTrait
 						->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
+	public function editProfileExperience(Request $request, $user_id){
+        $experience_id = $request->input('experience_id');
+        $profileExperience = ProfileExperience::with(['profileExperienceSkills'])->find($experience_id);
+        return response()->json(array('success' => true, 'data' => $profileExperience));
+	}
 
     public function updateProfileExperience(ProfileExperienceFormRequest $request, $profile_experience_id, $user_id)
     {
@@ -236,15 +241,15 @@ trait ProfileExperienceTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function updateFrontProfileExperience(ProfileExperienceFormRequest $request, $profile_experience_id, $user_id)
+	public function updateFrontProfileExperience(Request $request, $profile_experience_id, $user_id)
     {
         
 		$profileExperience = ProfileExperience::find($profile_experience_id);
         $profileExperience = $this->assignExperienceValues($profileExperience, $request, $user_id);
 		$profileExperience->update();
 		
-		$returnHTML = view('user.forms.experience.experience_edit_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		//$returnHTML = view('user.forms.experience.experience_edit_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Experience Updated successfully..."), 200);
     }
 	
 	public function deleteProfileExperience(Request $request)

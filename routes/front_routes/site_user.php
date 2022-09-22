@@ -73,4 +73,6 @@ Route::post('update-profile-resume-summary/{id}', 'UserController@updateProfileR
 Route::post('add-profile-it-skill', 'UserController@addProfileItSkill')->name('add.profile.it.skill');
 
 Route::post('edit-profile-project/{user_id}', 'UserController@editProfileProject')->name('edit-profile-project');
+Route::post('edit-profile-education/{user_id}', 'UserController@editProfileEducation')->name('edit-profile-education');
+Route::post('edit-profile-experience/{user_id}', 'UserController@editProfileExperience')->name('edit-profile-experience');
 Route::delete('delete-profile-it-skill', 'UserController@deleteProfileItSkill')->name('delete.profile.it.skill');

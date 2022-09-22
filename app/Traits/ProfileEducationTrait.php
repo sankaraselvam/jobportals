@@ -233,6 +233,12 @@ trait ProfileEducationTrait
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
+	public function editProfileEducation(Request $request, $user_id){
+        $education_id = $request->input('education_id');
+        $profileEducation = ProfileEducation::with(['profileEducationMajorSubjects'])->find($education_id);
+        return response()->json(array('success' => true, 'data' => $profileEducation));
+	}
+
     public function updateProfileEducation(ProfileEducationFormRequest $request, $education_id, $user_id)
     {
         
@@ -247,7 +253,7 @@ trait ProfileEducationTrait
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
 	
-	public function updateFrontProfileEducation(ProfileEducationFormRequest $request, $education_id, $user_id)
+	public function updateFrontProfileEducation(Request $request, $education_id, $user_id)
     {
         
 		$profileEducation = ProfileEducation::find($education_id);
@@ -257,8 +263,8 @@ trait ProfileEducationTrait
         $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
 		/*         * ************************************ */
 		
-		$returnHTML = view('user.forms.education.education_edit_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+		// $returnHTML = view('user.forms.education.education_edit_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'message' => 'Education Updated successfully'), 200);
     }
 	
 	private function storeprofileEducationMajorSubjects($request, $profile_education_id)

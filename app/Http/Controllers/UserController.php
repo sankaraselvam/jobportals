@@ -109,9 +109,35 @@ class UserController extends Controller
         //$user = User::findOrFail(Auth::user()->id);
         $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole'])->findOrFail(Auth::user()->id);
         $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
-        // dd($user);
+        
         // dd(MiscHelper::getSalaryThousands());
-       
+        $maximumPoints  = 100;
+        if($user->id !=""){
+            $hasCompletedProfile = 20;
+        }
+        if($profileCareer->profile_career_id!=''){
+            $hasCompletedCareer = 30;
+        }
+        if($user->profileSummary->id !=""){
+            $hasCompletedProfileSummary = 30;
+        }
+        $percentage = ($hasCompletedProfile+$hasCompletedCareer+$hasCompletedProfileSummary)*$maximumPoints/100;
+        // if($profileCareer->profile_career_id!=''){
+        //     $hasCompletedProfile = 10;
+        // }
+        // if($profileCareer->profile_career_id!=''){
+        //     $hasCompletedProfile = 10;
+        // }
+        // if($profileCareer->profile_career_id!=''){
+        //     $hasCompletedProfile = 10;
+        // }
+        // if($profileCareer->profile_career_id!=''){
+        //     $hasCompletedProfile = 10;
+        // }
+        // if($profileCareer->profile_career_id!=''){
+        //     $hasCompletedProfile = 10;
+        // }
+        // dd($percentage);
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -134,6 +160,7 @@ class UserController extends Controller
                         ->with('majorSubjects', $majorSubjects)
                         ->with('resultTypes', $resultTypes)
                         ->with('jobRole', $jobRole)
+                        ->with('profilePercentage', $percentage)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 

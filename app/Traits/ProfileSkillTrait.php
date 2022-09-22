@@ -101,16 +101,30 @@ trait ProfileSkillTrait
 	
 	public function storeFrontProfileSkill(Request $request, $user_id)
     {
-       foreach($request->input('job_skill_id') as $itms){
-			$profileSkill = new ProfileSkill();
-			$profileSkill->user_id = $user_id;
-			$profileSkill->job_skill_id = $itms;
-			$profileSkill->save();
+		$profileSkill = ProfileSkill::where('user_id',$user_id)->count();
+		if($profileSkill==0){
+			foreach($request->input('job_skill_id') as $itms){
+				$profileSkill = new ProfileSkill();
+				$profileSkill->user_id = $user_id;
+				$profileSkill->job_skill_id = $itms;
+				$profileSkill->save();
+			}
+		}else{
+			if(count($request->input('job_skill_id')) > 0){
+				$profileSkill = ProfileSkill::where('user_id',$user_id)->delete();
+				foreach($request->input('job_skill_id') as $itms){
+					$profileSkill = new ProfileSkill();
+					$profileSkill->user_id = $user_id;
+					$profileSkill->job_skill_id = $itms;
+					$profileSkill->save();
+				}
+			}
 		}
+       
 		
 		/*         * ************************************ */
 		//$returnHTML = view('user.forms.skill.skill_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => "Skill added successfully"), 200);
+        return response()->json(array('success' => true, 'status' => 200, 'message' => "Skill added successfully"), 200);
     }
 	
 	public function getProfileSkillEditForm(Request $request, $user_id)

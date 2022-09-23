@@ -29,9 +29,17 @@
             margin-left: 22%;
         }
         
-        .progress .progress-bar {
+        .progress .progress-barlow {
             height: 5px;
-            background: #fff;
+            background: red;
+        }
+        .progress .progress-barmedium {
+            height: 5px;
+            background: yellow;
+        }
+        .progress .progress-barhigh {
+            height: 5px;
+            background: green;
         }
         
         .progress .progress-bar-number1 {
@@ -44,7 +52,7 @@
         
         .progress {
             height: 5px!important;
-            background-color: #ff0b0b;
+            background-color: #fff;
         }
         
         .category-style-02 ul li {
@@ -118,8 +126,25 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width:85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                            <span class="progress-bar-number">85%</span>
+                        @php
+                            $level='';
+                            @endphp
+                        @if ($profilePercentage <=  50)
+                            @php
+                            $level='low';
+                            @endphp
+                        @elseif($profilePercentage >  50 && $profilePercentage <=  75)
+                            @php
+                            $level='medium';
+                            @endphp                            
+                        @elseif($profilePercentage >  75)
+                            @php
+                            $level='high';
+                            @endphp                            
+                        @endif
+                        
+                        <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$profilePercentage}}%" aria-valuenow="{{$profilePercentage}}" aria-valuemin="0" aria-valuemax="{{$profilePercentage}}">
+                            <span class="progress-bar-number">{{$profilePercentage}}%</span>
                             <span class="progress-bar-number1">Profile Strength (Excellent)</span>
                         </div>
                     </div>
@@ -189,7 +214,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 text-lg-end ">
-                    <a class="btn btn-primary btn-md mb-4 mb-lg-0" href="my-resume.html">Preview My Resume</a>
+                    <!-- <a class="btn btn-primary btn-md mb-4 mb-lg-0" href="my-resume.html">Preview My Resume</a> -->
                 </div>
                 <div class="col-lg-4 " style="margin-bottom:80px;">
                     <div class="user-dashboard-info-box sticky-top" style=" -webkit-box-shadow: 1px 1px 14px 0px rgba(0, 25, 53, 0.19);box-shadow: 1px 1px 14px 0px rgba(0, 25, 53, 0.19);">
@@ -298,7 +323,7 @@
                         <div class="blog-post-tags mb-4 align-items-center d-flex">                
                             <ul class="list-inline mb-0 mt-2 mt-sm-0 ms-sm-3">
                                 @foreach ($user->profileSkills as $skils)
-                                    <li class="list-inline-item">{{ $skils->jobSkill->job_skill }} <a href="#"><i class="fa fa-times" style="color:red;"></i></a></li>
+                                    <li class="list-inline-item">{{ $skils->jobSkill->job_skill }} </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -328,7 +353,7 @@
                                         <div class="dashboard-timeline-edit">
                                             <ul class="list-unstyled d-flex">
                                                 <li>
-                                                    <a class="text-end" data-bs-toggle="collapse" href="#dateposted-06" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
+                                                    <a class="text-end" href="javascript:void(0);" onclick="showProfileExperienceEditModal('{{$experience->id}}');"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
                                                 </li>
                                                 <li><a href="javascript:void(0);" onclick="delete_profile_experience('{{ $experience->id }}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
@@ -505,7 +530,7 @@
                                         <div class="dashboard-timeline-edit">
                                             <ul class="list-unstyled d-flex">
                                                 <li>
-                                                    <a class="text-end" href="javascript:void(0);" onclick="showProfileProjectEditModal('{{$project->id}}');" > <i class="fas fa-pencil-alt text-info me-2"></i> </a>
+                                                    <a class="text-end" href="javascript:void(0);" onclick="showProfileProjectEditModal('{{$project->id}}');"> <i class="fas fa-pencil-alt text-info me-2"></i> </a>
                                                 </li>
                                                 <li><a href="javascript:void(0);" onclick="delete_profile_project('{{$project->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
@@ -721,6 +746,15 @@
     <!--=================================  Resume HeadLine -->
 
     <!--=================================    Key Skills -->
+    @php
+        $jobSkillArr=[];
+    @endphp
+    @foreach ($user->profileSkills as $skils)
+        @php
+        $jobSkillArr[]=$skils->job_skill_id;
+        @endphp
+        
+    @endforeach
     <div class="modal fade" id="keyskill" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="padding: 30px 78px 15px 77px">
             <div class="modal-content" style="padding: 30px">
@@ -740,7 +774,7 @@
                                 {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12">
-                                        {!! Form::select('job_skill_id[]', $jobSkills, null, array('class'=>'form-control js-example-jobskill-multiple', 'id'=>'job_skill_id', 'multiple'=>'multiple')) !!}
+                                        {!! Form::select('job_skill_id[]', $jobSkills, $jobSkillArr, array('class'=>'form-control js-example-jobskill-multiple', 'id'=>'job_skill_id', 'multiple'=>'multiple')) !!}
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
@@ -842,7 +876,7 @@
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2 ">Job Profile <span style="color: red;">*</span></label>
-                                            <textarea class="form-control" name="job_profile" to="job_profile" rows="4" placeholder="Type here.."></textarea>
+                                            <textarea class="form-control" name="job_profile" id="job_profile" rows="4" placeholder="Type here.."></textarea>
                                             <p style="text-align:right;">1000 character(s) left</p>
                                         </div>
                                         <div class="form-group col-12 mb-4">
@@ -1600,14 +1634,14 @@
           <div class="formpanel"> 
             <!-- @include('flash::message')  -->
             <!-- Personal Information -->
-            @include('user.inc.profile')
+            <!-- @include('user.inc.profile')
             @include('user.inc.summary')
             @include('user.forms.cv.cvs')
             @include('user.forms.project.projects')
             @include('user.forms.experience.experience')
             @include('user.forms.education.education')
             @include('user.forms.skill.skills')
-            @include('user.forms.language.languages')
+            @include('user.forms.language.languages') -->
           </div>
         </div>
       </div>
@@ -1816,10 +1850,10 @@ $(function() {
         e.preventDefault;
         $("#add_edit_keyskill").validate({
             rules: { 
-                job_skill_id: 'required',
+                "job_skill_id[]": 'required',
             },
             messages: {
-                language_id: 'Please select skill name',
+                "job_skill_id[]": 'Please select skill name',
             },
             submitHandler: function() {
                 submitKeySkillForm();
@@ -1944,7 +1978,7 @@ $(function() {
 
     $('#degree_level_id').on('change',function (e) {
     e.preventDefault();
-        filterDegreeTypes(0);
+        filterDegreeTypes($(this).val());
     });
     filterLangRoles('{{ $profileCareer->functional_area_id }}');
 });
@@ -2221,6 +2255,95 @@ function submitProfileProjectForm() {
 		
 	});
 }
+
+function showProfileEducationEditModal(education_id){
+    $('#Education').modal('show');
+    $.ajax({
+	type: "POST",
+			url: "{{ route('edit-profile-education', $user->id) }}",
+			data: {"education_id": education_id, "_token": "{{ csrf_token() }}"},
+			datatype: 'json',
+			success: function (json) {
+                var userid = "{{$user->id}}";
+                var update = "{{ url('update-front-profile-education')}}" + '/' + education_id + '/' + userid;
+                $("#add_edit_profile_education").attr('action', update);
+                $("#add_edit_profile_education").attr('method', "PUT");
+                $("#educationBtnSaveIt").text("Update");
+                var subjectsArray=[];
+                $.each(json.data.profile_education_major_subjects, function (i, subjects) {
+                    subjectsArray.push(subjects.major_subject_id);
+                });
+                console.log(subjectsArray);
+                $("#degree_level_id").val(json.data.degree_level_id);
+                $('#degree_level_id').select2().trigger('change');
+                $("#degree_type_id").val(json.data.degree_type_id);
+                $('#degree_type_id').select2().trigger('change');
+                $("#institution").val(json.data.institution);
+                $('input[name=course_type][value='+json.data.course_type+']').attr('checked', true);
+                $("#date_completion").val(json.data.date_completion);
+                $('#date_completion').select2().trigger('change');
+                $("#result_type_id").val(json.data.result_type_id);
+                $('#result_type_id').select2().trigger('change');
+                $("#major_subjects").val(subjectsArray);
+                $('#major_subjects').select2().trigger('change');
+                filterDegreeTypes(json.data.degree_type_id);
+                
+			}
+	});
+}
+
+function showProfileExperienceEditModal(experience_id){
+    $('#employment').modal('show');
+    $.ajax({
+	type: "POST",
+			url: "{{ route('edit-profile-experience', $user->id) }}",
+			data: {"experience_id": experience_id, "_token": "{{ csrf_token() }}"},
+			datatype: 'json',
+			success: function (json) {
+                var userid = "{{$user->id}}";
+                var update = "{{ url('update-front-profile-experience')}}" + '/' + experience_id + '/' + userid;
+                $("#add_edit_profile_experience").attr('action', update);
+                $("#add_edit_profile_experience").attr('method', "PUT");
+                $("#experienceBtnSaveIt").text("Update");
+                var job_skillsArray=[];
+                $.each(json.data.profile_experience_skills, function (i, skills) {
+                    job_skillsArray.push(skills.job_skill_id);
+                });
+               
+                $("#job_role_id").val(json.data.role_id);
+                $('#job_role_id').select2().trigger('change');
+                $("#job_skills_id").val(job_skillsArray);
+                $('#job_skills_id').select2().trigger('change');
+                $("#organization").val(json.data.company);
+                $('input[name=is_currently_working][value='+json.data.is_currently_working+']').attr('checked', true);
+                if(json.data.is_currently_working==1){
+                    $("#emp_working_from_year").val(json.data.emp_working_from_year);
+                    $("#emp_working_from_month").val(json.data.emp_working_from_month);
+                    $("#emp_worked_till").val(json.data.emp_worked_till);
+                    $('#emp_working_from_year').select2().trigger('change');
+                    $('#emp_working_from_month').select2().trigger('change');
+                    $('#emp_worked_till').select2().trigger('change');
+                    
+                }else{
+                    $("#emp_working_to_year").val(json.data.emp_working_to_year);
+                    $("#emp_working_to_month").val(json.data.emp_working_to_month);
+                    $('#emp_working_to_year').select2().trigger('change');
+                    $('#emp_working_to_month').select2().trigger('change');
+                }
+                $("#emp_salary_from").val(json.data.emp_salary_from);
+                $("#emp_salary_to").val(json.data.emp_salary_to);
+                $('#emp_salary_from').select2().trigger('change');
+                $('#emp_salary_to').select2().trigger('change');
+                
+                $("#job_profile").text(json.data.description);
+                $("#notice_period").val(json.data.notice_period);
+                $('#notice_period').select2().trigger('change');
+                
+			}
+	});
+}
+
+
 function showProfileProjectEditModal(project_id){
     console.log(project_id)
     // $('#projects').modal('toggle');

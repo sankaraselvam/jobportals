@@ -36,4 +36,8 @@ class ProfileExperience extends Model
     {
         return $this->belongsTo('App\JobRole', 'role_id', 'role_id');
     }
+    public function profileExperienceSkills()
+    {
+        return $this->hasMany('App\ProfileExperienceSkills', 'profile_experiences_id', 'id');
+    }
 }

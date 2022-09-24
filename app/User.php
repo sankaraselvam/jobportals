@@ -99,7 +99,7 @@ class User extends Authenticatable
 	
 	public function profileCvs()
     {
-        return $this->hasMany('App\ProfileCv', 'user_id', 'id');
+        return $this->hasOne('App\ProfileCv', 'user_id', 'id');
     }
 	
 	

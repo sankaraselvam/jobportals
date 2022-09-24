@@ -289,12 +289,19 @@
                         <div class="user-dashboard-info-box">
                             <div class="form-group col-md-12 p-0">
                                 <h5>Attach Resume</h5>
+                                
                                 <div id="cv_response_msg"></div>
                                 <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
                                 <div class="text-center">
                                     <input name="cv_file" id="cv_file" type="file" /><br>
                                     <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
+                                    <medium>
+                                    @php
+                                        echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume")
+                                    @endphp
+                                    </medium>
                                 </div>
+
                             </div>
                         </div>
                     </form>

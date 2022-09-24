@@ -93,17 +93,17 @@ trait ProfileCvsTrait
 	{
 		$profileCv->user_id = $user_id;
         $profileCv->title = $request->input('title');
-		$profileCv->is_default = $request->input('is_default');
+		$profileCv->is_default = ($request->input('is_default')) ? $request->input('is_default'):1;
 		
 		/*         * ************************************ */
-        if ((int) $request->input('is_default') == 1) {
-            $this->updateDefaultCv($profileCv->id);
-        }
+        // if ((int) $request->input('is_default') == 1) {
+        //     $this->updateDefaultCv($profileCv->id);
+        // }
         /*         * ************************************ */
         
-		if ($request->hasFile('cv_file') && $profileCv->id > 0) {
-			$this->deleteCv($profileCv->id);
-		}
+		// if ($request->hasFile('cv_file') && $profileCv->id > 0) {
+		// 	$this->deleteCv($profileCv->id);
+		// }
 		$profileCv->cv_file = $this->uploadCvFile($request);
 		
 		return $profileCv;

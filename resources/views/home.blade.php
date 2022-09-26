@@ -1,3 +1,6 @@
+@php
+use Carbon\Carbon;   
+@endphp 
 @extends('layouts.app')
 
 @section('content') 
@@ -125,10 +128,19 @@
                 <div class="col-md-8">
                     <div class="user-dashboard-info-box mb-0 pb-4">
                         <div class="section-title">
-                            <h6>55 New Recommended Job(s)</h6>
+                            <h6>{{ $recommandedJobs->count() }} New Recommended Job(s)</h6>
                             <hr>
                         </div>
                         <div class="row">
+                            @foreach ($recommandedJobs as $recommandedjob)
+                                
+                            @php
+                                $current_date = Carbon::now()->toDateTimeString();
+                                $start_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $recommandedjob->job->created_at);
+                                $end_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $current_date);
+                                $different_days = $start_date->diffInDays($end_date);
+                                $number = MiscHelper::getNumbers();
+                            @endphp
                             <div class="col-12">
                                 <div class="job-list ">
                                     <div class="job-list-logo">
@@ -137,24 +149,28 @@
                                     <div class="job-list-details">
                                         <div class="job-list-info">
                                             <div class="job-list-title">
-                                                <h5 class="mb-0"><a href="job-detail.html">Marketing and Communications</a></h5>
+                                                <h5 class="mb-0"><a href="job-detail.html">{{ $recommandedjob->job->title }}</a></h5>
                                             </div>
                                             <div class="job-list-option">
                                                 <ul class="list-unstyled">
-                                                    <li> <span>via</span> <a href="employer-detail.html">Fast Systems Consultants</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1"></i>Wellesley Rd, London</li>
-                                                    <li><i class="fas fa-filter pe-1"></i>Accountancy</li>
-                                                    <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>Freelance</a></li>
+                                                    <li><a href="employer-detail.html">{{ $recommandedjob->job->company->name }}</a> </li>
+                                                    <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $recommandedjob->job->city->city }}, {{ $recommandedjob->job->state->state }}</li>
+                                                    <li><i class="fas fa-filter pe-1"></i>{{ $recommandedjob->jobSkill->job_skill }}</li>
+                                                    <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ isset($recommandedjob->job->jobType)?$recommandedjob->job->jobType->job_type:'' }}</a></li>
                                                 </ul>
+                                            </div>
+                                            <div class="job-desc">
+                                                <p>{!! str_limit($recommandedjob->job->description, $limit = 150, $end = '...') !!}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="job-list-favourite-time">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
+                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted {{ isset($number[$different_days])?$number[$different_days]:$different_days }} days ago</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            @endforeach
+                            <!-- <div class="col-12">
                                 <div class="job-list">
                                     <div class="job-list-logo">
                                         <img class="img-fluid" src="{{asset('/')}}images/svg/02.svg" alt="">
@@ -202,7 +218,7 @@
                                         <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col-12 text-center mt-2">

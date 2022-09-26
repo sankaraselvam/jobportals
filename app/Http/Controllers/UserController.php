@@ -107,37 +107,14 @@ class UserController extends Controller
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole'])->findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
         $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         
         // dd(MiscHelper::getSalaryThousands());
-        $maximumPoints  = 100;
-        if($user->id !=""){
-            $hasCompletedProfile = 20;
-        }
-        if($profileCareer->profile_career_id!=''){
-            $hasCompletedCareer = 30;
-        }
-        if($user->profileSummary->id !=""){
-            $hasCompletedProfileSummary = 30;
-        }
-        $percentage = ($hasCompletedProfile+$hasCompletedCareer+$hasCompletedProfileSummary)*$maximumPoints/100;
-        // if($profileCareer->profile_career_id!=''){
-        //     $hasCompletedProfile = 10;
-        // }
-        // if($profileCareer->profile_career_id!=''){
-        //     $hasCompletedProfile = 10;
-        // }
-        // if($profileCareer->profile_career_id!=''){
-        //     $hasCompletedProfile = 10;
-        // }
-        // if($profileCareer->profile_career_id!=''){
-        //     $hasCompletedProfile = 10;
-        // }
-        // if($profileCareer->profile_career_id!=''){
-        //     $hasCompletedProfile = 10;
-        // }
-        // dd($percentage);
+       
+        
+        // dd($user);
+        $percentage = $this->getProfilePercentage($user, $profileCareer);
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -162,6 +139,46 @@ class UserController extends Controller
                         ->with('jobRole', $jobRole)
                         ->with('profilePercentage', $percentage)
 						->with('upload_max_filesize', $upload_max_filesize);
+    }
+
+    public function getProfilePercentage($user, $profileCareer){
+        $maximumPoints  = 100;
+        if($user->id !=""){
+            $hasCompletedProfile = 10;
+        }
+        if($profileCareer->profile_career_id!=''){
+            $hasCompletedCareer = 10;
+        }
+        if($user->profileSummary->id !=""){
+            $hasCompletedProfileSummary = 5;
+        }        
+        if(count($user->profileProjects) > 0){
+            $hasCompletedProfileProjects = 10;
+        }
+        if(count($user->profileLanguages) > 0){
+            $hasCompletedprofileLanguages = 10;
+        }
+        if(count($user->ProfileItSkills) > 0){
+            $hasCompletedProfileItSkills = 10;
+        }
+        if(count($user->profileEducation) > 0){
+            $hasCompletedProfileEducation = 10;
+        }
+        if(count($user->profileExperience) > 0){
+            $hasCompletedProfileExperience = 10;
+        }
+        if(count($user->profileSkills) > 0){
+            $hasCompletedProfileSkills = 10;
+        }
+        if($user->profileResumeSummary->id !=""){
+            $hasCompletedProfileResumeSummary = 5;
+        }
+        if($user->profileCvs->id !=""){
+            $hasCompletedProfileCvs = 10;
+        }
+        $percentage = ($hasCompletedProfile+$hasCompletedCareer+$hasCompletedProfileSummary+$hasCompletedProfileProjects+$hasCompletedprofileLanguages+$hasCompletedProfileItSkills+$hasCompletedProfileEducation+$hasCompletedProfileExperience+$hasCompletedProfileSkills+$hasCompletedProfileResumeSummary+$hasCompletedProfileCvs)*$maximumPoints/100;
+
+        return $percentage;
     }
 
     public function updateMyProfile(UserFrontFormRequest $request)

@@ -143,44 +143,60 @@ class UserController extends Controller
 
     public function getProfilePercentage($user, $profileCareer){
         $maximumPoints  = 100;
-        if($user->id !=""){
+        $hasCompletedProfile  = 0;
+        $hasCompletedCareer  = 0;
+        $hasCompletedProfileSummary  = 0;
+        $hasCompletedProfileProjects  = 0;
+        $hasCompletedprofileLanguages  = 0;
+        $hasCompletedProfileItSkills  = 0;
+        $hasCompletedProfileEducation  = 0;
+        $hasCompletedProfileExperience  = 0;
+        $hasCompletedProfileSkills  = 0;
+        $hasCompletedProfileResumeSummary  = 0;
+        $hasCompletedProfileCvs  = 0;
+
+        if(isset($user->id)&&$user->id !=""){
             $hasCompletedProfile = 10;
         }
-        if($profileCareer->profile_career_id!=''){
+        if(isset($profileCareer->profile_career_id)&&$profileCareer->profile_career_id!=''){
             $hasCompletedCareer = 10;
         }
-        if($user->profileSummary->id !=""){
+        if(isset($user->profileSummary)&&$user->profileSummary->id !=""){
             $hasCompletedProfileSummary = 5;
         }        
-        if(count($user->profileProjects) > 0){
+        if(isset($user->profileProjects)&&count($user->profileProjects) > 0){
             $hasCompletedProfileProjects = 10;
         }
-        if(count($user->profileLanguages) > 0){
+        if(isset($user->profileLanguages)&&count($user->profileLanguages) > 0){
             $hasCompletedprofileLanguages = 10;
         }
-        if(count($user->ProfileItSkills) > 0){
+        if(isset($user->ProfileItSkills)&&count($user->ProfileItSkills) > 0){
             $hasCompletedProfileItSkills = 10;
         }
-        if(count($user->profileEducation) > 0){
+        if(isset($user->profileEducation)&&count($user->profileEducation) > 0){
             $hasCompletedProfileEducation = 10;
         }
-        if(count($user->profileExperience) > 0){
+        if(isset($user->profileExperience)&&count($user->profileExperience) > 0){
             $hasCompletedProfileExperience = 10;
         }
-        if(count($user->profileSkills) > 0){
+        if(isset($user->profileSkills)&&count($user->profileSkills) > 0){
             $hasCompletedProfileSkills = 10;
         }
-        if($user->profileResumeSummary->id !=""){
+        if(isset($user->profileResumeSummary)&&$user->profileResumeSummary->id !=""){
             $hasCompletedProfileResumeSummary = 5;
         }
-        if($user->profileCvs->id !=""){
+        if(isset($user->profileCvs)&&$user->profileCvs->id !=""){
             $hasCompletedProfileCvs = 10;
         }
         $percentage = ($hasCompletedProfile+$hasCompletedCareer+$hasCompletedProfileSummary+$hasCompletedProfileProjects+$hasCompletedprofileLanguages+$hasCompletedProfileItSkills+$hasCompletedProfileEducation+$hasCompletedProfileExperience+$hasCompletedProfileSkills+$hasCompletedProfileResumeSummary+$hasCompletedProfileCvs)*$maximumPoints/100;
-
+        $this->updateProfilePercentage($percentage);
         return $percentage;
     }
-
+    public function updateProfilePercentage($percentage){
+        $user = User::findOrFail(Auth::user()->id);
+        $user->percentage = $percentage;
+        $user->update();
+    }
     public function updateMyProfile(UserFrontFormRequest $request)
     {
 

@@ -11,6 +11,7 @@ use App\Company;
 use App\JobSkill;
 use App\JobSkillManager;
 use App\ProfileSkill;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -32,6 +33,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = User::findOrFail(Auth::user()->id);
         $skill = ProfileSkill::where('user_id',Auth::user()->id)->pluck('job_skill_id')->toArray();
         $jobSkil = JobSkillManager::with(['job','job.company','job.state','job.city','jobSkill','job.jobType'])
         // ->whereHas('jobSkills', function($query) use ($job_skill_ids){
@@ -40,8 +42,9 @@ class HomeController extends Controller
         ->has('job')
         ->whereIn('job_skill_id',$skill)
         ->get();
-        // dd($jobSkil);
+        // dd($user);
         return view('home')
+                ->with('user', $user)
                 ->with('recommandedJobs', $jobSkil);
     }
 

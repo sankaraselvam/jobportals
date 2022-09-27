@@ -18,7 +18,7 @@ class JobSkillManager extends Model
     {
         return $this->belongsTo('App\Job', 'job_id', 'id');
     }
-
+    
     public function getJob($field = '')
     {
         if(null !== $job = $this->job()->first()){

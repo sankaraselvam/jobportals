@@ -161,11 +161,11 @@ use Carbon\Carbon;
                                     <div class="job-list-details">
                                         <div class="job-list-info">
                                             <div class="job-list-title">
-                                                <h5 class="mb-0"><a href="job-detail.html">{{ $recommandedjob->job->title }}</a></h5>
+                                                <h5 class="mb-0"><a href="">{{ $recommandedjob->job->title }}</a></h5>
                                             </div>
                                             <div class="job-list-option">
                                                 <ul class="list-unstyled">
-                                                    <li><a href="employer-detail.html">{{ $recommandedjob->job->company->name }}</a> </li>
+                                                    <li><a href="">{{ $recommandedjob->job->company->name }}</a> </li>
                                                     <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $recommandedjob->job->city->city }}, {{ $recommandedjob->job->state->state }}</li>
                                                     <li><i class="fas fa-filter pe-1"></i>{{ $recommandedjob->jobSkill->job_skill }}</li>
                                                     <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ isset($recommandedjob->job->jobType)?$recommandedjob->job->jobType->job_type:'' }}</a></li>
@@ -181,60 +181,11 @@ use Carbon\Carbon;
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-                            <!-- <div class="col-12">
-                                <div class="job-list">
-                                    <div class="job-list-logo">
-                                        <img class="img-fluid" src="{{asset('/')}}images/svg/02.svg" alt="">
-                                    </div>
-                                    <div class="job-list-details">
-                                        <div class="job-list-info">
-                                            <div class="job-list-title">
-                                                <h5 class="mb-0"><a href="job-detail.html">Web Developer – .net</a></h5>
-                                            </div>
-                                            <div class="job-list-option">
-                                                <ul class="list-unstyled">
-                                                    <li> <span>via</span> <a href="employer-detail.html">Pendragon Green Ltd</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1"></i>Needham, MA</li>
-                                                    <li><i class="fas fa-filter pe-1"></i>IT &amp; Telecoms</li>
-                                                    <li><a class="part-time" href="#"><i class="fas fa-suitcase pe-1"></i>Part-Time</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span> </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="job-list">
-                                    <div class=" job-list-logo">
-                                        <img class="img-fluid" src="{{asset('/')}}images/svg/03.svg" alt="">
-                                    </div>
-                                    <div class="job-list-details">
-                                        <div class="job-list-info">
-                                            <div class="job-list-title">
-                                                <h5 class="mb-0"><a href="job-detail.html">Payroll and Office Administrator</a></h5>
-                                            </div>
-                                            <div class="job-list-option">
-                                                <ul class="list-unstyled">
-                                                    <li> <span>via</span> <a href="employer-detail.html">Wight Sound Hearing LLC</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1"></i>New Castle, PA</li>
-                                                    <li><i class="fas fa-filter pe-1"></i>Banking</li>
-                                                    <li><a class="temporary" href="#"><i class="fas fa-suitcase pe-1"></i>Temporary</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
-                                    </div>
-                                </div>
-                            </div> -->
+                            @endforeach                          
                         </div>
                         <div class="row">
                             <div class="col-12 text-center mt-2">
-                                <a class="btn btn-link mb-2" href="recommendedjobs.html" style="float: right;"> VIEW ALL </a>
+                                <a class="btn btn-link mb-2" href="{{ route('job.list') }}" style="float: right;"> VIEW ALL </a>
                             </div>
                         </div>
                     </div>
@@ -274,7 +225,7 @@ use Carbon\Carbon;
                             </div>
                         </div>
                         <div class="candidates-required-skills ms-auto mt-sm-0 mt-3">
-                            <a class="btn btn-primary" style="width:100%" href="#">UPDATE PROFILE</a>
+                            <a class="btn btn-primary" style="width:100%" href="{{ route('my.profile') }}">UPDATE PROFILE</a>
                         </div>
                         <p style="font-size: 12px;color: #333;font-weight: 500;margin-top: 4%;">Profile Performance</p>
                         <div class="row">

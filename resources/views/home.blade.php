@@ -152,22 +152,35 @@ use Carbon\Carbon;
                                 $end_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $current_date);
                                 $different_days = $start_date->diffInDays($end_date);
                                 $number = MiscHelper::getNumbers();
+
+                                $jobsSkillsArr=[];
+                                $count=1;    
+                                foreach ($recommandedjob->job->recommandedJobsSkills as $jobsSkill){
+                                    if($count <= 5){
+                                        $jobsSkillsArr[]=$jobsSkill->job_skill;
+                                    }
+                                    $count++;
+                                }
+                  
+                 
                             @endphp
                             <div class="col-12">
                                 <div class="job-list ">
                                     <div class="job-list-logo">
+                                    <a href="{{route('company.detail', [$recommandedjob->job->company->slug])}}" title="{{$recommandedjob->job->company->name}}">
                                         <img class="img-fluid" src="{{asset('/')}}images/svg/01.svg" alt="">
+                                    </a>
                                     </div>
                                     <div class="job-list-details">
                                         <div class="job-list-info">
                                             <div class="job-list-title">
-                                                <h5 class="mb-0"><a href="">{{ $recommandedjob->job->title }}</a></h5>
+                                                <h5 class="mb-0"><a href="{{route('job.detail', [$recommandedjob->job->slug])}}">{{ $recommandedjob->job->title }}</a></h5>
                                             </div>
                                             <div class="job-list-option">
                                                 <ul class="list-unstyled">
                                                     <li><a href="">{{ $recommandedjob->job->company->name }}</a> </li>
                                                     <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $recommandedjob->job->city->city }}, {{ $recommandedjob->job->state->state }}</li>
-                                                    <li><i class="fas fa-filter pe-1"></i>{{ $recommandedjob->jobSkill->job_skill }}</li>
+                                                    <li><i class="fas fa-filter pe-1">{{ implode(' , ',$jobsSkillsArr) }}</i></li>
                                                     <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ isset($recommandedjob->job->jobType)?$recommandedjob->job->jobType->job_type:'' }}</a></li>
                                                 </ul>
                                             </div>

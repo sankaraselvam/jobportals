@@ -1,9 +1,8 @@
+@php
+use Carbon\Carbon;   
+@endphp 
 @extends('layouts.app')
-
-
-
 @section('content') 
-
 <!-- Header start --> 
 
 @include('includes.header') 
@@ -181,7 +180,13 @@ banner -->
                         @foreach($jobs as $job)
 
                         @php $company = $job->getCompany(); @endphp
-
+                        @php
+                                $current_date = Carbon::now()->toDateTimeString();
+                                $start_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $job->created_at);
+                                $end_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $current_date);
+                                $different_days = $start_date->diffInDays($end_date);
+                                $number = MiscHelper::getNumbers();
+                        @endphp
                         @if(null !== $company)
                         <div class="col-12 mb-2">
                             <div class="job-list ">
@@ -214,7 +219,7 @@ banner -->
                             @else 
                             <a href="{{route('add.to.favourite', $job->slug)}}" class="btn"><i class="far fa-heart"></i></a>
                             @endif
-                            <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
+                            <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>{{ isset($number[$different_days])?$number[$different_days]:$different_days }} days ago</span>
                         </div>
                             </div>
                         </div> 
@@ -223,7 +228,7 @@ banner -->
 
                         @endif                                          
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12 text-center mt-4 mt-md-5">
                             <ul class="pagination justify-content-center mb-0">
                                 <li class="page-item disabled"> <span class="page-link b-radius-none">Prev</span> </li>
@@ -235,7 +240,7 @@ banner -->
                                 <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <div class=""><br />{!! $siteSetting->listing_page_horizontal_ad !!}</div>
                 </div>
                 <div class="col-md-2 col-sm-6 ">

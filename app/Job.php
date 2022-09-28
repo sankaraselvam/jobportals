@@ -47,7 +47,12 @@ class Job extends Model
 	
 	public function jobSkills()
     {
-        return $this->hasMany('App\JobSkillManager', 'job_id', 'id');
+        return $this->hasMany('App\JobSkillManager', 'job_id', 'job_id');
+    }
+
+	public function recommandedJobsSkills()
+    {
+       return $this->belongsToMany('App\JobSkill', 'manage_job_skills', 'job_id', 'job_skill_id');
     }
 	
 	

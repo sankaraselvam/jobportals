@@ -35,17 +35,21 @@ class HomeController extends Controller
     {
         $user = User::findOrFail(Auth::user()->id);
         $skill = ProfileSkill::where('user_id',Auth::user()->id)->pluck('job_skill_id')->toArray();
-        $jobSkil = JobSkillManager::with(['job','job.company','job.state','job.city','jobSkill','job.jobType'])
+        $jobSkill = JobSkillManager::select('manage_job_skills.job_id')
+        ->whereIn('manage_job_skills.job_skill_id',$skill)
+        ->groupBy('manage_job_skills.job_id')
+        ->orderBy('manage_job_skills.job_id','DESC')
+        ->with(['job','job.recommandedJobsSkills','job.company','job.state','job.city','job.jobType'])
         // ->whereHas('jobSkills', function($query) use ($job_skill_ids){
         //     $query->whereIn('job_skill_id',$job_skill_ids);	
+        //,'job.company','job.state','job.city','jobSkill','job.jobType'
         // })
-        ->has('job')
-        ->whereIn('job_skill_id',$skill)
+        ->has('job')        
         ->get();
-        // dd($user);
+        // dd($jobSkill);
         return view('home')
                 ->with('user', $user)
-                ->with('recommandedJobs', $jobSkil);
+                ->with('recommandedJobs', $jobSkill);
     }
 
 }

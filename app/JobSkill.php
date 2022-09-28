@@ -22,4 +22,10 @@ class JobSkill extends Model
     //protected $dateFormat = 'U';
     protected $dates = ['created_at', 'updated_at'];
 
+
+    public function recommandedJobsSkills()
+    {
+        return $this->belongsToMany('App\Job', 'manage_job_skills','job_skill_id', 'job_id');
+    }
+
 }

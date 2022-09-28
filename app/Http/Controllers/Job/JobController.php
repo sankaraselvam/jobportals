@@ -165,6 +165,7 @@ class JobController extends Controller
                     'seo_keywords' => $seoArray['keywords'],
                     'seo_other' => ''
         );
+		// dd($jobs);
         return view('job.list')
                         ->with('functionalAreas', $this->functionalAreas)
                         ->with('countries', $this->countries)

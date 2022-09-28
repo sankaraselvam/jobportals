@@ -129,22 +129,22 @@
                         @php
                             $level='';
                             @endphp
-                        @if ($profilePercentage <=  50)
+                        @if ($user->percentage <=  50)
                             @php
                             $level='low';
                             @endphp
-                        @elseif($profilePercentage >  50 && $profilePercentage <=  75)
+                        @elseif($user->percentage >  50 && $user->percentage <=  75)
                             @php
                             $level='medium';
                             @endphp                            
-                        @elseif($profilePercentage >  75)
+                        @elseif($user->percentage >  75)
                             @php
                             $level='high';
                             @endphp                            
                         @endif
                         
-                        <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$profilePercentage}}%" aria-valuenow="{{$profilePercentage}}" aria-valuemin="0" aria-valuemax="{{$profilePercentage}}">
-                            <span class="progress-bar-number">{{$profilePercentage}}%</span>
+                        <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
+                            <span class="progress-bar-number">{{$user->percentage}}%</span>
                             <span class="progress-bar-number1">Profile Strength (Excellent)</span>
                         </div>
                     </div>

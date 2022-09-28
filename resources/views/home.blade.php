@@ -51,6 +51,18 @@ use Carbon\Carbon;
         .count {
             margin-left: 22%;
         }
+        .progress .progress-barlow {
+            height: 5px;
+            background: red;
+        }
+        .progress .progress-barmedium {
+            height: 5px;
+            background: yellow;
+        }
+        .progress .progress-barhigh {
+            height: 5px;
+            background: green;
+        }
     </style>
 <!--================================= banner -->
     <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;">
@@ -240,8 +252,24 @@ use Carbon\Carbon;
                         </div>
                         <p style="margin-left:5%;margin-top: -20px;"><span class="emp-title">PHP Developer </span> at <span> Dawn info system P Ltd</span></p>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width:85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                                <span class="progress-bar-number">85%</span>
+                            @php
+                                $level='';
+                                @endphp
+                            @if ($user->percentage <=  50)
+                                @php
+                                $level='low';
+                                @endphp
+                            @elseif($user->percentage >  50 && $user->percentage <=  75)
+                                @php
+                                $level='medium';
+                                @endphp                            
+                            @elseif($user->percentage >  75)
+                                @php
+                                $level='high';
+                                @endphp                            
+                            @endif
+                            <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
+                                <span class="progress-bar-number">{{$user->percentage}}%</span>
                                 <span class="progress-bar-number1">Profile Strength (Excellent)</span>
                             </div>
                         </div>

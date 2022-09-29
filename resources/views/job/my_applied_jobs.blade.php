@@ -79,12 +79,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width:85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                            <span class="progress-bar-number">85%</span>
-                            <span class="progress-bar-number1">Profile Strength (Excellent)</span>
-                        </div>
-                    </div>
+                    @include('job.progress')
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="candidates-skills">

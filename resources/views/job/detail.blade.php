@@ -73,7 +73,7 @@ $company = $job->getCompany();
                                     <a class="btn btn-secondary mb-2 btn-md" href="javascript:;" class="btn apply" style="font-size:11px;">{{__('Already Applied')}}</a>
 
                                       @else
-                                      <a class="btn btn-secondary mb-2 btn-sm" href="{{route('apply.job', $job->slug)}}" style="float: right;background-color: #4a90e2!important;border:1px solid #4a90e2!important;"> Apply for job </a>
+                                      <a class="btn btn-secondary mb-2 btn-sm" href="{{route('post.apply.job', $job->slug)}}" style="float: right;background-color: #4a90e2!important;border:1px solid #4a90e2!important;"> Apply for job </a>
 
                                       @endif                                   
                                 </div>                                

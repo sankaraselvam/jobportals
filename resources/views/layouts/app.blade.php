@@ -87,34 +87,34 @@ if (!isset($seo)) {
                         </fieldset>
                         <div class="tab-content">
                             <div class="tab-pane active" id="candidate" role="tabpanel">
-                                <form class="mt-4" method="POST" action="{{ route('login') }}">
+                                <form class="mt-4 form" id="candidate_login" method="POST" action="{{ route('login') }}">
                                     {{ csrf_field() }}
                                 <input type="hidden" name="candidate_or_employer" value="candidate" />                         
                                     <div class="row">
                                         <div class="form-group col-12 mb-3 {{ $errors->has('email') ? ' has-error' : '' }}">
                                             <label class="form-label" for="Email2">Username / Email Address:</label>
-                                            <input id="email" type="email" class="form-control" name="email"   value="{{ old('email') }}" required autofocus   placeholder="{{__('Email Address')}}">
-                                            @if ($errors->has('email'))
+                                            <input type="email" class="form-control" name="email"   value="{{ old('email') }}" required autofocus   placeholder="{{__('Email Address')}}">
+                                            <!-- @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('email') }}</strong>
                                             </span>
-                                            @endif
+                                            @endif -->
                                         </div>                                       
 
                                         <div class="form-group col-12 mb-3 {{ $errors->has('password') ? ' has-error' : '' }}">
                                             <label class="form-label" for="password2">Password*</label>
-                                            <input id="password" type="password" class="form-control" name="password"
+                                            <input type="password" class="form-control" name="password"
                                             value="" required placeholder="{{__('Password')}}">
-                                        @if ($errors->has('password'))
+                                        <!-- @if ($errors->has('password'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('password') }}</strong>
                                         </span>
-                                        @endif
+                                        @endif -->
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                        <input type="submit" class="btn btn-primary d-grid" value="{{__('Login')}}">
+                                        <input type="submit" id="candidateBtn" class="btn btn-primary d-grid" value="{{__('Login')}}">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="ms-md-3 mt-3 mt-md-0 forgot-pass">
@@ -124,6 +124,12 @@ if (!isset($seo)) {
                                         </div>
                                     </div>
                                 </form>
+
+                                <form class="form" id="candidate_login1" method="POST" action="{{ route('login') }}">
+                                    {{ csrf_field() }}
+                                    <input type="email" class="form-control" id="useremail" name="useremail" value="" placeholder="{{__('Email Address')}}">
+                                    <input type="button" id="candidateBtn1" class="btn btn-primary d-grid" value="{{__('Login')}}">
+                                </form>    
                                 <div class="mt-4">
                             <fieldset>
                                 <legend class="px-2">Login with Social</legend>
@@ -148,7 +154,7 @@ if (!isset($seo)) {
                         </div>
                             </div>
                             <div class="tab-pane fade" id="employer" role="tabpanel">
-                                <form class="mt-4" method="POST" action="{{ route('company.login') }}">
+                                <form class="form mt-4" method="POST" action="{{ route('company.login') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="candidate_or_employer" value="employer" />
 
@@ -156,11 +162,11 @@ if (!isset($seo)) {
                                         <div class="form-group col-12 mb-3 {{ $errors->has('email') ? ' has-error' : '' }}">
                                             <label class="form-label" for="Email2">Username / Email Address:</label>
                                             <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus placeholder="{{__('Email Address')}}">
-                                             @if ($errors->has('email'))
+                                             <!-- @if ($errors->has('email'))
                                              <span class="help-block">
                                                  <strong>{{ $errors->first('email') }}</strong>
                                              </span>
-                                             @endif
+                                             @endif -->
                                         </div>
                                         <div class="form-group col-12 mb-3 {{ $errors->has('password') ? ' has-error' : '' }}">
                                             <label class="form-label" for="password2">Password*</label>
@@ -213,17 +219,51 @@ if (!isset($seo)) {
 
     <!-- Template Scripts (Do not remove)-->
     <script src="{{asset('/')}}js/custom.js"></script>
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script> -->
 
 {!! NoCaptcha::renderJs() !!}
 @stack('scripts') 
 <script type="text/JavaScript">
 	$(document).ready(function(){
-	$(document).scrollTo('.has-error', 2000);
+	    $(document).scrollTo('.has-error', 2000);
 	});
 	function showProcessingForm(btn_id){		
-	$("#"+btn_id).val( 'Processing .....' );
-	$("#"+btn_id).attr('disabled','disabled');		
+        $("#"+btn_id).val( 'Processing .....' );
+        $("#"+btn_id).attr('disabled','disabled');		
 	}
+
+    $(function() {
+        // $("#candidateBtn").on('click', function (e) {
+        //     e.preventDefault;
+        //     $("#candidate_login").validate({
+        //         rules: { 
+        //             email: 'required',
+        //             password: 'required',
+        //         },
+        //         messages: {
+        //             email: "Please enter email",
+        //             password: "Please enter password",
+        //         },
+        //         submitHandler: function() {
+        //             //submitProfileDetailsForm();
+        //         }
+        //     });        
+        // });
+
+        // $("#candidateBtn1").on('click', function (e) {
+        //     e.preventDefault;
+        //     $("form#candidate_login1").validate({
+        //         rules: { 
+        //             useremail: 'required',
+        //         },
+        //         messages: {
+        //             useremail: "Please enter email",
+        //         }
+                
+        //     });        
+        // });
+    });
 </script>
 </body>
 </html>

@@ -62,65 +62,7 @@
                                             <button class="btn btn-primary align-items-center" type="submit"><i class="fas fa-search me-1"></i>Find Jobs</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!--<div class="col-lg-12 mt-0">
-                                    <div class="form-group mb-3">
-                                        <div class="d-md-inline-block advance-search-btn">
-                                            <a class="more-search p-0 collapsed" data-bs-toggle="collapse" href="#advanced-search" role="button" aria-expanded="false" aria-controls="advanced-search">Advanced search <i class="fas fa-angle-down ps-1"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="collapse advanced-search col-lg-12" id="advanced-search">
-                                    <div class="card card-body">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <div class="form-group-search">
-                                                        <label class="form-label">Salary Min</label>
-                                                        <div class="d-flex align-items-center">
-                                                            <input class="form-control" type="search" placeholder="5,000$">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <div class="form-group-search">
-                                                        <label class="form-label">Salary Max</label>
-                                                        <div class="d-flex align-items-center">
-                                                            <input class="form-control" type="search" placeholder="10,000$">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label class="form-label">Salary Type</label>
-                                                    <select class="form-control basic-select select2-hidden-accessible" data-select2-id="4" tabindex="-1" aria-hidden="true">
-                                                        <option value="annum" data-select2-id="6">Per annum</option>
-                                                        <option value="month">Per month</option>
-                                                        <option value="week">Per week</option>
-                                                        <option value="day">Per day</option>
-                                                        <option value="hour">Per hour</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="form-group mb-0">
-                                                    <label class="form-label">Job Type</label>
-                                                    <select class="form-control basic-select select2-hidden-accessible" data-select2-id="7" tabindex="-1" aria-hidden="true">
-                                                        <option data-select2-id="9">Any</option>
-                                                        <option value="Permanent">Permanent</option>
-                                                        <option value="Contract">Contract</option>
-                                                        <option value="Part-Time">Part-Time</option>
-                                                        <option value="Temporary">Temporary</option>
-                                                        <option value="Apprenticeship">Apprenticeship</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
+                                </div>                               
                             </form>
                         </div>
                     </div>

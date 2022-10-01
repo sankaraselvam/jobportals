@@ -180,7 +180,7 @@ use Carbon\Carbon;
                                                 <ul class="list-unstyled">
                                                     <li><a href="">{{ $recommandedjob->job->company->name }}</a> </li>
                                                     <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $recommandedjob->job->city->city }}, {{ $recommandedjob->job->state->state }}</li>
-                                                    <li><i class="fas fa-filter pe-1">{{ implode(' , ',$jobsSkillsArr) }}</i></li>
+                                                    <li><i class="fas fa-filter pe-1"></i>{{ implode(' , ',$jobsSkillsArr) }}</li>
                                                     <li><a class="freelance" href="#"><i class="fas fa-suitcase pe-1"></i>{{ isset($recommandedjob->job->jobType)?$recommandedjob->job->jobType->job_type:'' }}</a></li>
                                                 </ul>
                                             </div>
@@ -190,7 +190,7 @@ use Carbon\Carbon;
                                         </div>
                                     </div>
                                     <div class="job-list-favourite-time">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted {{ isset($number[$different_days])?$number[$different_days]:$different_days }} days ago</span>
+                                        <a class="mb-10 d-block order-2" href="#" style="margin-bottom: 12.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted {{ isset($number[$different_days])?$number[$different_days]:$different_days }} days ago</span>
                                     </div>
                                 </div>
                             </div>
@@ -263,133 +263,7 @@ use Carbon\Carbon;
         </div>
     </section>
     <!--================================= Recommanded Jobs -->
-
-
-    <!--================================= New Jobs in My Job Alerts 
-    <section class="space-ptb">
-        <div class="container ">
-            <div class="row ">
-                <div class="col-md-8 ">
-                    <div class="user-dashboard-info-box mb-0 pb-4 ">
-                        <div class="section-title ">
-                            <h6 style="display:inline;">New Jobs in My Job Alerts</h6><span style="float: right;font-weight: 800;"><a href="">CREATE ALERTS</a></span> <span style="float: right;margin-right: 3%;font-weight: 800;"><a href="">MANAGE ALERTS</a></span>
-                            <hr>
-                        </div>
-                        <div class="row ">
-                            <div class="col-12 ">
-                                <div class="job-list ">
-                                    <div class="job-list-logo ">
-                                        <img class="img-fluid " src="images/svg/01.svg " alt=" ">
-                                    </div>
-                                    <div class="job-list-details ">
-                                        <div class="job-list-info ">
-                                            <div class="job-list-title ">
-                                                <h5 class="mb-0 "><a href="job-detail.html ">Marketing and Communications</a></h5>
-                                            </div>
-                                            <div class="job-list-option ">
-                                                <ul class="list-unstyled ">
-                                                    <li> <span>via</span> <a href="employer-detail.html ">Fast Systems Consultants</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1 "></i>Wellesley Rd, London</li>
-                                                    <li><i class="fas fa-filter pe-1 "></i>Accountancy</li>
-                                                    <li><a class="freelance " href="# "><i class="fas fa-suitcase pe-1 "></i>Freelance</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time ">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 ">
-                                <div class="job-list ">
-                                    <div class="job-list-logo ">
-                                        <img class="img-fluid " src="images/svg/02.svg " alt=" ">
-                                    </div>
-                                    <div class="job-list-details ">
-                                        <div class="job-list-info ">
-                                            <div class="job-list-title ">
-                                                <h5 class="mb-0 "><a href="job-detail.html ">Web Developer – .net</a></h5>
-                                            </div>
-                                            <div class="job-list-option ">
-                                                <ul class="list-unstyled ">
-                                                    <li> <span>via</span> <a href="employer-detail.html ">Pendragon Green Ltd</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1 "></i>Needham, MA</li>
-                                                    <li><i class="fas fa-filter pe-1 "></i>IT &amp; Telecoms</li>
-                                                    <li><a class="part-time " href="# "><i class="fas fa-suitcase pe-1 "></i>Part-Time</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time ">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 ">
-                                <div class="job-list ">
-                                    <div class=" job-list-logo ">
-                                        <img class="img-fluid " src="images/svg/03.svg " alt=" ">
-                                    </div>
-                                    <div class="job-list-details ">
-                                        <div class="job-list-info ">
-                                            <div class="job-list-title ">
-                                                <h5 class="mb-0 "><a href="job-detail.html ">Payroll and Office Administrator</a></h5>
-                                            </div>
-                                            <div class="job-list-option ">
-                                                <ul class="list-unstyled ">
-                                                    <li> <span>via</span> <a href="employer-detail.html ">Wight Sound Hearing LLC</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1 "></i>New Castle, PA</li>
-                                                    <li><i class="fas fa-filter pe-1 "></i>Banking</li>
-                                                    <li><a class="temporary " href="# "><i class="fas fa-suitcase pe-1 "></i>Temporary</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time ">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 ">
-                                <div class="job-list ">
-                                    <div class="job-list-logo ">
-                                        <img class="img-fluid " src="images/svg/04.svg " alt=" ">
-                                    </div>
-                                    <div class="job-list-details ">
-                                        <div class="job-list-info ">
-                                            <div class="job-list-title ">
-                                                <h5 class="mb-0 "><a href="job-detail.html ">Data Entry Administrator</a></h5>
-                                            </div>
-                                            <div class="job-list-option ">
-                                                <ul class="list-unstyled ">
-                                                    <li> <span>via</span> <a href="employer-detail.html ">Tan Electrics Ltd</a> </li>
-                                                    <li><i class="fas fa-map-marker-alt pe-1 "></i>Park Avenue, Mumbai</li>
-                                                    <li><i class="fas fa-filter pe-1 "></i>Charity &amp; Voluntary</li>
-                                                    <li><a class="full-time " href="# "><i class="fas fa-suitcase pe-1 "></i>Full-time</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="job-list-favourite-time ">
-                                        <a class="mb-5 d-block order-2" href="#" style="margin-bottom: 6.2rem!important;"></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>Posted One day ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="col-12 text-center mt-4 mt-md-5 ">
-                                <a class="btn btn-link mb-2" href="#" style="float: right;"> VIEW ALL </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-   ================================= New Jobs in My Job Alerts -->
-
-
+  
 
     <!--================================= Application Summary -->
     <section class="space-ptb">

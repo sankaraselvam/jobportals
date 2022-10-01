@@ -52,7 +52,7 @@
                         <!-- Hot jobs -->
                         <div class="tab-pane fade show active" id="Recent" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row mt-3">
-                                @if(isset($latestJobs) && count($latestJobs))
+                                @if(isset($latestJobs) && count($latestJobs) > 0)
 
                                 @foreach($latestJobs as $latestJob)
 
@@ -106,51 +106,7 @@
                                 <a class="btn btn-outline btn-lg" href="{{route('job.list')}}">{{__('View More Jobs')}}</a>
                             </div>
                         </div>
-                        <!-- Recent jobs -->
-                        <div class="tab-pane fade show" id="Popular" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="row mt-4">                              
-                                <div class="col-lg-12 mb-4 mb-sm-10">
-                                    <!-- Freelance -->
-                                    <div class="job-list">
-                                        <div class="job-list-logo">
-                                        <a href="{{route('job.detail', [$latestJob->slug])}}" title="{{$latestJob->title}}" >
-                                          {{$company->printCompanyImage()}}
-                                        </a>
-                                        </div>
-                                        <div class="job-list-details">
-                                            <div class="job-list-info">
-                                                <div class="job-list-title">
-                                                    <h5 class="mb-0"><a href="{{route('job.detail', [$latestJob->slug])}}">{{$latestJob->title}}</a></h5>
-                                                </div>
-                                                <div class="job-list-option">
-                                                  <ul class="list-unstyled">  
-                                                      <li><i class="fas fa-briefcase pe-2"></i></li>                                             
-                                                      <li><i class="fas fa-rupee-sign pe-2"></i>{{$latestJob->salary_from}} - {{$latestJob->salary_to}} PA</li>                                           
-                                                      <li><i class="fas fa-map-marker-alt pe-2"></i>{{$latestJob->getCity('city')}}</a></li>
-                                                  </ul>
-                                                </div>
-                                                <div class="job-list-option">
-                                            <ul class="list-unstyled">  
-                                                <li><i class="fas fa-file-code pe-2"></i>{{str_limit(strip_tags($latestJob->description), 78, '...')}}</li>                                                                                            
-                                            </ul>
-                                        </div>  
-                                            <ul class="ps-3 pe-2 mb-0 list-style-2">
-                                                {!!$latestJob->getJobSkillsList()!!}
-                                            </ul>    
-                                            </div>
-                                        </div>
-                                        <div class="job-list-favourite-time">
-                                            <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                                            <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
-                                        </div>
-                                    </div>
-                                     
-                                </div>                                
-                            </div>
-                            <div class="col-12 justify-content-center d-flex mt-md-2 mt-2">
-                                <a class="btn btn-outline btn-lg" href="{{route('job.list')}}">{{__('View More Jobs')}}</a>
-                            </div>
-                        </div>                       
+                        <!-- Recent jobs --> 
                     </div>
                 </div>
                 <div class="col-lg-3 order-lg-1">

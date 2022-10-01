@@ -151,7 +151,7 @@
                             <ul class="list-unstyled mb-0">
                                 <li><a href="{{route('home')}}">Dashboard</a></li>
                                 <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="">Change Password</a></li>
+                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
                                 <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                 <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>
                                 <li><a href="">Pricing Plan</a></li>
@@ -219,7 +219,7 @@
           @if(isset($message))
             <div class="candidate-list">
               <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/04.jpg" alt="" >
+                <img class="img-fluid" src="{{asset('/')}}images/avatar/04.jpg" alt="" >
               </div>
               <div class="candidate-list-details">
               <table>

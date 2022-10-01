@@ -9,7 +9,7 @@
                             <ul class="list-unstyled mb-0">
                                 <li><a class="active" href="{{route('home')}}">Dashboard</a></li>
                                 <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="">Change Password</a></li>
+                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
                                 <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                 <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>
                                 <li><a href="">Pricing Plan</a></li>

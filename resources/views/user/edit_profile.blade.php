@@ -92,7 +92,7 @@
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
                                 <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">
-                                <i class="fas fa-pencil-alt"></i>
+                                <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
                             </div>
                             <div class="profile-avatar-info ms-4">
                                 <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
@@ -141,7 +141,7 @@
                             <ul class="list-unstyled mb-0">
                                 <li><a href="{{route('home')}}">Dashboard</a></li>
                                 <li><a class="active" href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="">Change Password</a></li>
+                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
                                 <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                 <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
                                 <li><a href="{{route('my.messages')}}">My Message</a></li>
@@ -1499,7 +1499,14 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id" name="id" value="{{$user->id}}">
                                     <div class="row">
-                                    <div class="form-group col-6 mb-2">
+                                        <div class="cover-photo-contact">
+                                            <div class="upload-file">
+                                              <label for="formFile" class="form-label">Upload Profile Image</label>
+                                              <input class="form-control" type="file" id="formFile">
+                                            </div>
+                                          </div>
+
+                                        <div class="form-group col-6 mb-2">
                                             <div class="row">
                                                 <label class="mb-2">Date Of Birth <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">      

@@ -113,7 +113,7 @@ use Carbon\Carbon;
                             <ul class="list-unstyled mb-0">
                                 <li><a class="active" href="{{route('home')}}">Dashboard</a></li>
                                 <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="">Change Password</a></li>
+                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
                                 <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                 <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>
                                 <li><a href="">Pricing Plan</a></li>
@@ -207,8 +207,7 @@ use Carbon\Carbon;
                     <div class=" user-dashboard-info-box candidates-user-info zoom-in">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">
-                                <i class="fas fa-pencil-alt"></i>
+                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">                                
                             </div>
                             <div class="profile-avatar-info ms-4" style="margin-left: 2.6rem!important;">
                                 <h6> {{Auth::user()->getName()}}</h6>

@@ -103,8 +103,7 @@
                     <div class="candidates-user-info">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">
-                                <i class="fas fa-pencil-alt"></i>
+                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">                               
                             </div>
                             <div class="profile-avatar-info ms-4">
                                 <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
@@ -153,7 +152,7 @@
                             <ul class="list-unstyled mb-0">
                                 <li><a href="{{route('home')}}">Dashboard</a></li>
                                 <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="">Change Password</a></li>
+                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
                                 <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                 <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
                                 <li><a class="active" href="{{route('my.messages')}}">My Message</a></li>
@@ -183,7 +182,7 @@
                 @endphp
                 <div class="candidate-list">
                     <div class="candidate-list-image">
-                        <img class="img-fluid" src="images/avatar/04.jpg" alt="" >
+                        <img class="img-fluid" src="{{asset('/')}}images/avatar/04.jpg" alt="" >
                     </div>
                     <div class="candidate-list-details">
                         <div class="candidate-list-info">

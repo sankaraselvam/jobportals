@@ -51,35 +51,35 @@
                 <form class="mt-4" method="POST" action="{{ route('login') }}">
                    {{ csrf_field() }} 
                    <input type="hidden" name="candidate_or_employer" value="candidate" />               
-                   <div class="row">
-                    <div class="mb-3 col-md-12">
-                        <label class="form-label {{ $errors->has('email') ? ' has-error' : '' }}" for="Username">Username / Email Address: *</label>
-                        <input id="email" type="email" class="form-control" name="email"   value="{{ old('email') }}" required autofocus  placeholder="{{__('Email Address')}}">
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif         
-                    </div>                  
-                    <div class="mb-3 col-md-12">
-                        <label class="form-label">Password *</label>
-                        <input id="password" type="password" class="form-control" name="password"  value="" required placeholder="{{__('Password')}}">
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
+                    <div class="row">
+                        <div class="mb-3 col-md-12">
+                            <label class="form-label {{ $errors->has('email') ? ' has-error' : '' }}" for="Username">Username / Email Address: *</label>
+                            <input id="email" type="email" class="form-control" name="email"   value="{{ old('email') }}" required autofocus  placeholder="{{__('Email Address')}}">
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif         
+                        </div>                  
+                        <div class="mb-3 col-md-12">
+                            <label class="form-label">Password *</label>
+                            <input id="password" type="password" class="form-control" name="password"  value="" required placeholder="{{__('Password')}}">
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                        <input type="submit" class="btn btn btn-primary d-block" value="{{__('Login')}}"> 
+                  <div class="row">
+                      <div class="col-md-6">
+                            <input type="submit" class="btn btn btn-primary d-block" value="{{__('Login')}}"> 
+                      </div>
+                      <div class="col-md-6 mt-2">
+                        <p><a href="{{ route('password.request') }}"> Forgot Password?</a></p>
+                        <p>Don't have account? <a href="{{route('register')}}">  Sign Up here</a></p>
+                      </div>
                   </div>
-                  <div class="col-md-6 mt-2">
-                    <p><a href="{{ route('password.request') }}"> Forgot Password?</a></p>
-                    <p>Don't have account? <a href="{{route('register')}}">  Sign Up here</a></p>
-                  </div>
-                </div>
                 </form>
                 <div class="mt-4">
                     <fieldset>

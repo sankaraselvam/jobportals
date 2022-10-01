@@ -14,6 +14,8 @@ Route::get('remove-from-favourite-company/{company_slug}', 'UserController@remov
 Route::get('my-followings', 'UserController@myFollowings')->name('my.followings');
 Route::get('my-messages', 'UserController@myMessages')->name('my.messages');
 Route::get('applicant-message-detail/{id}', 'UserController@applicantMessageDetail')->name('applicant.message.detail');
+
+Route::get('candidate-change-password', 'UserController@candidateChangePassword')->name('candidate.change.password');
 /**************************************/
 Route::post('show-front-profile-cvs/{id}', 'UserController@showProfileCvs')->name('show.front.profile.cvs');
 Route::post('get-front-profile-cv-form/{id}', 'UserController@getFrontProfileCvForm')->name('get.front.profile.cv.form');

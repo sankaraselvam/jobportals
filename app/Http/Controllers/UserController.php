@@ -402,6 +402,13 @@ class UserController extends Controller
         }
     }
 
-
+    public function candidateChangePassword()
+    {
+        //echo 1111111111111111111111111111111;exit;
+        return view('user.candidate_change_password')
+                        ->with('company', 'company')
+						->with('messages', 'messages');
+       
+    }
 
 }

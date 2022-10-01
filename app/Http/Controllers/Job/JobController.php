@@ -287,8 +287,9 @@ class JobController extends Controller
 		->with('myCvs', $myCvs);		
     }
 	
-	public function postApplyJob(ApplyJobFormRequest $request, $job_slug)
+	public function postApplyJob(Request $request, $job_slug)
     {
+		// dd($request->all());
         $user = Auth::user();
 		$user_id = $user->id;
 		$job = Job::where('slug', 'like', $job_slug)->first();
@@ -296,10 +297,10 @@ class JobController extends Controller
 		$jobApply = new JobApply();
 		$jobApply->user_id = $user_id;
 		$jobApply->job_id = $job->id;
-		$jobApply->cv_id = $request->post('cv_id');
-		$jobApply->current_salary = $request->post('current_salary');
-		$jobApply->expected_salary = $request->post('expected_salary');
-		$jobApply->salary_currency = $request->post('salary_currency');
+		// $jobApply->cv_id = $request->post('cv_id');
+		// $jobApply->current_salary = $request->post('current_salary');
+		// $jobApply->expected_salary = $request->post('expected_salary');
+		// $jobApply->salary_currency = $request->post('salary_currency');
 		$jobApply->save();
 		
 		/**********************************/
@@ -318,7 +319,9 @@ class JobController extends Controller
     {
 		$myAppliedJobIds = Auth::user()->getAppliedJobIdsArray();
 		$jobs = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
+		//$user = User::findOrFail(Auth::user()->id);
 		return view('job.my_applied_jobs')
+				->with('user', Auth::user())
 				->with('jobs', $jobs);
     }
 	

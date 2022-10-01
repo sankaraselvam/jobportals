@@ -33,7 +33,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::findOrFail(Auth::user()->id);
         $skill = ProfileSkill::where('user_id',Auth::user()->id)->pluck('job_skill_id')->toArray();
         $jobSkill = JobSkillManager::select('manage_job_skills.job_id')
         ->whereIn('manage_job_skills.job_skill_id',$skill)
@@ -48,7 +47,7 @@ class HomeController extends Controller
         ->get();
         // dd($jobSkill);
         return view('home')
-                ->with('user', $user)
+                ->with('user', Auth::user())
                 ->with('recommandedJobs', $jobSkill);
     }
 

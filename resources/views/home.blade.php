@@ -168,7 +168,7 @@ use Carbon\Carbon;
                                 <div class="job-list ">
                                     <div class="job-list-logo">
                                     <a href="{{route('company.detail', [$recommandedjob->job->company->slug])}}" title="{{$recommandedjob->job->company->name}}">
-                                        <img class="img-fluid" src="{{asset('/')}}images/svg/01.svg" alt="">
+                                        <img class="img-fluid" src="{{asset('/')}}company_logos/{{$recommandedjob->job->company->logo}}" alt="">
                                     </a>
                                     </div>
                                     <div class="job-list-details">

@@ -29,31 +29,8 @@
             margin-left: 22%;
         }
         
-        .progress .progress-barlow {
-            height: 5px;
-            background: red;
-        }
-        .progress .progress-barmedium {
-            height: 5px;
-            background: yellow;
-        }
-        .progress .progress-barhigh {
-            height: 5px;
-            background: green;
-        }
         
-        .progress .progress-bar-number1 {
-            color: #fff;
-        }
-        
-        .progress .progress-bar-number {
-            color: #fff;
-        }
-        
-        .progress {
-            height: 5px!important;
-            background-color: #fff;
-        }
+       
         
         .category-style-02 ul li {
             margin-bottom: 25px;
@@ -125,29 +102,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="progress">
-                        @php
-                            $level='';
-                            @endphp
-                        @if ($user->percentage <=  50)
-                            @php
-                            $level='low';
-                            @endphp
-                        @elseif($user->percentage >  50 && $user->percentage <=  75)
-                            @php
-                            $level='medium';
-                            @endphp                            
-                        @elseif($user->percentage >  75)
-                            @php
-                            $level='high';
-                            @endphp                            
-                        @endif
-                        
-                        <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
-                            <span class="progress-bar-number">{{$user->percentage}}%</span>
-                            <span class="progress-bar-number1">Profile Strength (Excellent)</span>
-                        </div>
-                    </div>
+                    
+                    @include('job.progress')
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="candidates-skills">

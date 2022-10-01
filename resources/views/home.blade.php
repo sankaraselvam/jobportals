@@ -279,10 +279,10 @@ use Carbon\Carbon;
                                 </div>
                             </div>
                             <div class="row ">
-                                <div class="col-12 text-center md-5 ">
+                                <div class="col-12 text-center md-5 mb-5">
                                     <span>Daily Limit of Application: <span>{{Auth::user()->countProfileCvs()}}</span> </span>
                                 </div>
-                                <a class="btn btn-link mb-4" href="#"> </a><br>
+                                <br>
                             </div>
                         </div>
                     </div>

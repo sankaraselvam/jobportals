@@ -16,6 +16,7 @@ Route::get('my-messages', 'UserController@myMessages')->name('my.messages');
 Route::get('applicant-message-detail/{id}', 'UserController@applicantMessageDetail')->name('applicant.message.detail');
 
 Route::get('candidate-change-password', 'UserController@candidateChangePassword')->name('candidate.change.password');
+Route::post('candidate/updatepassword', 'UserController@changePasswordStore')->name('candidate.changepassword.store');
 /**************************************/
 Route::post('show-front-profile-cvs/{id}', 'UserController@showProfileCvs')->name('show.front.profile.cvs');
 Route::post('get-front-profile-cv-form/{id}', 'UserController@getFrontProfileCvForm')->name('get.front.profile.cv.form');

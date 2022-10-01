@@ -303,8 +303,16 @@ class UserController extends Controller
 						->with('message', $message);
     }
 
-    public function updatePersonalDetails(Request $request){            
+    public function updatePersonalDetails(Request $request){    
+               
         $user = User::findOrFail($request->input('id'));
+        if ($request->hasFile('profile_image')) {
+            $imgName = preg_replace('/\s+/', '', $user->name);
+            $image = $request->file('profile_image');
+            $fileName = ImgUploader::UploadImage('user_images', $image, $imgName, 300, 300, false);
+            $user->image = $fileName;
+        }
+       
         $user->date_of_birth = $request->input('date_of_birth');
         $user->gender_id = $request->input('gender_id');
         $user->marital_status_id = $request->input('marital_status_id');
@@ -313,8 +321,10 @@ class UserController extends Controller
         $user->homedown = $request->input('hometown');
         $user->pincode = $request->input('pincode');
         $user->update();
+       
         return response()->json(array('success' => true, 'status' => 200), 200);
     }
+    
     public function updateCareerDetails(Request $request){
         
         $exitsCareer = ProfileCareer::select('id')->where('user_id', '=', $request->input('id'))->first();    
@@ -404,11 +414,35 @@ class UserController extends Controller
 
     public function candidateChangePassword()
     {
-        //echo 1111111111111111111111111111111;exit;
         return view('user.candidate_change_password')
-                        ->with('company', 'company')
+                        ->with('user', Auth::user())
 						->with('messages', 'messages');
        
+    }
+
+    public function ChangePasswordStore(Request $request){
+      
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            //Current password and new password are same
+            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+        }
+
+        $validatedData = $request->validate([
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:6|confirmed',
+        ]);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        return redirect()->back()->with("success","Password changed successfully !");
     }
 
 }

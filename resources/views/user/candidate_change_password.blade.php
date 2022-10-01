@@ -77,32 +77,73 @@
                         <div class="section-title-02 mb-4">
                             <h4>Change Password</h4>
                         </div>
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-12">
-                                <form class="row">
-                                    <div class="form-group col-md-12 mb-3">
-                                        <label class="form-label">Current Password</label>
-                                        <input type="password" class="form-control" value="">
-                                    </div>
-                                    <div class="form-group col-md-12 mb-3">
-                                        <label class="form-label">New Password</label>
-                                        <input type="password" class="form-control" value="">
-                                    </div>
-                                    <div class="form-group col-md-12 mb-0">
-                                        <label class="form-label">Confirm Password</label>
-                                        <input type="password" class="form-control" value="">
-                                    </div>
+                                <form class="row"  method="POST" action="{{ route('candidate.changepassword.store') }}"> 
+                                {{ csrf_field() }}
+                                <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
+                            <label for="new-password" class="col-md-4 control-label">Current Password</label>
+
+                            <div class="col-md-6">
+                                <input id="current-password" type="password" class="form-control" name="current-password">
+
+                                @if ($errors->has('current-password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('current-password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('new-password') ? ' has-error' : '' }}">
+                            <label for="new-password" class="col-md-4 control-label">New Password</label>
+
+                            <div class="col-md-6">
+                                <input id="new-password" type="password" class="form-control" name="new-password">
+
+                                @if ($errors->has('new-password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('new-password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new-password-confirm" class="col-md-4 control-label">Confirm New Password</label>
+
+                            <div class="col-md-6">
+                                <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Change Password
+                                </button>
+                            </div>
+                        </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-lg btn-primary" href="#">Change Password</a>
+                   
                 </div>
                 <div class="col-md-4" style="margin-top: -2%;z-index: 1;">
                     <div class=" user-dashboard-info-box candidates-user-info zoom-in">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">                               
+                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">                               
                             </div>
                             <div class="profile-avatar-info ms-4" style="margin-left: 2.6rem!important;">
                                 <h6> Selvam</h6>
@@ -110,8 +151,24 @@
                         </div>
                         <p style="margin-left:5%;margin-top: -20px;"><span class="emp-title">PHP Developer </span> at <span> Dawn info system P Ltd</span></p>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width:85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                                <span class="progress-bar-number">85%</span>
+                            @php
+                                $level='';
+                                @endphp
+                            @if ($user->percentage <=  50)
+                                @php
+                                $level='low';
+                                @endphp
+                            @elseif($user->percentage >  50 && $user->percentage <=  75)
+                                @php
+                                $level='medium';
+                                @endphp                            
+                            @elseif($user->percentage >  75)
+                                @php
+                                $level='high';
+                                @endphp                            
+                            @endif
+                            <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
+                                <span class="progress-bar-number">{{$user->percentage}}%</span>
                                 <span class="progress-bar-number1">Profile Strength (Excellent)</span>
                             </div>
                         </div>

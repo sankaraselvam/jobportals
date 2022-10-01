@@ -91,7 +91,7 @@
                     <div class="candidates-user-info">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt="">
+                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
                                 <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
                             </div>
                             <div class="profile-avatar-info ms-4">
@@ -1502,7 +1502,7 @@
                                         <div class="cover-photo-contact">
                                             <div class="upload-file">
                                               <label for="formFile" class="form-label">Upload Profile Image</label>
-                                              <input class="form-control" type="file" id="formFile">
+                                              <input class="form-control" type="file" name="profile_image" id="profile_image">
                                             </div>
                                           </div>
 
@@ -1954,11 +1954,18 @@ $(function() {
 });
 function submitProfileDetailsForm(){    
     var form = $('#add_edit_personal_details');
+    var formData = new FormData(document.getElementById("add_edit_personal_details"));
+    formData.append("_token", $('input[name=_token]').val());
+    if(document.getElementById("profile_image").value != "") {
+        formData.append("profile_image", $('#profile_image')[0].files[0]);
+    }
     $.ajax({
 		url     : form.attr('action'),
-		type    : form.attr('method'),
-		data    : form.serialize(),
+		type    : 'POST',
+		data    : formData,
         dataType: 'json',
+        contentType: false,
+        processData: false,
 		success : function (json){
             if(json.status==200){
                 $("#response_msg").html('<div class="alert alert-success">Personal details successfully updated..</div>');

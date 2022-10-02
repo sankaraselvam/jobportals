@@ -187,8 +187,8 @@ trait ProfileLanguageTrait
 
         $id = $request->input('id');
         try {
-            $profileLanguage = ProfileLanguage::findOrFail($id);
-	       $profileLanguage->delete();
+        	$profileLanguage = ProfileLanguage::findOrFail($id);
+	    	$profileLanguage->delete();
 
             echo 'ok';
         } catch (ModelNotFoundException $e) {

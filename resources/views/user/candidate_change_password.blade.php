@@ -143,7 +143,11 @@
                     <div class=" user-dashboard-info-box candidates-user-info zoom-in">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">                               
+                                @if ($user->image !='')
+                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @else
+                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                                @endif                              
                             </div>
                             <div class="profile-avatar-info ms-4" style="margin-left: 2.6rem!important;">
                                 <h6> Selvam</h6>

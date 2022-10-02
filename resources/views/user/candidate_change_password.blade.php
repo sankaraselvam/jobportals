@@ -72,7 +72,11 @@
                     <div class="candidates-user-info">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @if ($user->image !='')
+                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @else
+                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                                @endif
                                 <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
                             </div>
                             <div class="profile-avatar-info ms-4">
@@ -213,73 +217,9 @@
                                 </form>
                             </div>
                         </div>
-<<<<<<< HEAD
                     </div>
                    
                 </div>
-                <div class="col-md-4" style="margin-top: -2%;z-index: 1;">
-                    <div class=" user-dashboard-info-box candidates-user-info zoom-in">
-                        <div class="jobber-user-info">
-                            <div class="profile-avatar">
-                                @if ($user->image !='')
-                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
-                                @else
-                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
-                                @endif                              
-                            </div>
-                            <div class="profile-avatar-info ms-4" style="margin-left: 2.6rem!important;">
-                                <h6> Selvam</h6>
-                            </div>
-                        </div>
-                        <p style="margin-left:5%;margin-top: -20px;"><span class="emp-title">PHP Developer </span> at <span> Dawn info system P Ltd</span></p>
-                        <div class="progress">
-                            @php
-                                $level='';
-                                @endphp
-                            @if ($user->percentage <=  50)
-                                @php
-                                $level='low';
-                                @endphp
-                            @elseif($user->percentage >  50 && $user->percentage <=  75)
-                                @php
-                                $level='medium';
-                                @endphp                            
-                            @elseif($user->percentage >  75)
-                                @php
-                                $level='high';
-                                @endphp                            
-                            @endif
-                            <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
-                                <span class="progress-bar-number">{{$user->percentage}}%</span>
-                                <span class="progress-bar-number1">Profile Strength (Excellent)</span>
-                            </div>
-                        </div>
-                        <div class="candidates-required-skills ms-auto mt-sm-0 mt-3">
-                            <a class="btn btn-primary" style="width:100%" href="#">UPDATE PROFILE</a>
-                        </div>
-                        <p style="font-size: 12px;color: #333;font-weight: 500;margin-top: 4%;">Profile Performance</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div style="box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 1px -4px rgb(0 0 0 / 20%);padding: 5px;">
-                                    <a href="">
-                                        <span> 417 <br><small>Search Appearances</small></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div style="box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 1px -4px rgb(0 0 0 / 20%);padding: 5px;">
-                                    <a href="">
-                                        <span> 417 <br><small>Search Appearances</small></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-=======
-                    </div>                   
->>>>>>> 367f87855d7ce0eac580ae3763b018a97d33f3da
-                </div>
-               
             </div>
         </div>
     </section><br><br>

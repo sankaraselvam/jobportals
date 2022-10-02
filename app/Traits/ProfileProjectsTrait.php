@@ -203,7 +203,7 @@ trait ProfileProjectsTrait
 		$profileProject->save();
 		
 		//$this->addProfileProjectImage($request, $profileProject);
-		
+		$this->myProfile();
 		//$returnHTML = view('admin.user.forms.project.project_thanks')->render();
         return response()->json(array('success' => true, 'status' => 200, 'message' => "Project added successfully..."), 200);
     }

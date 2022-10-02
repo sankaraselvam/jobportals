@@ -1,3 +1,7 @@
+@php
+use App\Helpers\MiscHelper;
+use Carbon\Carbon; 
+@endphp
 <style>
         .job-list-details ul li {
             margin: 5px 25px 5px 0px;
@@ -47,7 +51,7 @@
                             </ul>
                         </div>
                         <div class="job-found ms-auto">
-                            <span class="badge badge-lg bg-primary">24123</span>
+                            <span class="badge badge-lg bg-primary">{{ 2000 +count($latestJobs) }}</span>
                             <h6 class="ms-3 mb-0">Job Found</h6>
                         </div>
                     </div>
@@ -59,7 +63,15 @@
 
                                 @foreach($latestJobs as $latestJob)
 
-                                <?php $company = $latestJob->getCompany();?>
+                               @php
+                                $company = $latestJob->getCompany();
+                                $current_date = Carbon::now()->toDateTimeString();
+                                $different_days = MiscHelper::diffInDays($current_date, $latestJob->created_at);
+                                $number = MiscHelper::getNumbers();
+
+                                $favouritejob = app('App\Http\Controllers\IndexController')->getFavouriteJob($latestJob->slug);
+                               @endphp
+                                
 
                                 @if(null !== $company) 
 
@@ -78,7 +90,7 @@
                                                     </div>
                                                     <div class="job-list-option">
                                                     <ul class="list-unstyled">  
-                                                        <li><i class="fas fa-briefcase pe-2"></i> 8- 13 Years</li>                                             
+                                                        <li><i class="fas fa-briefcase pe-2"></i> {{ $latestJob->jobExperienceFrom->job_experience }}- {{ $latestJob->jobExperienceTo->job_experience }} Years</li>                                             
                                                         <li><i class="fas fa-rupee-sign pe-2"></i>{{$latestJob->salary_from}} - {{$latestJob->salary_to}} PA</li>                                           
                                                         <li><i class="fas fa-map-marker-alt pe-2"></i>{{$latestJob->getCity('city')}}</a></li>
                                                     </ul>
@@ -88,15 +100,16 @@
                                                     <li><i class="fas fa-file-code pe-2"></i>{{str_limit(strip_tags($latestJob->description), 78, '...')}}</li>                                                                                            
                                                 </ul>
                                             </div>  
-                                            <ul class="ps-3 pe-2 mb-0 list-style-2">
-                                                {!!$latestJob->getJobSkillsList()!!}                                                                                   
-                                            </ul>    
+                                            <ul class="ps-3 pe-2 mb-0 list-style-2">{!!$latestJob->getJobSkillsList()!!}</ul>    
                                                 </div>
                                             </div>
                                             <div class="job-list-favourite-time">
-                                                <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                                                <a class="job-list-favourite order-2" href="#"><i class="fas fa-heart text-danger"></i></a>
-                                                <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
+                                                @if ($favouritejob == 0)
+                                                    <a class="job-list-favourite order-2" href="{{route('add.to.favourite', $latestJob->slug)}}"><i class="far fa-heart"></i></a>
+                                                @else
+                                                    <a class="job-list-favourite order-2" href="{{route('remove.from.favourite', $latestJob->slug)}}"><i class="fas fa-heart text-danger"></i></a>
+                                                @endif
+                                                <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>{{ isset($number[$different_days])?$number[$different_days]:$different_days }} ago</span>
                                             </div>
                                         </div>                                   
                                     </div>

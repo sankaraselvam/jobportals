@@ -163,6 +163,7 @@ trait ProfileEducationTrait
         $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
 		/*         * ************************************ */
 		// $returnHTML = view('user.forms.education.education_thanks')->render();
+		$this->myProfile();
         return response()->json(array('success' => true, 'status' => 200, 'message' => "Education added successfully"), 200);
     }
 	

@@ -151,6 +151,7 @@ trait ProfileExperienceTrait
         $this->storeprofileExperienceSkills($request, $profileExperience->id);
 		/*         * ************************************ */
 		// $returnHTML = view('user.forms.experience.experience_thanks')->render();
+		$this->myProfile();
         return response()->json(array('success' => true, 'status' => 200, 'message' => "Experience added successfully..."), 200);
     }
 	

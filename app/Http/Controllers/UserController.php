@@ -85,6 +85,7 @@ class UserController extends Controller
 	
 	public function myProfile()
     {
+        
         $genders = DataArrayHelper::langGendersArray();
         $maritalStatuses = DataArrayHelper::langMaritalStatusesArray();
         $nationalities = DataArrayHelper::langNationalitiesArray();
@@ -142,6 +143,7 @@ class UserController extends Controller
     }
 
     public function getProfilePercentage($user, $profileCareer){
+        // dd(config('constants.progress.completedProfile'));
         $maximumPoints  = 100;
         $hasCompletedProfile  = 0;
         $hasCompletedCareer  = 0;
@@ -156,37 +158,37 @@ class UserController extends Controller
         $hasCompletedProfileCvs  = 0;
 
         if(isset($user->id)&&$user->id !=""){
-            $hasCompletedProfile = 10;
+            $hasCompletedProfile = config('constants.progress.completedProfile');
         }
         if(isset($profileCareer->profile_career_id)&&$profileCareer->profile_career_id!=''){
-            $hasCompletedCareer = 10;
+            $hasCompletedCareer = config('constants.progress.completedCareer');
         }
         if(isset($user->profileSummary)&&$user->profileSummary->id !=""){
-            $hasCompletedProfileSummary = 5;
+            $hasCompletedProfileSummary = config('constants.progress.completedProfileSummary');
         }        
         if(isset($user->profileProjects)&&count($user->profileProjects) > 0){
-            $hasCompletedProfileProjects = 10;
+            $hasCompletedProfileProjects = config('constants.progress.completedProfileProjects');
         }
         if(isset($user->profileLanguages)&&count($user->profileLanguages) > 0){
-            $hasCompletedprofileLanguages = 10;
+            $hasCompletedprofileLanguages = config('constants.progress.completedprofileLanguages');
         }
         if(isset($user->ProfileItSkills)&&count($user->ProfileItSkills) > 0){
-            $hasCompletedProfileItSkills = 10;
+            $hasCompletedProfileItSkills = config('constants.progress.completedProfileItSkills');
         }
         if(isset($user->profileEducation)&&count($user->profileEducation) > 0){
-            $hasCompletedProfileEducation = 10;
+            $hasCompletedProfileEducation = config('constants.progress.completedProfileEducation');
         }
         if(isset($user->profileExperience)&&count($user->profileExperience) > 0){
-            $hasCompletedProfileExperience = 10;
+            $hasCompletedProfileExperience = config('constants.progress.completedProfileExperience');
         }
         if(isset($user->profileSkills)&&count($user->profileSkills) > 0){
-            $hasCompletedProfileSkills = 10;
+            $hasCompletedProfileSkills = config('constants.progress.completedProfileSkills');
         }
         if(isset($user->profileResumeSummary)&&$user->profileResumeSummary->id !=""){
-            $hasCompletedProfileResumeSummary = 5;
+            $hasCompletedProfileResumeSummary = config('constants.progress.completedProfileResumeSummary');
         }
         if(isset($user->profileCvs)&&$user->profileCvs->id !=""){
-            $hasCompletedProfileCvs = 10;
+            $hasCompletedProfileCvs = config('constants.progress.completedProfileCvs');
         }
         $percentage = ($hasCompletedProfile+$hasCompletedCareer+$hasCompletedProfileSummary+$hasCompletedProfileProjects+$hasCompletedprofileLanguages+$hasCompletedProfileItSkills+$hasCompletedProfileEducation+$hasCompletedProfileExperience+$hasCompletedProfileSkills+$hasCompletedProfileResumeSummary+$hasCompletedProfileCvs)*$maximumPoints/100;
         $this->updateProfilePercentage($percentage);
@@ -321,7 +323,7 @@ class UserController extends Controller
         $user->homedown = $request->input('hometown');
         $user->pincode = $request->input('pincode');
         $user->update();
-       
+        $this->myProfile();
         return response()->json(array('success' => true, 'status' => 200), 200);
     }
     
@@ -346,6 +348,7 @@ class UserController extends Controller
             $ProfileCareer->profile_career_id = $ProfileCareer->id;
             $ProfileCareer->update();
             $this->insertProfileCareerLocation($request->input('city_id'),$ProfileCareer->id);
+            $this->myProfile();
             return response()->json(array('success' => true, 'status' => 200,'message'=>"Career details successfully added... "), 200);
         } else{
             $ProfileCareer = ProfileCareer::findOrFail($request->input('profile_career_id'));
@@ -361,6 +364,7 @@ class UserController extends Controller
             $ProfileCareer->salary_to = $request->input('salary_to');
             $ProfileCareer->update();
             $this->insertProfileCareerLocation($request->input('city_id'),$request->input('profile_career_id'));
+            $this->myProfile();
             return response()->json(array('success' => true, 'status' => 200, 'message'=>"Career details successfully updated... "), 200);
         }
         
@@ -384,7 +388,8 @@ class UserController extends Controller
 		$ProfileSummary = new ProfileResumeSummary();
 		$ProfileSummary->user_id = $user_id;
 		$ProfileSummary->summary = $summary;
-		$ProfileSummary->save();//ProfileItSkills	
+		$ProfileSummary->save();
+        $this->myProfile();	
         return response()->json(array('success' => true, 'status' => 200,'message'=>"Resume headeline updated successfully... "), 200);
     }
     public function addProfileItSkill(Request $request)
@@ -397,6 +402,7 @@ class UserController extends Controller
 		$profileItSkill->experience_from = $request->input('experience_from');
 		$profileItSkill->experience_to = $request->input('experience_to');
         $profileItSkill->save();
+        $this->myProfile();
         return response()->json(array('success' => true, 'status' => 200,'message'=>"It Skill successfully added..."), 200);
     }
 
@@ -404,8 +410,8 @@ class UserController extends Controller
         $id = $request->input('id');
         try {
             $profileSkill = ProfileItSkills::findOrFail($id);
-	       $profileSkill->delete();
-
+	        $profileSkill->delete();
+            $this->myProfile();
             echo 'ok';
         } catch (ModelNotFoundException $e) {
             echo 'notok';

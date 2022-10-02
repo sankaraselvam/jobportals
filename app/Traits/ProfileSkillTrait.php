@@ -124,6 +124,7 @@ trait ProfileSkillTrait
 		
 		/*         * ************************************ */
 		//$returnHTML = view('user.forms.skill.skill_thanks')->render();
+		$this->myProfile();
         return response()->json(array('success' => true, 'status' => 200, 'message' => "Skill added successfully"), 200);
     }
 	

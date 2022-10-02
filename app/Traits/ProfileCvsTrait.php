@@ -73,7 +73,7 @@ trait ProfileCvsTrait
         $profileCv = new ProfileCv();
         $profileCv = $this->assignValues($profileCv, $request, $user_id);
 		$profileCv->save();
-		
+		$this->myProfile();
 		//$returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
         return response()->json(array('success' => true, 'status' => 200,'message'=>"CV added successfully"), 200);
     }

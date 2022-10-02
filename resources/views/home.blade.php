@@ -172,8 +172,8 @@ use Carbon\Carbon;
                             </div>
                           </div>
                         </div>
-                      </div>
-                    
+                    </div>
+
                     <div class="user-dashboard-info-box mb-0 pb-4">
                         <div class="section-title">
                             <h6>{{ $recommandedJobs->count() }} New Recommended Job(s)</h6>
@@ -433,5 +433,13 @@ use Carbon\Carbon;
 @include('includes.footer')
 @endsection
 @push('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#exampleModalCenter").modal("show");
+        $("#exampleModalCenter").on('hide.bs.modal', function(){
+            //alert('The modal is about to be hidden.');
+        });
+    });
+</script>
 @include('includes.immediate_available_btn')
 @endpush

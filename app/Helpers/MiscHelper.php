@@ -137,5 +137,12 @@ class MiscHelper
 
         return $array;
     }
+
+    public static function diffInDays($startDt, $endDt){
+        $start_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $endDt);
+        $end_date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $startDt);
+        $different_days = $start_date->diffInDays($end_date);
+        return $different_days;
+    }
 	
 }

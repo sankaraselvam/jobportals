@@ -106,6 +106,7 @@ trait ProfileLanguageTrait
 		$profileLanguage->save();
 		/*         * ************************************ */
 		//$returnHTML = view('user.forms.language.language_thanks')->render();
+		$this->myProfile();
         return response()->json(array('success' => true, 'status' => 200, 'message' => "Language added successfully"), 200);
     }
 	
@@ -189,7 +190,7 @@ trait ProfileLanguageTrait
         try {
         	$profileLanguage = ProfileLanguage::findOrFail($id);
 	    	$profileLanguage->delete();
-
+			$this->myProfile();
             echo 'ok';
         } catch (ModelNotFoundException $e) {
             echo 'notok';

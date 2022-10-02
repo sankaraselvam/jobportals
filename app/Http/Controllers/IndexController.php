@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App;
+use Auth;
 use App\Seo;
 use App\Job;
 use App\Company;
 use App\FunctionalArea;
+use App\FavouriteJob;
 use App\Country;
 use App\Video;
 use App\Testimonial;
@@ -50,13 +52,12 @@ class IndexController extends Controller
 		$topIndustryIds = $this->getIndustryIdsFromCompanies(32);
 		$topCityIds = $this->getCityIdsAndNumJobs(32);
 		$featuredJobs = Job::active()->featured()->notExpire()->limit(12)->get();
-		$latestJobs = Job::active()->notExpire()->orderBy('id', 'desc')->limit(12)->get();
+		$latestJobs = Job::with(['jobExperienceFrom','jobExperienceTo'])->active()->notExpire()->orderBy('id', 'desc')->limit(12)->get();
 		$video = Video::getVideo();
 		$testimonials = Testimonial::langTestimonials();
-		
 		$functionalAreas = DataArrayHelper::langFunctionalAreasArray();
 		$countries = DataArrayHelper::langCountriesArray();
-		
+		//dd(Auth::user());
         $seo = SEO::where('seo.page_title', 'like', 'front_index_page')->first();
         return view('welcome')
                         ->with('topCompanyIds', $topCompanyIds)
@@ -84,5 +85,14 @@ class IndexController extends Controller
 		
 		return Redirect::to($return_url);
     }
+
+	public function getFavouriteJob($job_slug){
+		$FavouriteJob = FavouriteJob::where('job_slug',$job_slug);
+		if(isset(Auth::user()->id)&&Auth::user()->id!=null){
+			$FavouriteJob =  $FavouriteJob->where('user_id', Auth::user()->id);
+		}
+		$FavouriteJob =  $FavouriteJob->count();
+		return $FavouriteJob;
+	}
 
 }

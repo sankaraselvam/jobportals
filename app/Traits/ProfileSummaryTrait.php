@@ -16,7 +16,8 @@ trait ProfileSummaryTrait
 		$ProfileSummary->user_id = $user_id;
 		$ProfileSummary->summary = $summary;
 		$ProfileSummary->save();
-        /*         * ************************************ */		
+        /*         * ************************************ */
+		$this->myProfile();		
         return response()->json(array('success' => true, 'status' => 200,'message'=>"Summary updated successfully... "), 200);
     }
 

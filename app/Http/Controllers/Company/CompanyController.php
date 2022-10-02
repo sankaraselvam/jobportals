@@ -81,6 +81,7 @@ class CompanyController extends Controller
 						->with('messages', 'messages');
        
     }
+    
     public function companyConnection()
     {
         //echo 1111111111111111111111111111111;exit;
@@ -95,6 +96,15 @@ class CompanyController extends Controller
             return view('company.company_manage_jobs')
             ->with('company', 'company')
             ->with('messages', 'messages');
+        }
+    
+    public function companyCandidateListing()
+        {
+            //echo 1111111111111111111111111111111;exit;
+            return view('company.company_candidate_listing')
+                            ->with('company', 'company')
+                            ->with('messages', 'messages');
+           
         }
     
     

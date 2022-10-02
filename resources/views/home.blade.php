@@ -388,7 +388,7 @@ use Carbon\Carbon;
         </div>
     </section>
     <!--================================= Recruiter Connections -->
-
+    
 
 @include('includes.footer')
 @endsection

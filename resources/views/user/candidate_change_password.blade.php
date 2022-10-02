@@ -64,15 +64,92 @@
             }
         </style>
 
-    <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;"></section>
+    <!--=================================    inner banner -->
+    <div class="header-inner" style="background: #009befd6;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="candidates-user-info">
+                        <div class="jobber-user-info">
+                            <div class="profile-avatar">
+                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
+                            </div>
+                            <div class="profile-avatar-info ms-4">
+                                <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
+                                <p style="color: #fff;text-transform: capitalize;">PHP Developer at Dawn Info System</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    
+                    @include('job.progress')
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="candidates-skills">
+                                <div class="candidates-skills-info">
+                                    <span class="d-block" style="color: #fff;"><i class="fa fa-map-marker" aria-hidden="true"></i> <span style="margin-left: 3px;"> Chennai , India</span> </span>
+                                    </span>
+                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-suitcase" aria-hidden="true"></i> <span style="margin-left: 3px;">PHP Developer</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="candidates-skills">
+                                <div class="candidates-skills-info">
+                                    <span class="d-block" style="color: #fff;"><i class="fa fa-phone" aria-hidden="true" style="font-size:16px;color:#fff;transform: rotate(100deg);"></i> <span style="margin-left: 3px;">{{$user->mobile_num}}</span></span>
+                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-envelope" aria-hidden="true" ></i> <span style="margin-left: 3px;">{{$user->email}}</span></span>
+                                </div>
 
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=================================    inner banner -->
+
+    
+     <!--=================================    Dashboard Nav -->
+     <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sticky-top secondary-menu-sticky-top">
+                        <div class="secondary-menu">
+                            <ul class="list-unstyled mb-0">
+                                <li><a href="{{route('home')}}">Dashboard</a></li>
+                                <li><a href="{{ route('my.profile') }}">My Profile</a></li>
+                                <li><a class="active" href="{{ route('candidate.change.password') }}">Change Password</a></li>
+                                <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
+                                <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
+                                <li><a href="{{route('my.messages')}}">My Message</a></li>
+                                <li><a href="{{route('my.followings')}}">My Followings</a></li>
+                                <li><a href="">Pricing Plan</a></li>
+                                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                  </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=================================    Dashboard Nav -->
 
    
     <!--================================= change Password -->
     <section  class="mt-5" style="margin-bottom:70px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="user-dashboard-info-box">
                         <div class="section-title-02 mb-4">
                             <h4>Change Password</h4>
@@ -127,7 +204,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 col-md-offset-4 mt-3">
                                 <button type="submit" class="btn btn-primary">
                                     Change Password
                                 </button>
@@ -136,6 +213,7 @@
                                 </form>
                             </div>
                         </div>
+<<<<<<< HEAD
                     </div>
                    
                 </div>
@@ -197,7 +275,11 @@
                             </div>
                         </div>
                     </div>
+=======
+                    </div>                   
+>>>>>>> 367f87855d7ce0eac580ae3763b018a97d33f3da
                 </div>
+               
             </div>
         </div>
     </section><br><br>

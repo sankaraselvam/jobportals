@@ -7,6 +7,9 @@
             color: red;
             font-size:12px;
         }
+        .text-danger {
+    color: red !important;
+}
     </style>
 
 
@@ -92,6 +95,7 @@
                                             </div>
                                             <div class="job-list-favourite-time">
                                                 <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
+                                                <a class="job-list-favourite order-2" href="#"><i class="fas fa-heart text-danger"></i></a>
                                                 <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
                                             </div>
                                         </div>                                   

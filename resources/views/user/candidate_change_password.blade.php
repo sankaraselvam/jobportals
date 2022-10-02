@@ -64,15 +64,92 @@
             }
         </style>
 
-    <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;"></section>
+    <!--=================================    inner banner -->
+    <div class="header-inner" style="background: #009befd6;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="candidates-user-info">
+                        <div class="jobber-user-info">
+                            <div class="profile-avatar">
+                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
+                            </div>
+                            <div class="profile-avatar-info ms-4">
+                                <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
+                                <p style="color: #fff;text-transform: capitalize;">PHP Developer at Dawn Info System</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    
+                    @include('job.progress')
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="candidates-skills">
+                                <div class="candidates-skills-info">
+                                    <span class="d-block" style="color: #fff;"><i class="fa fa-map-marker" aria-hidden="true"></i> <span style="margin-left: 3px;"> Chennai , India</span> </span>
+                                    </span>
+                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-suitcase" aria-hidden="true"></i> <span style="margin-left: 3px;">PHP Developer</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="candidates-skills">
+                                <div class="candidates-skills-info">
+                                    <span class="d-block" style="color: #fff;"><i class="fa fa-phone" aria-hidden="true" style="font-size:16px;color:#fff;transform: rotate(100deg);"></i> <span style="margin-left: 3px;">{{$user->mobile_num}}</span></span>
+                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-envelope" aria-hidden="true" ></i> <span style="margin-left: 3px;">{{$user->email}}</span></span>
+                                </div>
 
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=================================    inner banner -->
+
+    
+     <!--=================================    Dashboard Nav -->
+     <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sticky-top secondary-menu-sticky-top">
+                        <div class="secondary-menu">
+                            <ul class="list-unstyled mb-0">
+                                <li><a href="{{route('home')}}">Dashboard</a></li>
+                                <li><a href="{{ route('my.profile') }}">My Profile</a></li>
+                                <li><a class="active" href="{{ route('candidate.change.password') }}">Change Password</a></li>
+                                <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
+                                <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
+                                <li><a href="{{route('my.messages')}}">My Message</a></li>
+                                <li><a href="{{route('my.followings')}}">My Followings</a></li>
+                                <li><a href="">Pricing Plan</a></li>
+                                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
+                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                  </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=================================    Dashboard Nav -->
 
    
     <!--================================= change Password -->
     <section  class="mt-5" style="margin-bottom:70px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="user-dashboard-info-box">
                         <div class="section-title-02 mb-4">
                             <h4>Change Password</h4>
@@ -127,7 +204,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 col-md-offset-4 mt-3">
                                 <button type="submit" class="btn btn-primary">
                                     Change Password
                                 </button>
@@ -136,64 +213,9 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                   
+                    </div>                   
                 </div>
-                <div class="col-md-4" style="margin-top: -2%;z-index: 1;">
-                    <div class=" user-dashboard-info-box candidates-user-info zoom-in">
-                        <div class="jobber-user-info">
-                            <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">                               
-                            </div>
-                            <div class="profile-avatar-info ms-4" style="margin-left: 2.6rem!important;">
-                                <h6> Selvam</h6>
-                            </div>
-                        </div>
-                        <p style="margin-left:5%;margin-top: -20px;"><span class="emp-title">PHP Developer </span> at <span> Dawn info system P Ltd</span></p>
-                        <div class="progress">
-                            @php
-                                $level='';
-                                @endphp
-                            @if ($user->percentage <=  50)
-                                @php
-                                $level='low';
-                                @endphp
-                            @elseif($user->percentage >  50 && $user->percentage <=  75)
-                                @php
-                                $level='medium';
-                                @endphp                            
-                            @elseif($user->percentage >  75)
-                                @php
-                                $level='high';
-                                @endphp                            
-                            @endif
-                            <div class="progress-bar{{ $level }}" role="progressbar" style="width:{{$user->percentage}}%" aria-valuenow="{{$user->percentage}}" aria-valuemin="0" aria-valuemax="{{$user->percentage}}">
-                                <span class="progress-bar-number">{{$user->percentage}}%</span>
-                                <span class="progress-bar-number1">Profile Strength (Excellent)</span>
-                            </div>
-                        </div>
-                        <div class="candidates-required-skills ms-auto mt-sm-0 mt-3">
-                            <a class="btn btn-primary" style="width:100%" href="#">UPDATE PROFILE</a>
-                        </div>
-                        <p style="font-size: 12px;color: #333;font-weight: 500;margin-top: 4%;">Profile Performance</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div style="box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 1px -4px rgb(0 0 0 / 20%);padding: 5px;">
-                                    <a href="">
-                                        <span> 417 <br><small>Search Appearances</small></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div style="box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 1px -4px rgb(0 0 0 / 20%);padding: 5px;">
-                                    <a href="">
-                                        <span> 417 <br><small>Search Appearances</small></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </section><br><br>

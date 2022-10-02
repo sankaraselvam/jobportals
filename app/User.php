@@ -252,6 +252,11 @@ class User extends Authenticatable
 			return $this->date_of_birth->age;
 		}
 	}
+
+    public function profileCarrer()
+    {
+        return $this->hasOne('App\ProfileCareer', 'user_id', 'id');
+    }
 	
 	public function careerLevel()
     {

@@ -52,15 +52,22 @@ class CompanyController extends Controller
         $this->middleware('company', ['except' => ['companyDetail', 'sendContactForm']]);
     }
 
+    public function getJobPosts(){
+        $postList = Job::select('id','title','created_at','slug')
+        ->with('appliedUsers')
+        // ->whereHas('appliedUsers', function($q) use($user_id){
+        //     $q->where('job_apply.user_id','=',$user_id);
+        // })
+        ->orderBy('jobs.id', 'DESC')->limit(5)->get();
+
+        return $postList;
+    }
+
     public function index()
     {
-        $user_id = Auth::guard('company')->user()->id;
-        $postJobs = Job::select('id','title','created_at','slug')
-        ->with('appliedUsers')
-        ->whereHas('appliedUsers', function($q) use($user_id){
-            $q->where('job_apply.user_id','=',$user_id);
-        })
-        ->orderBy('jobs.id', 'DESC')->limit(5)->get();       
+        $users= Auth::guard('company')->user();//->id;
+        
+        $postJobs = $this->getJobPosts();
         return view('company_home',compact('postJobs'));
     }
     

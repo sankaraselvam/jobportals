@@ -97,7 +97,7 @@
                             </div>
                             <div class="profile-avatar-info ms-4">
                                 <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
-                                <p style="color: #fff;text-transform: capitalize;">PHP Developer at Dawn Info System</p>
+                                <p style="color: #fff;text-transform: capitalize;">{{ $user->profileCarrer->jobrole->role }}</p>
                             </div>
                         </div>
                     </div>
@@ -105,27 +105,7 @@
                 <div class="col-lg-6">
                     
                     @include('job.progress')
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="candidates-skills">
-                                <div class="candidates-skills-info">
-                                    <span class="d-block" style="color: #fff;"><i class="fa fa-map-marker" aria-hidden="true"></i> <span style="margin-left: 3px;"> Chennai , India</span> </span>
-                                    </span>
-                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-suitcase" aria-hidden="true"></i> <span style="margin-left: 3px;">PHP Developer</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="candidates-skills">
-                                <div class="candidates-skills-info">
-                                    <span class="d-block" style="color: #fff;"><i class="fa fa-phone" aria-hidden="true" style="font-size:16px;color:#fff;transform: rotate(100deg);"></i> <span style="margin-left: 3px;">{{$user->mobile_num}}</span></span>
-                                    <span class="d-block mt-2" style="color: #fff;"><i class="fa fa-envelope" aria-hidden="true" ></i> <span style="margin-left: 3px;">{{$user->email}}</span></span>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
+                    @include('user.profileDetails')
 
                 </div>
             </div>
@@ -538,7 +518,7 @@
                         $cityArray=[];
                         $cityidArray=[];
                    
-                    foreach ($profileCareer->cities as $location){
+                    foreach ($user->profileCarrer->cities as $location){
                         $cityArray[]=$location->city;
                         $cityidArray[]=$location->id;
                     }
@@ -555,15 +535,15 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Current Industry</label>
-                                    <p style="color: #000;">{{ $profileCareer->industry->industry }}</p>
+                                    <p style="color: #000;">{{ $user->profileCarrer->industry->industry }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Availability to Join</label>
-                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($profileCareer->date_of_join)) }}</p>
+                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($user->profileCarrer->date_of_join)) }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Employment Type</label>
-                                    <p style="color: #000;">{{ $profileCareer->jobShift->job_shift }}</p>
+                                    <p style="color: #000;">{{ $user->profileCarrer->jobShift->job_shift }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Preferred Work Location</label>
@@ -571,33 +551,33 @@
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Expected Salary</label>
-                                    <p style="color: #000;">INR {{ $profileCareer->salary_from }} Lakh(s) {{ $profileCareer->salary_to }} Thousand </p>
+                                    <p style="color: #000;">INR {{ $user->profileCarrer->salary_from }} Lakh(s) {{ $user->profileCarrer->salary_to }} Thousand </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Department</label>
-                                    <p style="color: #000;">{{ $profileCareer->functionalArea->functional_area }}</p>
+                                    <p style="color: #000;">{{ $user->profileCarrer->functionalArea->functional_area }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Job Role</label>
-                                    <p style="color: #000;">{{ $profileCareer->jobrole->role }}</p>
+                                    <p style="color: #000;">{{ $user->profileCarrer->jobrole->role }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Job Type</label>
-                                    <p style="color: #000;">{{ $profileCareer->jobType->job_type }}</p>
+                                    <p style="color: #000;">{{ $user->profileCarrer->jobType->job_type }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Shift</label>
                                     <p style="color: #000;">
                                     @php
                                         $working_from='';
-                                        if($profileCareer->working_from==1){
+                                        if($user->profileCarrer->working_from==1){
                                             $working_from='Day';
-                                        }else if($profileCareer->working_from==2)
+                                        }else if($user->profileCarrer->working_from==2)
                                         {
                                             $working_from='Night';
-                                        }else if($profileCareer->working_from==3){
+                                        }else if($user->profileCarrer->working_from==3){
                                             $working_from='Flexible';
                                         }
                                     @endphp
@@ -1333,15 +1313,15 @@
                             <form class="form" id="add_edit_career_details" method="POST" action="{{ route('update.career.details') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" id="id" name="id" value="{{$user->id}}">
-                                <input type="hidden" id="profile_career_id" name="profile_career_id" value="{{$profileCareer->id}}">
+                                <input type="hidden" id="profile_career_id" name="profile_career_id" value="{{$user->profileCarrer->id}}">
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Current Industry <span style="color: red;">*</span></label>
-                                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, $profileCareer->industry_id, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, $user->profileCarrer->industry_id, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Department <span style="color: red;">*</span></label>
-                                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, $profileCareer->functional_area_id, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
+                                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, $user->profileCarrer->functional_area_id, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Job Role <span style="color: red;">*</span></label>
@@ -1351,19 +1331,19 @@
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, $profileCareer->job_type_id, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
+                                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, $user->profileCarrer->job_type_id, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, $profileCareer->job_shift_id, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}   
+                                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, $user->profileCarrer->job_shift_id, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}   
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Date of join <span style="color: red;">*</span></label><br>
                                             <div class="form-group col-md-12 select-border mb-3">      
-                                            <input type="text" name="date_of_join" id="date_of_join"  class="form-control datepicker" value="{{date('Y-m-d', strtotime($profileCareer->date_of_join))}}" placeholder="Date of join" >                      
+                                            <input type="text" name="date_of_join" id="date_of_join"  class="form-control datepicker" value="{{date('Y-m-d', strtotime($user->profileCarrer->date_of_join))}}" placeholder="Date of join" >                      
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">
@@ -1371,13 +1351,13 @@
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="working_from" value="1" {{ ($profileCareer->working_from=="1")? "checked" : "" }}> Day
+                                                        <input class="form-group" type="radio" name="working_from" value="1" {{ ($user->profileCarrer->working_from=="1")? "checked" : "" }}> Day
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="working_from" value="2" {{ ($profileCareer->working_from=="2")? "checked" : "" }}> Night
+                                                        <input class="form-group" type="radio" name="working_from" value="2" {{ ($user->profileCarrer->working_from=="2")? "checked" : "" }}> Night
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio"  class="form-group" name="working_from" value="3" {{ ($profileCareer->working_from=="3")? "checked" : "" }}> Flexible
+                                                        <input type="radio"  class="form-group" name="working_from" value="3" {{ ($user->profileCarrer->working_from=="3")? "checked" : "" }}> Flexible
                                                     </label>                                                    
                                                 </div>                                                
                                             </div>
@@ -1698,9 +1678,9 @@ $(function() {
     	allowClear: true
 	});
 
-    $('#salary_from').val("{{$profileCareer->salary_from }}");
+    $('#salary_from').val("{{$user->profileCarrer->salary_from }}");
     $('#salary_from').select2().trigger('change');
-    $('#salary_to').val("{{$profileCareer->salary_to }}");
+    $('#salary_to').val("{{$user->profileCarrer->salary_to }}");
     $('#salary_to').select2().trigger('change');
 
     $("#btnSaveIt").on('click', function (e) {
@@ -1951,7 +1931,7 @@ $(function() {
     e.preventDefault();
         filterDegreeTypes($(this).val());
     });
-    filterLangRoles('{{ $profileCareer->functional_area_id }}');
+    filterLangRoles('{{ $user->profileCarrer->functional_area_id }}');
 });
 function submitProfileDetailsForm(){    
     var form = $('#add_edit_personal_details');
@@ -2380,7 +2360,7 @@ function showProfileProjectEditModal(project_id){
 }
 
 function filterLangRoles(functional_area_id){
-        var career_role_id = '{{ isset($profileCareer->role_id)?$profileCareer->role_id :""}}'; 
+        var career_role_id = '{{ isset($user->profileCarrer->role_id)?$user->profileCarrer->role_id :""}}'; 
         var functional_area_id = $('#functional_area_id').val();
         var role_id = $('#role_id').val();
         if (functional_area_id != ''){

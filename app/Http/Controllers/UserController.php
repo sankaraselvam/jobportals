@@ -108,14 +108,15 @@ class UserController extends Controller
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
-        $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
+        $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
+
+        // $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         
         // dd(MiscHelper::getSalaryThousands());
        
         
-        // dd($user);
-        $percentage = $this->getProfilePercentage($user, $profileCareer);
+        //dd($user);
+        $percentage = $this->getProfilePercentage($user);
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -132,7 +133,7 @@ class UserController extends Controller
                         ->with('cities', $cities)
                         ->with('languages', $languages)
                         ->with('languagesLevel', $languagesLevel)
-                        ->with('profileCareer', $profileCareer)
+                        //->with('profileCareer', $profileCareer)
                         ->with('jobSkills', $jobSkills)
                         ->with('degreeLevels', $degreeLevels)
                         ->with('majorSubjects', $majorSubjects)
@@ -142,7 +143,7 @@ class UserController extends Controller
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
-    public function getProfilePercentage($user, $profileCareer){
+    public function getProfilePercentage($user){
         // dd(config('constants.progress.completedProfile'));
         $maximumPoints  = 100;
         $hasCompletedProfile  = 0;
@@ -160,7 +161,7 @@ class UserController extends Controller
         if(isset($user->id)&&$user->id !=""){
             $hasCompletedProfile = config('constants.progress.completedProfile');
         }
-        if(isset($profileCareer->profile_career_id)&&$profileCareer->profile_career_id!=''){
+        if(isset($user->profileCarrer->profile_career_id)&&$user->profileCarrer->profile_career_id!=''){
             $hasCompletedCareer = config('constants.progress.completedCareer');
         }
         if(isset($user->profileSummary)&&$user->profileSummary->id !=""){
@@ -420,8 +421,9 @@ class UserController extends Controller
 
     public function candidateChangePassword()
     {
+        $user = User::with(['country','state','city','profileCarrer','profileCarrer.jobrole'])->findOrFail(Auth::user()->id);
         return view('user.candidate_change_password')
-                        ->with('user', Auth::user())
+                        ->with('user', $user)
 						->with('messages', 'messages');
        
     }

@@ -36,6 +36,7 @@ use App\Http\Requests\Front\ApplyJobFormRequest;
 use App\Http\Controllers\Controller;
 use App\Traits\FetchJobs;
 use App\Events\JobApplied;
+use App\User;
 
 class JobController extends Controller
 {
@@ -320,9 +321,9 @@ class JobController extends Controller
     {
 		$myAppliedJobIds = Auth::user()->getAppliedJobIdsArray();
 		$jobs = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
-		//$user = User::findOrFail(Auth::user()->id);
+		$user = User::with(['country','state','city','profileCarrer','profileCarrer.jobrole'])->findOrFail(Auth::user()->id);
 		return view('job.my_applied_jobs')
-				->with('user', Auth::user())
+				->with('user', $user)
 				->with('jobs', $jobs);
     }
 	

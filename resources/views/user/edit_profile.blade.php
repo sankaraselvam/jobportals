@@ -29,9 +29,6 @@
             margin-left: 22%;
         }
         
-        
-       
-        
         .category-style-02 ul li {
             margin-bottom: 25px;
             display: block;

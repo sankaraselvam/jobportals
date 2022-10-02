@@ -63,6 +63,27 @@ use Carbon\Carbon;
             height: 5px;
             background: green;
         }
+        .fade.in {
+    opacity: 1;
+}
+.close {
+            outline: medium none !important;
+            color: #00c0ef;
+            border-radius: 50px;
+            background: #fff;
+            margin: -50px;
+            margin-top: -144px;
+            border: 2px solid #dee2e6;
+        }
+                
+       .modal-content{
+        box-shadow: 25px 25px 25px 25px!important;
+       }
+       @media (min-width: 768px){
+.modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+}}
     </style>
 <!--================================= banner -->
     <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;">
@@ -132,12 +153,27 @@ use Carbon\Carbon;
     <!--================================= Dashboard Nav -->
 
     <!--================================= Recommanded Jobs -->
-
+   
     <section>
     @include('flash::message')
         <div class="container">
-            <div class="row">
-                <div class="col-md-8">
+            <div class="row">               
+                <div class="col-md-8">  
+                    <div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-modal="true" style="display: block;">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header p-4">
+                              <h4 class="mb-0 text-center"><i class="fas fa-exclamation-triangle" aria-hidden="true" style="color:red;"></i> Alert Message</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">  
+                                <p style="color:#000;">To maximize your reach to many recruiters, update your profile data like Educational Qualification, Work   
+                                Experience, Language, Career Profile, Personal Details and etc., </p>                       
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
                     <div class="user-dashboard-info-box mb-0 pb-4">
                         <div class="section-title">
                             <h6>{{ $recommandedJobs->count() }} New Recommended Job(s)</h6>

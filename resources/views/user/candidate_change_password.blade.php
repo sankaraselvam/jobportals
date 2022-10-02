@@ -72,7 +72,11 @@
                     <div class="candidates-user-info">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @if ($user->image !='')
+                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @else
+                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                                @endif
                                 <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
                             </div>
                             <div class="profile-avatar-info ms-4">
@@ -213,9 +217,9 @@
                                 </form>
                             </div>
                         </div>
-                    </div>                   
+                    </div>
+                   
                 </div>
-               
             </div>
         </div>
     </section><br><br>

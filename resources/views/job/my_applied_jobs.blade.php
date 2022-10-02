@@ -68,7 +68,11 @@
                     <div class="candidates-user-info">
                         <div class="jobber-user-info">
                             <div class="profile-avatar">
-                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @if ($user->image !='')
+                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
+                                @else
+                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                                @endif
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                             <div class="profile-avatar-info ms-4">

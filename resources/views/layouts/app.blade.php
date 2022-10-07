@@ -124,12 +124,6 @@ if (!isset($seo)) {
                                         </div>
                                     </div>
                                 </form>
-
-                                <form class="form" id="candidate_login1" method="POST" action="{{ route('login') }}">
-                                    {{ csrf_field() }}
-                                    <input type="email" class="form-control" id="useremail" name="useremail" value="" placeholder="{{__('Email Address')}}">
-                                    <input type="button" id="candidateBtn1" class="btn btn-primary d-grid" value="{{__('Login')}}">
-                                </form>    
                                 <div class="mt-4">
                             <fieldset>
                                 <legend class="px-2">Login with Social</legend>

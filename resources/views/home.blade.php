@@ -437,7 +437,11 @@ use Carbon\Carbon;
     $(document).ready(function(){
         $("#exampleModalCenter").modal("hide");
         $("#exampleModalCenter").on('hide.bs.modal', function(){
-            //alert('The modal is about to be hidden.');
+            
+            
+            
+            
+            alert('The modal is about to be hidden.');
         });
     });
 </script>

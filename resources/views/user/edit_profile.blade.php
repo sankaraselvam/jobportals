@@ -162,58 +162,58 @@
                         <div class="category-style-02">
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    <a href="#">
+                                    <a href="#res">
                                         <h6 class="category-title"> Resume</h6><span class="secondary-content ms-auto">UPDATE</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#rh">
                                         <h6 class="category-title">Resume Headline</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#key">
                                         <h6 class="category-title">Key Skills</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#emp">
                                         <h6 class="category-title">Employment</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#edu">
                                         <h6 class="category-title">Education</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#itSkill">
                                         <h6 class="category-title">IT Skill</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#lang">
                                         <h6 class="category-title">Languages</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#pro">
                                         <h6 class="category-title">Projects</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#ps">
                                         <h6 class="category-title">Profile Summary</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                
                                 <li>
-                                    <a href="#">
+                                    <a href="#cp">
                                         <h6 class="category-title">Career Profile</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="#pd">
                                         <h6 class="category-title">Personal Details</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
@@ -222,6 +222,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8" style="margin-bottom:80px;">
+                    <div id="res"></div>
                     <form class="form" id="add_edit_profile_cv" method="POST" action="{{ route('store.front.profile.cv', [$user->id]) }}">{{csrf_field()}}
                         <div class="user-dashboard-info-box">
                             <div class="form-group col-md-12 p-0">
@@ -242,6 +243,7 @@
                             </div>
                         </div>
                     </form>
+                    <div id="rh"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -257,6 +259,7 @@
                         </div>
                     </div>
                     <!--=================================   Skill -->
+                    <div id="key"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -275,6 +278,7 @@
                     <!--=================================   Skill -->
 
                     <!--=================================        Work & Experience -->
+                    <div id="emp"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -320,6 +324,8 @@
                     <!--=================================     Work & Experience -->
 
                     <!--=================================     Education -->
+
+                    <div id="edu"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -361,6 +367,7 @@
                     <!--=================================     Education  -->
 
                     <!--=================================     IT Skill -->
+                    <div id="itSkill"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -398,6 +405,7 @@
                     <!--=================================       IT Skill -->
 
                     <!--=================================     Languages -->
+                    <div id="lang"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -451,6 +459,7 @@
 
 
                     <!--=================================Start Projects-->
+                    <div id="pro"></div>
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-0">
@@ -499,6 +508,7 @@
 
 
                     <!--=================================Profile Summary-->
+                    <div id="ps"></div>
 
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
@@ -514,6 +524,7 @@
 
                      
                     <!--=================================Career Profile -->
+                    <div id="cp"></div>
                     @php
                         $cityArray=[];
                         $cityidArray=[];
@@ -592,8 +603,8 @@
                     <!--================================= End Career Profile-->
 
                     <!--=================================Career Profile -->
-                   
-    
+                   <section id="pd">
+                
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
                             <div class="section-title-02 mb-sm-2">
@@ -640,7 +651,7 @@
                             </div>
                         </div>
                     </div>
-
+                   </section>
                     <!--================================= End Career Profile-->
 
 

@@ -57,10 +57,11 @@ use Carbon\Carbon;
                     </div>
                     <div class="tab-content" id="myTabContent">
                         <!-- Hot jobs -->
+                        <input type="hidden" value="{{$user}}" id="userId">
                         <div class="tab-pane fade show active" id="Recent" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row mt-3">
                                 @if(isset($latestJobs) && count($latestJobs) > 0)
-
+                               
                                 @foreach($latestJobs as $latestJob)
 
                                @php
@@ -105,9 +106,9 @@ use Carbon\Carbon;
                                             </div>
                                             <div class="job-list-favourite-time">
                                                 @if ($favouritejob == 0)
-                                                    <a class="job-list-favourite order-2" href="{{route('add.to.favourite', $latestJob->slug)}}"><i class="far fa-heart"></i></a>
+                                                    <a class="job-list-favourite order-2" href="#" data-id="{{route('add.to.favourite', $latestJob->slug)}}"><i class="far fa-heart"></i></a>
                                                 @else
-                                                    <a class="job-list-favourite order-2" href="{{route('remove.from.favourite', $latestJob->slug)}}"><i class="fas fa-heart text-danger"></i></a>
+                                                    <a class="job-list-favourite order-2" href="#" data-id="{{route('remove.from.favourite', $latestJob->slug)}}"><i class="fas fa-heart text-danger"></i></a>
                                                 @endif
                                                 <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>{{ isset($number[$different_days])?$number[$different_days]:$different_days }} ago</span>
                                             </div>
@@ -226,4 +227,17 @@ use Carbon\Carbon;
         <div class="btad mt-3">{!! $siteSetting->above_footer_ad !!}</div>
     </section>
     <!--================================= Browse listing -->
-
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        //exampleModalCenter
+       $(".order-2").on('click', function(){
+            if($('#userId').val() > 0){
+                location.replace($(this).attr("data-id"));
+            }else{
+                $("#exampleModalCenter").modal("show");
+            }
+       });
+    });
+</script>
+@endpush

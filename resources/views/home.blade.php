@@ -100,7 +100,8 @@ use Carbon\Carbon;
                                                 <div class="form-group-search">
                                                     <label class="form-label">Search Jobs</label>
                                                     <div class="d-flex align-items-center">
-                                                        <input class="form-control" type="search" placeholder="Search jobs by Skills, Designation, Companies " style="height: 48px;">
+                                                        <select class="form-control searchItem" name="searchItem"></select>
+                                                        <!-- <input class="form-control" type="search" placeholder="Search jobs by Skills, Designation, Companies " style="height: 48px;"> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +160,7 @@ use Carbon\Carbon;
         <div class="container">
             <div class="row">               
                 <div class="col-md-8">  
-                    <div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-modal="true" style="display: block;">
+                    <!-- <div class="modal fade show" id="exampleModalAlert" tabindex="-1" role="dialog" aria-modal="true" style="display: block;">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header p-4">
@@ -172,7 +173,7 @@ use Carbon\Carbon;
                             </div>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="user-dashboard-info-box mb-0 pb-4">
                         <div class="section-title">
@@ -435,6 +436,7 @@ use Carbon\Carbon;
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
+<<<<<<< HEAD
         $("#exampleModalCenter").modal("hide");
         $("#exampleModalCenter").on('hide.bs.modal', function(){
             
@@ -442,8 +444,30 @@ use Carbon\Carbon;
             
             
             alert('The modal is about to be hidden.');
+=======
+        console.log(5555555555555);
+        $("#exampleModalAlert").modal("hide");
+        $("#exampleModalAlert").on('hide.bs.modal', function(){
+            alert('The modal is about to be hidden.');
+        });
+
+        $('.searchItem').select2({
+            placeholder: 'Search jobs by Skills, Designation, Companies',
+            ajax: {
+                url: '/ajaxpro.php',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+>>>>>>> ab66465973d4ad7487906433a1520d064dfe14b2
         });
     });
+    
 </script>
 @include('includes.immediate_available_btn')
 @endpush

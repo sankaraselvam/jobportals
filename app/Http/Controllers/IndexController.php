@@ -59,6 +59,7 @@ class IndexController extends Controller
 		$countries = DataArrayHelper::langCountriesArray();
 		//dd(Auth::user());
         $seo = SEO::where('seo.page_title', 'like', 'front_index_page')->first();
+		$user = (Auth::user())?Auth::user()->id:0;
         return view('welcome')
                         ->with('topCompanyIds', $topCompanyIds)
 						->with('topFunctionalAreaIds', $topFunctionalAreaIds)
@@ -66,6 +67,7 @@ class IndexController extends Controller
 						->with('topIndustryIds', $topIndustryIds)
 						->with('featuredJobs', $featuredJobs)
 						->with('latestJobs', $latestJobs)
+						->with('user', $user)
 						->with('functionalAreas', $functionalAreas)
                         ->with('countries', $countries)
 						->with('video', $video)

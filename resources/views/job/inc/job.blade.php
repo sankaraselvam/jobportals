@@ -50,24 +50,29 @@
             </div>
            <a href="" style="font-size:14px;" class="mb-1">Prefill from previous jobs</a>
                 <div class="col-lg-8" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;background:#fff;padding:25px;">   
-
-                {!! Form::open(array('method' => 'post', 'route' => array('store.front.job'), 'class' => 'row')) !!}
+                   @php
+                   $jobid = isset($job)? $job->id:0;
+                   @endphp
+                    @if ($jobid != 0)
+                        {!! Form::open(array('method' => 'put', 'route' => array('update.front.job',$job->id), 'class' => 'row',  'id' => 'add_edit_job')) !!}
+                    @else
+                        {!! Form::open(array('method' => 'post', 'route' => array('store.front.job'), 'class' => 'row', 'id' => 'add_edit_job')) !!}
+                    @endif
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Job Title / Designation <span style="color: red;"> *</span> </label>
-                            <input type="text" class="form-control" name="title" value="" placeholder="Mention the designation or role">
+                            <input type="text" class="form-control" name="title" value="{{isset($job->title)?$job->title:''}}" placeholder="Mention the designation or role">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Employment Type re<span style="color: d;"> *</span></label>
-                            
-                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, null, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
+                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, isset($job->job_type_id)?$job->job_type_id:'', array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2"> Job Description <span style="color: d;"> *</span></label>
-                            <textarea class="form-control" name="description" id="job" rows="4" placeholder="Outline the activities a person in this role will perform on a regular basis"></textarea>
+                            <textarea class="form-control" name="description" id="job" rows="4" placeholder="Outline the activities a person in this role will perform on a regular basis">{{isset($job->description)?$job->description:''}}</textarea>
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2"> Candidate profile <span style="color: d;"> *</span></label>
-                            <textarea class="form-control" name="candidate_profile" rows="4" placeholder="Specify required technical expertise, previous job experience or certification"></textarea>
+                            <textarea class="form-control" name="candidate_profile" rows="4" placeholder="Specify required technical expertise, previous job experience or certification">{{isset($job->candidate_profile)?$job->candidate_profile:''}}</textarea>
                         </div>
                         <div class="form-group col-md-12 mb-3">
                             <label class="mb-2">Key Skills <span style="color:red;">*</span> </label><br>
@@ -95,12 +100,12 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
-                                {!! Form::select('job_experience_id_from', ['' => __('Min')]+$jobExperiences, null, array('class'=>'form-control basic-select', 'id'=>'min-experience')) !!}
+                                {!! Form::select('job_experience_id_from', ['' => __('Min')]+$jobExperiences, (isset($job)? $job->job_experience_id_from:''), array('class'=>'form-control basic-select', 'id'=>'min-experience')) !!}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
-                            {!! Form::select('job_experience_id_to', ['' => __('Max')]+$jobExperiences, null, array('class'=>'form-control basic-select', 'id'=>'max-experience')) !!}
+                            {!! Form::select('job_experience_id_to', ['' => __('Max')]+$jobExperiences, (isset($job)? $job->job_experience_id_to:''), array('class'=>'form-control basic-select', 'id'=>'max-experience')) !!}
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -109,6 +114,7 @@
                       
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
+                            <!-- {!! Form::select('salary_from', [''=>__('Min Annual Salary')]+MiscHelper::getSalaryDD(), null, array('class'=>'form-control basic-select', 'id'=>'min-annual-salary')) !!} -->
                                 <select class="form-control basic-select" name="salary_from" id="min-annual-salary">
                                     <option value="" selected="selected">Min Annual Salary</option>
                                     <option value="50000">50000</option>
@@ -129,6 +135,7 @@
                                 <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
                                     <option value="" selected="selected">Max Annual Salary</option>
                                     <option value="50000">50000</option>
+                                    <option value="75000">75000</option>
                                     <option value="100000">100000</option>
                                     <option value="150000">150000</option>
                                     <option value="200000">200000</option>
@@ -141,59 +148,51 @@
                                   </select>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4 mb-3">
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend d-flex">
-                                    <div class="input-group-text"><i class="fas fa-rupee-sign"></i></div>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Max Annual Salary">
-                            </div>
-                        </div> -->
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Industry <span style="color: red;">*</span> </label>
-                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industry, null, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industry, (isset($job)? $job->industry_id:''), array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Functional Area <span style="color: red;">*</span> </label>
-                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, null, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}         
+                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, (isset($job)? $job->functional_area_id:''), array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}         
                           </select>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Roles <span style="color: red;">*</span> </label>
-                            <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], null, array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span>       
+                            <span id="default_role_dd">{!! Form::select('role_id', ['' => __('Select Role')], (isset($job)? $job->role_id:''), array('class'=>'form-control basic-select', 'id'=>'role_id')) !!}  </span>       
                           </select>
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Career Level <span style="color: red;">*</span> </label>
-                            {!! Form::select('career_level_id', ['' => __('Select Career level')]+$careerLevels, null, array('class'=>'form-control basic-select', 'id'=>'career_level_id')) !!}      
+                            {!! Form::select('career_level_id', ['' => __('Select Career level')]+$careerLevels, (isset($job)? $job->career_level_id:''), array('class'=>'form-control basic-select', 'id'=>'career_level_id')) !!}      
                           </select>
                         </div>
                         
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Job Shift <span style="color: red;">*</span> </label>
-                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, null, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}       
+                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, (isset($job)? $job->job_shift_id:''), array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}       
                           </select>
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Number of Vacancies<span style="color: red;"> *</span> </label>
-                            <input type="text" name="num_of_positions" class="form-control" placeholder="Enter number of vacancies">
+                            <input type="text" name="num_of_positions" class="form-control" placeholder="Enter number of vacancies" value="{{isset($job)?$job->num_of_positions:''}}">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Education <span style="color: red;"> *</span></label>
-                            {!! Form::select('degree_level_id', ['' =>__('Select Required Degree Level')]+$degreeLevels, null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
+                            {!! Form::select('degree_level_id', ['' =>__('Select Required Degree Level')]+$degreeLevels, (isset($job)? $job->degree_level_id:''), array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Gender <span style="color: red;">*</span> </label>
-                            {!! Form::select('gender_id', ['' => __('No preference')]+$genders, null, array('class'=>'form-control basic-select', 'id'=>'gender_id')) !!}      
+                            {!! Form::select('gender_id', ['' => __('No preference')]+$genders, (isset($job)? $job->gender_id:''), array('class'=>'form-control basic-select', 'id'=>'gender_id')) !!}      
                           </select>
                         </div>
 
                         <div class="form-group col-md-12 mb-3">
                             <div class="form-check">
-                                <input type="checkbox" name="specialism1" class="form-check-input" id="specialism1">
+                                <input type="checkbox" name="walk_in" class="form-check-input" value="1" id="specialism1" {{ (isset($job)&&($job->walk_in=="1")? "checked" : "") }}>
                                 <label class="form-check-label" for="specialism1">Include walk-in details</label>
                             </div>
                         </div>
@@ -201,7 +200,7 @@
                         <div class="form-group mt-0 mb-3 col-md-4 datetimepickers specialism_hide_show">
                             <label class="form-label">Walk-in Start Date <span style="color:red;">*</span></label>
                             <div class="input-group date" id="datetimepicker-01" data-target-input="nearest">
-                                <input type="text" name="start_date" class="form-control datetimepicker-input" placeholder="Date" data-target="#datetimepicker-01">
+                                <input type="text" name="start_date" class="form-control datetimepicker-input" placeholder="Date" data-target="#datetimepicker-01" value="{{(isset($job)? date('d/m/Y', strtotime($job->start_date)):'')}}">
                                 <div class="input-group-append d-flex" data-target="#datetimepicker-01" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                 </div>
@@ -210,7 +209,7 @@
 
                         <div class="form-group col-md-4 mb-3 specialism_hide_show">
                             <label class="mb-2">Duration (Days) <span style="color:red;">*</span> </label><br>
-                            <select class="form-control basic-select" name="duration">
+                            <select class="form-control basic-select" name="duration" id="duration">
                                 <option value="1" selected="selected">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -225,7 +224,7 @@
                             <label class="form-label">Walk-in timing <span style="color:red;">*</span></label>
                             
                             <div class="input-group time" id="timepicker-01" data-target-input="nearest">
-                                <input type="text" value="10:00 - 06:30" name="timing" class="form-control timepicker-input" placeholder="Time" data-target="#datetimepicker-02">
+                                <input type="text" value="{{(isset($job)? $job->timing:'10:00 - 06:30')}}" name="timing" class="form-control timepicker-input" placeholder="Time" data-target="#datetimepicker-02">
                                 <div class="input-group-append d-flex" data-target="#datetimepicker-02" data-toggle="timepicker">
                                
                                 </div>
@@ -233,21 +232,23 @@
                         </div>
                         <div class="form-group col-md-6 mb-3 specialism_hide_show">
                             <label class="mb-2">Contact Person <span style="color:red;">*</span> </label><br>
-                            <input type="text" name="contact_person" class="form-control" value="" placeholder="Recruiter Name">
+                            <input type="text" name="contact_person" class="form-control" value="{{(isset($job)? $job->contact_person:'')}}" placeholder="Recruiter Name">
                         </div>
 
                         <div class="form-group col-md-6 mb-3 specialism_hide_show">
                             <label class="mb-2">Contact Number <span style="color:red;">*</span> </label><br>
-                            <input type="text" name="contact_number" class="form-control" value="" placeholder="Add Mobile Number">
+                            <input type="text" name="contact_number" class="form-control" value="{{(isset($job)? $job->contact_number:'')}}" placeholder="Add Mobile Number">
                         </div>
 
                         <div class="form-group col-md-12 text-center">
-                            <button type="submit" class="btn btn-lg btn-primary">{{__('Post Job')}} <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+                            <button type="submit" class="btn btn-lg btn-primary" id="savePost">{{__('Save Post')}} <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+                            <button type="submit" class="btn btn-lg btn-primary" id="updatePost">{{__('Update Post')}} <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
                         </div>
                     {!! Form::close() !!}
                 </div>
               <!-- =================================      Middle bar -->
-                 <div class="col-lg-4" style="margin-top:-9%;">
+            @if ($jobid == 0)
+                <div class="col-lg-4" style="margin-top:-9%;">
                     <div class="sidebar">
                     <h6 class="mt-1">Prefill from previous jobs</h6>
                             <!--<span><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></span>-->
@@ -313,13 +314,21 @@
                             <p class="mt-1">Posted on 12 May by hrddispl@gmail.com</p>
                     </div>
                 </div>
+            @endif 
             </div>
         </div>
     </section>
 @push('scripts')
 @include('admin.shared.tinyMCEFront')
 <script type="text/javascript">
-$(document).ready(function() {    
+$(document).ready(function() {     
+    var jobid="{{isset($job)? $job->id:''}}";
+    $("#savePost").show();
+    $("#updatePost").hide();
+    if(jobid!=''){
+        $("#savePost").hide();
+        $("#updatePost").show();   
+    }
 
     $('.js-example-basic-multiple').select2({
     	placeholder: "{{__('Select Required Skills')}}",
@@ -332,7 +341,7 @@ $(document).ready(function() {
 
 
     // $('#country_id').on('change', function (e) {
-    //     // e.preventDefault();
+    //     e.preventDefault();
     //     filterLangStates(0);
     //     console.log('sdfsdfsdfsdfd');
     // });
@@ -341,7 +350,10 @@ $(document).ready(function() {
     // e.preventDefault();
     // filterLangCities(0);
     // });
-    // filterLangStates(<?php echo old('state_id', (isset($job))? $job->state_id:0); ?>);
+
+    filterLangStates(<?php echo old('state_id', (isset($job))? $job->state_id:0); ?>);
+    filterLangCities(<?php echo old('city_id', (isset($job))? $job->city_id:0); ?>);
+    filterLangRoles(<?php echo old('role_id', (isset($job))? $job->role_id:0); ?>);
 
    
 });
@@ -353,8 +365,26 @@ $(document).ready(function($) {
     $('#country_id').select2();
     $('#state_id').select2();
     $('#functional_area_id').select2();
-    $("#max-experience").prop("disabled", true);
-    $("#max-annual-salary").prop("disabled", true);
+    
+    $('#min-annual-salary').val("{{isset($job)?$job->salary_from:'' }}");
+    $('#min-annual-salary').select2().trigger('change');
+    $('#max-annual-salary').val("{{isset($job)?$job->salary_to:''}}");
+    $('#max-annual-salary').select2().trigger('change');
+    $('#duration').val("{{isset($job)?$job->duration:''}}");
+    $('#duration').select2().trigger('change');
+
+    
+
+    if($('#max-experience').val() !=''){
+        $("#max-experience").prop("disabled", false);
+    }else{
+        $("#max-experience").prop("disabled", true);
+    }
+    if($("#max-annual-salary").val() !=''){
+        $("#max-annual-salary").prop("disabled", false);
+    }else{
+        $("#max-annual-salary").prop("disabled", true);
+    }
 
     $('#min-experience').on("change", function(e) {
         console.log($('#min-experience').val())
@@ -383,8 +413,12 @@ $(document).ready(function($) {
             $('#max-annual-salary').val($('#min-annual-salary').val());
         }
     });
-
-    $(".specialism_hide_show").hide();
+    if("{{isset($job->walk_in) && $job->walk_in==1}}"){
+        $(".specialism_hide_show").show();
+    }else{
+        $(".specialism_hide_show").hide();
+    }
+    
     $('#specialism1').click(function() {       
         if(this.checked){
             $(".specialism_hide_show").show();
@@ -393,7 +427,7 @@ $(document).ready(function($) {
         }
     });
    
-    filterLangStates($('#country_id').val());
+    //filterLangStates($('#country_id').val());
     $('#country_id').on('change', function (e) {
         filterLangStates($(this).val());
     });

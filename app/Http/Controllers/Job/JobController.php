@@ -191,7 +191,7 @@ class JobController extends Controller
 	
 	public function jobDetail(Request $request, $job_slug)
 	{		
-    
+		
 	        $job = Job::where('slug', 'like', $job_slug)->firstOrFail();        	
 			/*****************************************************/
 			$search = '';
@@ -228,10 +228,12 @@ class JobController extends Controller
 						'seo_keywords' => $seoArray['keywords'],
 						'seo_other' => ''
 			);
+			$action =($request->type)?$request->type:''; 
 			return view('job.detail')
                         ->with('job', $job)
 						->with('relatedJobs', $relatedJobs)
-						->with('seo', $seo);
+						->with('seo', $seo)
+						->with('action', $action);
     
 	 	
 	}

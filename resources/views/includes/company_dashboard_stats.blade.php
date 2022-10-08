@@ -12,42 +12,22 @@
                                             <th class="text-center">Responses</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                               
-@if(isset($postJobs) && count($postJobs))
-@foreach($postJobs as $jobs) 
-    <tr>
-        
-            <td><a href="{{route('job.detail', [$jobs->slug])}}"  title="{{$jobs->title}}" target="_blank" >{{$jobs->title}}</a></td>
-            <td class="text-center">                              
-                {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
-            </td>
-            <td class="text-center">                                        
-                <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
-            </td>
-    </tr>
-
-@endforeach
-
-@endif  
-                                      
-<!--                                         
-                                    @if(isset($company->jobs) && count($company->jobs))
-
-                                    @foreach($company->jobs as $companyJob) 
+                                    <tbody>    
+                                    @if(isset($postJobs) && count($postJobs))
+                                    @foreach($postJobs as $jobs) 
                                         <tr>
-                                                <td>
-                                                    <a href="{{route('job.detail', [$companyJob->slug])}}"  title="{{$companyJob->title}}" target="_blank" >{{$companyJob->title}}</a>
+                                            
+                                                <td><a href="{{route('job.detail', [$jobs->slug])}}"  title="{{$jobs->title}}" target="_blank" >{{$jobs->title}}</a></td>
+                                                <td class="text-center">                              
+                                                    {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
                                                 </td>
-                                                <td>{{$job->created_at->format('M d, Y')}}</td>
                                                 <td class="text-center">                                        
-                                                    <a href="#" class="text-primary">165</a>                                       
+                                                    <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
                                                 </td>
                                         </tr>
-                                   
-                                    @endforeach
 
-                                    @endif        -->
+                                    @endforeach
+                                    @endif  
                                     </tbody>
                                
                             </table>

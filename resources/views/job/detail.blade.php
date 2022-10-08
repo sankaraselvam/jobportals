@@ -69,13 +69,12 @@ $company = $job->getCompany();
                                 <div class="job-list-favourite-time">
                                     <span class="job-list-time order-1 mb-2">Posted {{$job->created_at->format('M d, Y')}}</span>
                                     @if(Auth::check() && Auth::user()->isAppliedOnJob($job->id))
-
-                                    <a class="btn btn-secondary mb-2 btn-md" href="javascript:;" class="btn apply" style="font-size:11px;">{{__('Already Applied')}}</a>
-
-                                      @else
-                                      <a class="btn btn-secondary mb-2 btn-sm" href="{{route('post.apply.job', $job->slug)}}" style="float: right;background-color: #4a90e2!important;border:1px solid #4a90e2!important;"> Apply for job </a>
-
-                                      @endif                                   
+                                        <a class="btn btn-secondary mb-2 btn-md" href="javascript:;" class="btn apply" style="font-size:11px;">{{__('Already Applied')}}</a>
+                                    @else
+                                        @if ($action!="View")
+                                            <a class="btn btn-secondary mb-2 btn-sm" href="{{route('post.apply.job', $job->slug)}}" style="float: right;background-color: #4a90e2!important;border:1px solid #4a90e2!important;"> Apply for job </a>      
+                                        @endif
+                                    @endif                                   
                                 </div>                                
                             </div>                            
                         </div>

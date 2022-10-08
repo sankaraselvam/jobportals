@@ -436,36 +436,25 @@ use Carbon\Carbon;
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-<<<<<<< HEAD
-        $("#exampleModalCenter").modal("hide");
-        $("#exampleModalCenter").on('hide.bs.modal', function(){
-            
-            
-            
-            
-            alert('The modal is about to be hidden.');
-=======
-        console.log(5555555555555);
         $("#exampleModalAlert").modal("hide");
         $("#exampleModalAlert").on('hide.bs.modal', function(){
             alert('The modal is about to be hidden.');
         });
 
-        $('.searchItem').select2({
-            placeholder: 'Search jobs by Skills, Designation, Companies',
-            ajax: {
-                url: '/ajaxpro.php',
-                dataType: 'json',
-                delay: 250,
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            }
->>>>>>> ab66465973d4ad7487906433a1520d064dfe14b2
-        });
+        // $('.searchItem').select2({
+        //     placeholder: 'Search jobs by Skills, Designation, Companies',
+        //     ajax: {
+        //         url: '/ajaxpro.php',
+        //         dataType: 'json',
+        //         delay: 250,
+        //         processResults: function (data) {
+        //             return {
+        //                 results: data
+        //             };
+        //         },
+        //         cache: true
+        //     }
+        // });
     });
     
 </script>

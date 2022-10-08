@@ -100,26 +100,35 @@ span
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row"><a href="" target="_blank" >Executive - Admin and HR</a>
-                        <p class="mb-1 mt-2">Posted Date: 30-11-2020</p>
-                        <p class="mb-0">Expiry Date: 10-12-2020</p>
-                    </th>
-                    <td><a href="#" class="text-primary">165</a></td>
-                    <td>You</td>
-                    <td>
-                      <ul class="list-unstyled mb-0 d-flex">
-                        <li><a href="#" class="text-primary" data-bs-toggle="tooltip" title="view"><i class="far fa-eye"></i></a></li>
-                        <li><a href="#" class="text-info" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
-                        <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></a></li>
-                        <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Share"><i class="fa fa-share"></i></a></li>
-                      </ul>
-                    </td>
-                  </tr> 
+                @if(isset($postJobs) && count($postJobs))
+                    @foreach($postJobs as $jobs) 
+                    <tr>                        
+                        <th scope="row">
+                        <a href="" target="_blank" >{{$jobs->title}}</a>
+                        <p class="mb-1 mt-2">Posted Date: {{ date("d-M-Y", strtotime($jobs->created_at)) }}</p>
+                        <p class="mb-0">Expiry Date: {{ date("d-M-Y", strtotime($jobs->expiry_date)) }}</p>
+                      </th>                                   
+                        <td class="text-center"> <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a></td>
+                        <td class="text-center"><span>{{$user->name}}</span></td>
+                        <td>{{ date("d-M-Y", strtotime($jobs->created_at)) }} </td>
+                        <td>
+                          <ul class="list-unstyled mb-0 d-flex">
+                            <li><a  href="{{route('job.detail', [$jobs->slug,'type' => 'View'])}}" class="text-primary" data-bs-toggle="tooltip" title="view"><i class="far fa-eye"></i></a></li>
+                            <li><a href="{{route('edit.front.job', [$jobs->id])}}" class="text-info" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
+                            <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></a></li>
+                            <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Share"><i class="fa fa-share"></i></a></li>
+                          </ul>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif 
                 </tbody>
               </table>
             </div>
-            <div class="row justify-content-center">
+            <div class="col-12 text-center">                
+                {{ $postJobs->links('pagination.default') }}
+            </div>
+            <!-- <div class="row justify-content-center">
               <div class="col-12 text-center">
                 <ul class="pagination mt-3">
                   <li class="page-item disabled me-auto">
@@ -133,7 +142,7 @@ span
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

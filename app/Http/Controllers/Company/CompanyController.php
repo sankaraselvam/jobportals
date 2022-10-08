@@ -53,7 +53,7 @@ class CompanyController extends Controller
     }
 
     public function getJobPosts(){
-        $postList = Job::select('id','title','created_at','slug')
+        $postList = Job::select('id','title','created_at','expiry_date','slug')
         ->with('appliedUsers')
         // ->whereHas('appliedUsers', function($q) use($user_id){
         //     $q->where('job_apply.user_id','=',$user_id);
@@ -98,12 +98,18 @@ class CompanyController extends Controller
        
     }
 
-    public function companyManageJobs()
-        {
+    public function companyManageJobs() {
+            // $postJobs = $this->getJobPosts()->paginate(2);    
+            $postJobs = Job::select('id','title','created_at','expiry_date','slug')
+            ->with('appliedUsers')            
+            ->orderBy('jobs.id', 'DESC')->paginate(2);
+
+            $users= Auth::guard('company')->user();
+            // dd($postJobs);
             return view('company.company_manage_jobs')
-            ->with('company', 'company')
-            ->with('messages', 'messages');
-        }
+            ->with('postJobs', $postJobs)
+            ->with('user', $users);
+    }
     
     public function companyCandidateListing()
         {

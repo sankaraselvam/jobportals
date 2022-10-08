@@ -102,15 +102,16 @@ trait JobTrait
         $job->gender_id = $request->input('gender_id');
         $job->expiry_date = $request->input('expiry_date');
         $job->degree_level_id = $request->input('degree_level_id');
-        $job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
-        $job->duration = $request->input('duration');
-        $job->timing = $request->input('timing');
-        $job->contact_person = $request->input('contact_person');
-        $job->contact_number = $request->input('contact_number');
-        $job->job_experience_id_from = $request->input('job_experience_id_from');
+		$job->job_experience_id_from = $request->input('job_experience_id_from');
         $job->job_experience_id_to = $request->input('job_experience_id_to');
-        //$job->job_experience_id = $request->input('job_experience_id');
-		//$job->salary_period_id = $request->input('salary_period_id');
+		if($request->input('walk_in')==1){
+			$job->walk_in = $request->input('walk_in');
+			$job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
+			$job->duration = $request->input('duration');
+			$job->timing = $request->input('timing');
+			$job->contact_person = $request->input('contact_person');
+			$job->contact_number = $request->input('contact_number');
+		}
         return $job;
 	}
 	public function createJob()
@@ -309,7 +310,7 @@ trait JobTrait
 		$company->update();
 		/**********************************/
 		
-		event(new JobPosted($job));
+		//event(new JobPosted($job));
 
         flash('Job has been added!')->success();
         return \Redirect::route('edit.front.job', array($job->id));
@@ -319,7 +320,7 @@ trait JobTrait
 
     public function editFrontJob($id)
     {
-        $countries = DataArrayHelper::langCountriesArray();
+		$countries = DataArrayHelper::langCountriesArray();
         $currencies = DataArrayHelper::currenciesArray();
 		$careerLevels = DataArrayHelper::langCareerLevelsArray();
 		$functionalAreas = DataArrayHelper::langFunctionalAreasArray();
@@ -330,10 +331,12 @@ trait JobTrait
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
         $degreeLevels = DataArrayHelper::langDegreeLevelsArray();
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
+		$industry = DataArrayHelper::langIndustryArray();
 		
         $job = Job::findOrFail($id);
+		// dd($job);
 		$jobSkillIds = $job->getJobSkillsArray();
-        return view('job.add_edit_job')
+	    return view('job.add_edit_job')
                         ->with('countries', $countries)
 						->with('currencies', array_unique($currencies))
                         ->with('careerLevels', $careerLevels)
@@ -346,16 +349,18 @@ trait JobTrait
                         ->with('jobSkillIds', $jobSkillIds)
 						->with('degreeLevels', $degreeLevels)
 						->with('salaryPeriods', $salaryPeriods)
+						->with('industry', $industry)
                         ->with('job', $job);
     }
 
-    public function updateFrontJob($id, JobFrontFormRequest $request)
+    public function updateFrontJob($id, Request $request)
     {
+		//dd($request->all());
         $job = Job::findOrFail($id);
-        $job->id = $request->input('id');
+        //$job->id = $request->input('id');
         $job = $this->assignJobValues($job, $request);
 		/**********************************/
-		$job->slug = str_slug($job->title, '-').'-'.$job->id;
+		$job->slug = str_slug($job->title, '-').'-'.$id;
 		/**********************************/
 		
 		/*         * ************************************ */

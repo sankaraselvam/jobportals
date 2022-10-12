@@ -101,7 +101,8 @@ class CompanyController extends Controller
     public function companyManageJobs() {
             // $postJobs = $this->getJobPosts()->paginate(2);    
             $postJobs = Job::select('id','title','created_at','expiry_date','slug')
-            ->with('appliedUsers')            
+            ->with('appliedUsers') 
+            ->where('deleted_at', 'N')           
             ->orderBy('jobs.id', 'DESC')->paginate(2);
 
             $users= Auth::guard('company')->user();
@@ -111,14 +112,12 @@ class CompanyController extends Controller
             ->with('user', $users);
     }
     
-    public function companyCandidateListing()
-        {
-            //echo 1111111111111111111111111111111;exit;
+    public function companyCandidateListing(){
             return view('company.company_candidate_listing')
                             ->with('company', 'company')
                             ->with('messages', 'messages');
            
-        }
+    }
     
     
 	

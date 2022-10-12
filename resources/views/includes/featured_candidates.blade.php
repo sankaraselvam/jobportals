@@ -1,4 +1,8 @@
- <!--=================================
+@php
+use App\Helpers\MiscHelper;
+use Carbon\Carbon; 
+@endphp
+<!--=================================
 Candidates & Companies -->
 <section class="space-pb"><br><br>
         <div class="container">
@@ -8,72 +12,46 @@ Candidates & Companies -->
                     <div class="section-title">
                         <h2 class="title">Featured Candidates</h2>                        
                     </div>
+                    @foreach ($candidates as $users)  
+
+                    @php
+                    $skillArr=[];
+                    
+                    foreach($users->profileSkills as $skill){
+                        $skillArr[]=$skill->jobSkill->job_skill;
+                    }    
+                    $current_date = Carbon::now()->toDateTimeString();
+                    $different_days = MiscHelper::diffInDays($current_date, $users->created_at);
+                    $number = MiscHelper::getNumbers();
+                    @endphp 
+
                     <div class="candidate-list">
                         <div class="candidate-list-image">
-                            <img class="img-fluid" src="{{asset('/')}}images/avatar/04.jpg" alt="">
+                            @if ($users->image !='')
+                                <img class="img-fluid " src="{{asset('/')}}user_images/{{$users->image}}" alt="">
+                            @else
+                                <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                            @endif  
                         </div>
                         <div class="candidate-list-details">
                             <div class="candidate-list-info">
                                 <div class="candidate-list-title">
-                                    <h5 class="mb-0"><a href="candidate-detail.html">Melissa Doe</a></h5>
+                                    <h5 class="mb-0"><a href="candidate-detail.html">{{ $users->name }}</a></h5>
                                 </div>
                                 <div class="candidate-list-option">
                                     <ul class="list-unstyled">
-                                        <li><i class="fas fa-filter pe-1"></i>Construction & Property</li>
-                                        <li><i class="fas fa-map-marker-alt pe-1"></i>Botchergate, Carlisle</li>
+                                        <li><i class="fas fa-filter pe-1"></i>{{ implode(' , ',$skillArr) }}</li>
+                                        <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $users->city->city }}, {{ $users->state->state }}</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="candidate-list-favourite-time">
-                            <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                            <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>6D ago</span>
+                            <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>{{ isset($number[$different_days])?$number[$different_days]:$different_days }}D ago</span>
                         </div>
                     </div>
-                    <div class="candidate-list">
-                        <div class="candidate-list-image">
-                            <img class="img-fluid" src="{{asset('/')}}images/avatar/01.jpg" alt="">
-                        </div>
-                        <div class="candidate-list-details">
-                            <div class="candidate-list-info">
-                                <div class="candidate-list-title">
-                                    <h5 class="mb-0"><a href="candidate-detail.html">Paul Flavius</a></h5>
-                                </div>
-                                <div class="candidate-list-option">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fas fa-filter pe-1"></i>General Insurance</li>
-                                        <li><i class="fas fa-map-marker-alt pe-1"></i>Ormskirk Rd, Wigan</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="candidate-list-favourite-time">
-                            <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                            <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span>
-                        </div>
-                    </div>
-                    <div class="candidate-list">
-                        <div class="candidate-list-image">
-                            <img class="img-fluid" src="{{asset('/')}}images/avatar/05.jpg" alt="">
-                        </div>
-                        <div class="candidate-list-details">
-                            <div class="candidate-list-info">
-                                <div class="candidate-list-title">
-                                    <h5 class="mb-0"><a href="candidate-detail.html">Felica Queen</a></h5>
-                                </div>
-                                <div class="candidate-list-option">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fas fa-filter pe-1"></i>General Insurance</li>
-                                        <li><i class="fas fa-map-marker-alt pe-1"></i>Union St, New Delhi</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="candidate-list-favourite-time">
-                            <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                            <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>2D ago</span>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
                 <div class="col-lg-1"></div>
                 <!-- Top Companies -->

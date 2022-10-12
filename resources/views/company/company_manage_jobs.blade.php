@@ -115,8 +115,8 @@ span
                           <ul class="list-unstyled mb-0 d-flex">
                             <li><a  href="{{route('job.detail', [$jobs->slug,'type' => 'View'])}}" class="text-primary" data-bs-toggle="tooltip" title="view"><i class="far fa-eye"></i></a></li>
                             <li><a href="{{route('edit.front.job', [$jobs->id])}}" class="text-info" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
-                            <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></a></li>
-                            <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Share"><i class="fa fa-share"></i></a></li>
+                            <li><a href="{{route('delete.front.job', [$jobs->id])}}" class="text-danger" data-bs-toggle="tooltip" title="Delete"><i class="far fa-trash-alt"></i></a></li>
+                            <!-- <li><a href="#" class="text-danger" data-bs-toggle="tooltip" title="Share"><i class="fa fa-share"></i></a></li> -->
                           </ul>
                         </td>
                     </tr>

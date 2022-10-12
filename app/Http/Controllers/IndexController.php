@@ -20,6 +20,7 @@ use App\Traits\CityTrait;
 use App\Traits\JobTrait;
 use App\Traits\Active;
 use App\Helpers\DataArrayHelper;
+use App\User;
 
 class IndexController extends Controller
 {
@@ -53,12 +54,15 @@ class IndexController extends Controller
 		$topCityIds = $this->getCityIdsAndNumJobs(32);
 		$featuredJobs = Job::active()->featured()->notExpire()->limit(12)->get();
 		$latestJobs = Job::with(['jobExperienceFrom','jobExperienceTo'])->active()->notExpire()->orderBy('id', 'desc')->limit(12)->get();
+		$company = Company::get();
 		$video = Video::getVideo();
 		$testimonials = Testimonial::langTestimonials();
 		$functionalAreas = DataArrayHelper::langFunctionalAreasArray();
 		$countries = DataArrayHelper::langCountriesArray();
-		//dd(Auth::user());
+		
         $seo = SEO::where('seo.page_title', 'like', 'front_index_page')->first();
+		$candidates = User::with(['country','state','city','profileSkills.jobSkill'])->orderBy('id', 'desc')->limit(3)->get();
+		// dd($latestJobs);
 		$user = (Auth::user())?Auth::user()->id:0;
         return view('welcome')
                         ->with('topCompanyIds', $topCompanyIds)
@@ -72,7 +76,9 @@ class IndexController extends Controller
                         ->with('countries', $countries)
 						->with('video', $video)
 						->with('testimonials', $testimonials)
-						->with('seo', $seo);
+						->with('seo', $seo)
+						->with('candidates', $candidates)
+						->with('company', $company);
     }
 	
 	public function setLocale(Request $request)
@@ -89,12 +95,12 @@ class IndexController extends Controller
     }
 
 	public function getFavouriteJob($job_slug){
-		$FavouriteJob = FavouriteJob::where('job_slug',$job_slug);
-		if(isset(Auth::user()->id)&&Auth::user()->id!=null){
-			$FavouriteJob =  $FavouriteJob->where('user_id', Auth::user()->id);
-		}
-		$FavouriteJob =  $FavouriteJob->count();
-		return $FavouriteJob;
+		$FavouriteJob = FavouriteJob::where('job_slug',$job_slug)->first();
+		// if(isset(Auth::user()->id)&&Auth::user()->id!=null){
+		// 	$FavouriteJob =  $FavouriteJob->where('user_id', Auth::user()->id);
+		// }
+		// $FavouriteJob =  $FavouriteJob->count();
+		return isset($FavouriteJob->user_id)?$FavouriteJob->user_id:'';
 	}
 
 }

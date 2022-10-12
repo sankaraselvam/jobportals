@@ -337,4 +337,37 @@ class JobController extends Controller
 				->with('jobs', $jobs);
     }
 
+	public function jobsBySearchList(Request $request){
+	
+		$searchItem=$request->input("q");
+		$searchListArr=[];
+		$inc=0;
+		if($searchItem !=""){
+			$jobs = Job::with(['jobSkills.jobSkill','company']);
+			if($searchItem!=''){
+				$jobs=$jobs->whereHas('company', function($q) use($searchItem){
+					$q->where('name','like','%' . $searchItem . '%');
+				})
+				->orWhereHas('jobSkills.jobSkill', function($query) use($searchItem){
+					$query->where('job_skill','like','%' . $searchItem . '%');
+				});
+			}
+			$jobs=$jobs->get();
+			
+			
+			foreach($jobs as $jobarr){
+				foreach($jobarr->jobSkills as $skills){
+					$searchListArr[]=array('id'=>$skills->jobSkill->job_skill.','.$jobarr->company->name,'text'=>$skills->jobSkill->job_skill.','.$jobarr->company->name);
+					$inc++;
+				}
+			}
+			return json_encode($searchListArr) ;
+		}
+		
+	}
+
+	public function findJobsSearch(Request $request){
+		dd($request->all());
+	} 
+
 }

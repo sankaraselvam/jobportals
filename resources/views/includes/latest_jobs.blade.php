@@ -108,7 +108,11 @@ use Carbon\Carbon;
                                                 @if ($favouritejob == 0)
                                                     <a class="job-list-favourite order-2" href="#" data-id="{{route('add.to.favourite', $latestJob->slug)}}"><i class="far fa-heart"></i></a>
                                                 @else
-                                                    <a class="job-list-favourite order-2" href="#" data-id="{{route('remove.from.favourite', $latestJob->slug)}}"><i class="fas fa-heart text-danger"></i></a>
+                                                    @if ($user===$favouritejob)
+                                                        <a class="job-list-favourite order-2" href="#" data-id="{{route('remove.from.favourite', $latestJob->slug)}}"><i class="fas fa-heart text-danger"></i></a>
+                                                    @else
+                                                        <a class="job-list-favourite order-2" href="#" data-id="{{route('add.to.favourite', $latestJob->slug)}}"><i class="far fa-heart"></i></a>
+                                                    @endif
                                                 @endif
                                                 <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>{{ isset($number[$different_days])?$number[$different_days]:$different_days }} ago</span>
                                             </div>

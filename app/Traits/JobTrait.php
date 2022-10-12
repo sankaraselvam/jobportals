@@ -39,15 +39,14 @@ trait JobTrait
 {
 	use Skills;
 
-    public function deleteJob(Request $request)
+    public function deleteJob(Request $request, $id)
     {
-        $id = $request->input('id');
-        try {
+		try {
             $job = Job::findOrFail($id);
-			JobSkillManager::where('job_id', '=', $id)->delete();
-            $job->delete();
-
-            return 'ok';
+        	$job->deleted_at = "Y";
+			$job->update();
+			flash('Job has been deleted!')->success();
+        	return \Redirect::route('company.managejobs');
         } catch (ModelNotFoundException $e) {
             return 'notok';
         }
@@ -265,7 +264,7 @@ trait JobTrait
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		
 		$jobSkillIds = array();
-		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->orderBy('jobs.id', 'DESC')->limit(5)->get();
+		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->where('deleted_at', 'N')->orderBy('jobs.id', 'DESC')->limit(5)->get();
 		
         return view('job.add_edit_job')
                         ->with('countries', $countries)

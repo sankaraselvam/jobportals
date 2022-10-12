@@ -50,7 +50,7 @@
                                     <i class=" font-xlll text-primary flaticon-team"></i>
                                 </div>
                                 <div class="counter-content">
-                                    <span class="timer mb-1 text-dark" data-to="1562" data-speed="10000">1,562</span>
+                                    <span class="timer mb-1 text-dark" data-to="{{ 2000 +count($latestJobs) }}" data-speed="10000">{{ 2000 +count($latestJobs) }}</span>
                                     <label class="mb-0">Jobs Posted</label>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <i class="font-xlll text-primary flaticon-job-3"></i>
                                 </div>
                                 <div class="counter-content">
-                                    <span class="timer mb-1 text-dark" data-to="240" data-speed="10000">240</span>
+                                    <span class="timer mb-1 text-dark" data-to="{{ 200 + count($company) }}" data-speed="10000">{{ 200 + count($company) }}</span>
                                     <label class="mb-0">Companies</label>
                                 </div>
                             </div>

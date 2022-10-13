@@ -4,36 +4,74 @@
 <!-- Header start --> 
 @include('includes.header') 
 <!-- Header end --> 
+<style type="text/css">
+  .nav-link {
+    color: rgb(110, 110, 110);
+    font-weight: 500;
+  }
+  .nav-link:hover {
+    color: #55c57a;
+  }
+
+  .nav-pills .nav-link.active {
+    color: black;
+    background-color: white;
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-weight: 600;
+  }
+
+  .tab-content {
+    padding-bottom: 1.3rem;
+  }
+  a.active {
+    border-bottom: 2px solid #eb3131  !important;
+  }
+  .ps-10{
+    padding-left:35%;
+  }
+  .breadcrumb .active span{
+    color:black;
+  }
+  .bg-default{
+    background-color:#dfd8d8;
+  }
+  .breadcrumb .breadcrumb-item a{
+    color: black;
+  }
+  .btn-primary {
+    color: #530dfd;
+    margin-left: 536px;
+    border-color: #530dfd;
+    background:white;
+  }
+  .spn-top-filter{
+    width: auto;
+    border: 1px solid silver;
+    border-radius: 14px;
+    cursor: pointer;
+    margin: 6px;
+    padding: 6px;
+  }
+  .spn-top-filter.active{
+    background-color: #dbd8d8;
+    color: black;
+    font-weight: bold;
+  }
+  .sec-top-filter{
+    padding: 16px;
+  }
+  .side-icon{
+    font-size: 22px;
+    text-align: center;
+    padding: 22px;
+  }
+  .side-icon >a{
+    color: grey;
+  }
+</style>
 <!--=================================
 banner -->
-<section class="header-inner header-inner-big bg-holder text-white" style="background-image: url(images/bg/banner-01.jpg);">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="job-search-field">
-          <div class="job-search-item">
-            <form class="form row">
-              <div class="col-lg-5 col-md-4">
-                <div class="form-group left-icon mb-md-0">
-                  <input type="text" class="form-control" name="job_title" placeholder="What?">
-                <i class="fas fa-search"></i> </div>
-              </div>
-              <div class="col-lg-4 col-md-4">
-                <div class="form-group left-icon mb-md-0">
-                  <input type="text" class="form-control" name="job_title" placeholder="Where?">
-                <i class="fas fa-search"></i> </div>
-              </div>
-              <div class="col-lg-3 col-md-4 col-sm-12">
-                <div class="form-group form-action mb-0">
-                  <button type="submit" class="btn btn-primary mt-0"><i class="fas fa-search-location"></i> Find Candidate</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="header-inner header-inner-big bg-holder text-white" style="background-image: url(images/bg/banner-01.jpg);"> 
 </section>
 <!--=================================
 banner -->
@@ -243,291 +281,133 @@ candidate post-box list -->
           </div>
         </div>
       </div>
-      <div class="col-lg-9">
-        <div class="row mb-4">
-          <div class="col-12">
-            <h6 class="mb-0">Showing 1-11 of <span class="text-primary">28 Candidates</span></h6>
-          </div>
-        </div>
-        <div class="job-filter mb-4 d-sm-flex align-items-center">          
+      <div class="col-lg-9 ">       
+        <div class="job-filter d-sm-flex align-items-center"> 
+          <div class="job-alert-bt">  <h6 class="mb-0"> Showing 28 applies</h6></div>         
           <div class="job-shortby ms-sm-auto d-flex align-items-center">
             <form class="form-inline">
               <div class="form-group d-flex align-items-center mb-0">
-                <label class="justify-content-start me-2">Sort by :</label>
+                <label class="justify-content-start me-2">Show</label>
                 <div class="short-by">
                   <select class="form-control basic-select">
-                    <option>Newest</option>
-                    <option>Oldest</option>
+                    <option>20</option>
+                    <option>40</option>
+                    <option>80</option>
+                    <option>120</option>
                   </select>
                 </div>
               </div>
             </form>
           </div>
-        </div>
+        </div>       
         <div class="row">
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/04.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Candidate Name</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Construction & Property</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Botchergate, Carlisle</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>6D ago</span>
-              </div>
+          <div class="col-md-12">
+            <div class="secondary-menu" style="margin-top:1%;">
+              <ul>
+                <li>
+                  <input type="checkbox" class="form-check-input mt-2" id="select-all">
+                  <label class="form-check-label ps-2 mt-2" for="select-all">Select All</label>
+                <li><a href="#"><i class="fas fa-check pe-2"></i>Shortlist</a></li>
+                <li><a href="#"><i class="fas fa-registered pe-2"></i>Reject</a></li>
+                <li><a href="#"><i class="fas fa-envelope pe-2"></i>Email</a></li>
+                <li><a href="#"><i class="fas fa-download pe-2"></i>Download</a></li>
+                <li><a href="#"><i class="fas fa-trash pe-2"></i>Delete</a></li>
+              </ul>
             </div>
           </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/03.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Paul Flavius</a></h5>
+        </div>
+        <div class="row">            
+          <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="jobber-candidate-detail">              
+              <div class="border p-3">  
+                <div class="row">                   
+                  <div class="col-md-7">
+                    <div class="candidate-list-details">
+                      <div class="candidate-list-info">
+                        <div class="candidate-list-title">
+                          <h5 class="mb-0">
+                            <input type="checkbox" class="form-check-input" id="name1">
+                            <label class="form-check-label" for="name1">Shakil Ahamad</label>
+                          </h5>
+                        </div>
+                        <div class="candidate-list-option ps-4">
+                          <ul class="list-unstyled">
+                            <li><i class="fas fa-briefcase pe-1"></i>6y 6m</li>
+                            <li><i class="fas fa-filter pe-1"></i>3 Lac(s)</li>
+                            <li><i class="fas fa-map-marker-alt pe-1"></i>24 SL Road, London. UK</li>
+                            <li><i class="fas fa-clock  pe-1"></i>1m notice</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row ps-2 mt-3">
+                      <div class="col-md-12 col-sm-12 mb-3">
+                        <div class="feature-info-content ps-3">
+                          <label class="mb-0 col-md-2">Current</label>
+                          <span class="col-md-6">Scada Operator at Triveni Engineering&Industries LTD.</span>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-sm-12 mb-3">
+                        <div class="feature-info-content ps-3">
+                          <label class="mb-0 col-md-2">Previous</label>
+                          <span class="col-md-6">W.t.p scada operator at Techno service</span>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-sm-12 mb-3">
+                        <div class="feature-info-content ps-3">
+                          <label class="mb-0 col-md-2">Education</label>
+                          <span class="col-md-6">B.Sc j.p university chhapra 2014</span>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-sm-12 mb-3">
+                        <div class="feature-info-content ps-3">
+                          <label class="mb-0 col-md-2">Key skills</label>
+                          <span class="col-md-6">Installating | Electric Installation | Plant Maintenance</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>General Insurance</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Ormskirk Rd, Wigan</li>
-                    </ul>
+                  <div class="col-md-3">                    
+                    <div class="candidate-list-image" style="width:50%;margin-left:30%;">
+                      <img class="img-fluid" src="{{asset('/')}}images/avatar/04.jpg" alt="">
+                    </div><br>
+                    <div class="feature-info-content ps-3 text-center">
+                      <label class="mb-1 ">WATER TREATMENT PLANT</label>
+                    </div>
+                    <div class="feature-info-content ps-3 text-center">
+                      <label class="mb-1 ">+91-8674811410 <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
+                    </div>                          
+                    <div class="feature-info-content ps-3 text-center">
+                      <select class="form-control basic-select select2-hidden-accessible mb-1">
+                        <option>Call Status</option>
+                        <option>Messaged</option>
+                        <option>Call not picked</option>
+                        <option>Not Reachable</option>                        
+                      </select>
+                    </div>
+                    <div class="feature-info-content ps-3 text-center">
+                      <label class="mb-1 ">shakilahmad070806@gmail.com</label>
+                    </div>  
                   </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/05.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Felica Queen</a></h5>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <div class="col-md-12 side-icon">
+                        <a href="#"><i class="fas fa-envelope pe-1"></i></a>
+                      </div>
+                      <div class="col-md-12 side-icon">
+                        <a href="#"><i class="fas fa-share pe-1"></i></a>
+                      </div>
+                      <div class="col-md-12 side-icon">
+                        <a href="#"><i class="fas fa-trash pe-1"></i></a>
+                      </div>
+                      <div class="col-md-12 side-icon">
+                        <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i></a>
+                      </div>
+                    </div>
                   </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>General Insurance</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Union St, New Delhi</li>
-                    </ul>
-                  </div>
-                </div>
+                </div> 
               </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>2D ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/08.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Carolyn & Dan</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Recruitment Consultancy</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Paris, Île-de-France</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>2W ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/06.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Sara Lisbon</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Strategy & Consultancy</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Canyon Village, Ramon</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>3W ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/02.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">John Doe</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Strategy & Consultancy</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Lynch Lane, Weymouth</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>1M ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/07.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Reyna Chung</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Transport & Logistics</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Needham, MA</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>1H ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/08.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Carolyn & Dan</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Apprenticeships</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Botchergate, Carlisle</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>3M ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/09.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Michael Bean</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Estate Agency</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Park Avenue, Mumbai</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>6D ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/10.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Jessica & Alex</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>EHealth & Medicine</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Wellesley Rd, London</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>2W ago</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="candidate-list">
-              <div class="candidate-list-image">
-                <img class="img-fluid" src="images/avatar/11.jpg" alt="">
-              </div>
-              <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                  <div class="candidate-list-title">
-                    <h5 class="mb-0"><a href="#">Anne Smith</a></h5>
-                  </div>
-                  <div class="candidate-list-option">
-                    <ul class="list-unstyled">
-                      <li><i class="fas fa-filter pe-1"></i>Marketing & PR</li>
-                      <li><i class="fas fa-map-marker-alt pe-1"></i>Burry Port, Surat</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="candidate-list-favourite-time">
-                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                <span class="candidate-list-time order-1"><i class="far fa-clock pe-1"></i>1D ago</span>
-              </div>
-            </div>
+            </div>            
           </div>
         </div>
         <div class="row">

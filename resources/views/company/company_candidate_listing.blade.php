@@ -284,7 +284,7 @@ candidate post-box list -->
       </div>
       <div class="col-lg-9 ">       
         <div class="job-filter d-sm-flex align-items-center"> 
-          <div class="job-alert-bt">  <h6 class="mb-0"> Showing {{count($job_applied_users->)}} applies</h6></div>         
+          <div class="job-alert-bt">  <h6 class="mb-0"> Showing {{count($job_applied_users)}} applies</h6></div>         
           <div class="job-shortby ms-sm-auto d-flex align-items-center">
             <form class="form-inline">
               <div class="form-group d-flex align-items-center mb-0">

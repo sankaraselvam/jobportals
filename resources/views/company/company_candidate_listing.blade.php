@@ -298,8 +298,21 @@ candidate post-box list -->
                 </div>
               </div>
             </form>
+            <form class="form-inline">
+              <div class="form-group d-flex align-items-center mb-0">
+                <label class="justify-content-start me-2">Sort by :</label>
+                <div class="short-by">
+                  <select class="form-control basic-select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                    <option >Newest</option>
+                    <option >Oldest</option>
+                  </select>
+                </div>
+              </div>
+            </form>
           </div>
-        </div>       
+          
+        </div> 
+
         <div class="row">
           <div class="col-md-12">
             <div class="secondary-menu" style="margin-top:1%;">
@@ -313,7 +326,9 @@ candidate post-box list -->
                 <li><a href="#"><i class="fas fa-download pe-2"></i>Download</a></li>
                 <li><a href="#"><i class="fas fa-trash pe-2"></i>Delete</a></li>
               </ul>
+              
             </div>
+           
           </div>
         </div>
         <div class="row">            

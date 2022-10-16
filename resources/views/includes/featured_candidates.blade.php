@@ -12,7 +12,7 @@ Candidates & Companies -->
                     <div class="section-title">
                         <h2 class="title">Featured Candidates</h2>                        
                     </div>
-                    @foreach ($candidates as $users)  
+                                      @foreach ($candidates as $users)  
 
                     @php
                     $skillArr=[];
@@ -41,7 +41,7 @@ Candidates & Companies -->
                                 <div class="candidate-list-option">
                                     <ul class="list-unstyled">
                                         <li><i class="fas fa-filter pe-1"></i>{{ implode(' , ',$skillArr) }}</li>
-                                        <li><i class="fas fa-map-marker-alt pe-1"></i>{{ $users->city->city }}, {{ $users->state->state }}</li>
+                                        <li><i class="fas fa-map-marker-alt pe-1"></i>{{ isset($users->city)?$users->city->city:'' }}, {{ isset($users->state)?$users->state->state:'' }}</li>
                                     </ul>
                                 </div>
                             </div>

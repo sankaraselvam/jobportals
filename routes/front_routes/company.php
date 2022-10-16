@@ -21,4 +21,4 @@ Route::get('company-change-password', 'Company\CompanyController@companyChangePa
 
 Route::get('company-connection', 'Company\CompanyController@companyConnection')->name('company.connection');
 Route::get('company-manage-jobs', 'Company\CompanyController@companyManageJobs')->name('company.managejobs');
-Route::get('company-candidate-listing', 'Company\CompanyController@companyCandidateListing')->name('company.candidate.listing');
+Route::get('company-candidate-listing/{id}', 'Company\CompanyController@companyCandidateListing')->name('company.candidate.listing');

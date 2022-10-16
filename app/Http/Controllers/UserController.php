@@ -108,14 +108,16 @@ class UserController extends Controller
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
 
         //$user = User::findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
+        $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])
+        ->whereHas('profileExperience', function($q){
+            $q->orderBy('profile_experiences.id', 'desc');
+        })
+        ->findOrFail(Auth::user()->id);
 
         // $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         
         // dd(MiscHelper::getSalaryThousands());
-       
-        
-        //dd($user);
+
         $percentage = $this->getProfilePercentage($user);
         return view('user.edit_profile')
                         ->with('genders', $genders)

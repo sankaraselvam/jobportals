@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content') 
@@ -283,7 +284,7 @@ candidate post-box list -->
       </div>
       <div class="col-lg-9 ">       
         <div class="job-filter d-sm-flex align-items-center"> 
-          <div class="job-alert-bt">  <h6 class="mb-0"> Showing 28 applies</h6></div>         
+          <div class="job-alert-bt">  <h6 class="mb-0"> Showing {{count($job_applied_users->)}} applies</h6></div>         
           <div class="job-shortby ms-sm-auto d-flex align-items-center">
             <form class="form-inline">
               <div class="form-group d-flex align-items-center mb-0">
@@ -316,7 +317,19 @@ candidate post-box list -->
             </div>
           </div>
         </div>
-        <div class="row">            
+        @foreach ($job_applied_users as $appliedUsers)
+          @if (isset($appliedUsers->user))
+          @php
+              $jobSkillArr=[];
+              $expData = app('App\Http\Controllers\Company\CompanyController')->getProfileExperienceList($appliedUsers->user_id);             
+          @endphp
+         
+          @foreach ($appliedUsers->user->profileSkills as $skils)
+              @php
+              $jobSkillArr[]=$skils->jobSkill->job_skill;
+              @endphp              
+          @endforeach
+          <div class="row">            
           <div class="col-lg-12 mb-4 mb-lg-0">
             <div class="jobber-candidate-detail">              
               <div class="border p-3">  
@@ -327,15 +340,15 @@ candidate post-box list -->
                         <div class="candidate-list-title">
                           <h5 class="mb-0">
                             <input type="checkbox" class="form-check-input" id="name1">
-                            <label class="form-check-label" for="name1">Shakil Ahamad</label>
+                            <label class="form-check-label" for="name1">{{ $appliedUsers->user->name }}</label>
                           </h5>
                         </div>
                         <div class="candidate-list-option ps-4">
                           <ul class="list-unstyled">
-                            <li><i class="fas fa-briefcase pe-1"></i>6y 6m</li>
-                            <li><i class="fas fa-filter pe-1"></i>3 Lac(s)</li>
-                            <li><i class="fas fa-map-marker-alt pe-1"></i>24 SL Road, London. UK</li>
-                            <li><i class="fas fa-clock  pe-1"></i>1m notice</li>
+                            <li><i class="fas fa-briefcase pe-1"></i>{{ $expData['expYears'] }}</li>
+                            <li><i class="fas fa-filter pe-1"></i>{{ $appliedUsers->user->profileCarrer->salary_from }} Lac {{ $appliedUsers->user->profileCarrer->salary_to }} Thousand</li>
+                            <li><i class="fas fa-map-marker-alt pe-1"></i>{{  $appliedUsers->user->street_address }}</li>
+                            <li><i class="fas fa-clock  pe-1"></i>{{ isset($expData['experience'][0])?$expData['experience'][0]->notice_period:'' }} notice</li>
                           </ul>
                         </div>
                       </div>
@@ -344,38 +357,42 @@ candidate post-box list -->
                       <div class="col-md-12 col-sm-12 mb-3">
                         <div class="feature-info-content ps-3">
                           <label class="mb-0 col-md-2">Current</label>
-                          <span class="col-md-6">Scada Operator at Triveni Engineering&Industries LTD.</span>
+                          <span class="col-md-6">{{ isset($expData['experience'][0])?$expData['experience'][0]->company:'---' }}</span>
                         </div>
                       </div>
                       <div class="col-md-12 col-sm-12 mb-3">
                         <div class="feature-info-content ps-3">
                           <label class="mb-0 col-md-2">Previous</label>
-                          <span class="col-md-6">W.t.p scada operator at Techno service</span>
+                          <span class="col-md-6">{{ isset($expData['experience'][1])?$expData['experience'][1]->company:'---' }}</span>
                         </div>
                       </div>
                       <div class="col-md-12 col-sm-12 mb-3">
                         <div class="feature-info-content ps-3">
                           <label class="mb-0 col-md-2">Education</label>
-                          <span class="col-md-6">B.Sc j.p university chhapra 2014</span>
+                          <span class="col-md-6">{{ $appliedUsers->user->profileEducation[0]->degreeLevel->degree_level }} {{ $appliedUsers->user->profileEducation[0]->institution}} {{ $appliedUsers->user->profileEducation[0]->date_completion}}</span>
                         </div>
                       </div>
                       <div class="col-md-12 col-sm-12 mb-3">
                         <div class="feature-info-content ps-3">
                           <label class="mb-0 col-md-2">Key skills</label>
-                          <span class="col-md-6">Installating | Electric Installation | Plant Maintenance</span>
+                          <span class="col-md-6">{{ implode(' | ',$jobSkillArr) }}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-3">                    
                     <div class="candidate-list-image" style="width:50%;margin-left:30%;">
-                      <img class="img-fluid" src="{{asset('/')}}images/avatar/04.jpg" alt="">
+                    @if ($appliedUsers->user->image !='')
+                        <img class="img-fluid " src="{{asset('/')}}user_images/{{$appliedUsers->user->image}}" alt="">
+                    @else
+                        <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
+                    @endif
                     </div><br>
                     <div class="feature-info-content ps-3 text-center">
                       <label class="mb-1 ">WATER TREATMENT PLANT</label>
                     </div>
                     <div class="feature-info-content ps-3 text-center">
-                      <label class="mb-1 ">+91-8674811410 <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
+                      <label class="mb-1 ">+91 {{ $appliedUsers->user->mobile_num }} <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
                     </div>                          
                     <div class="feature-info-content ps-3 text-center">
                       <select class="form-control basic-select select2-hidden-accessible mb-1">
@@ -386,7 +403,7 @@ candidate post-box list -->
                       </select>
                     </div>
                     <div class="feature-info-content ps-3 text-center">
-                      <label class="mb-1 ">shakilahmad070806@gmail.com</label>
+                      <label class="mb-1 ">{{ $appliedUsers->user->email }}</label>
                     </div>  
                   </div>
                   <div class="col-md-2">
@@ -410,6 +427,10 @@ candidate post-box list -->
             </div>            
           </div>
         </div>
+          @endif
+        @endforeach
+        
+
         <div class="row">
           <div class="col-12 text-center mt-4 mt-sm-5">
             <ul class="pagination justify-content-center mb-0">

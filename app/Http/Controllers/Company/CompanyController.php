@@ -35,8 +35,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\Front\CompanyFrontFormRequest;
 use App\Http\Controllers\Controller;
+use App\ProfileExperience;
 use App\Traits\CompanyTrait;
-
+use DateTime;
 
 class CompanyController extends Controller
 {
@@ -112,11 +113,36 @@ class CompanyController extends Controller
             ->with('user', $users);
     }
     
-    public function companyCandidateListing(){
+    public function companyCandidateListing(Request $request, $job_id){
+        $job_applied_users = JobApply::with(['user','user.country','user.state','user.city','user.profileCarrer','user.profileCarrer.jobrole','user.profileEducation','user.profileEducation.degreeLevel','user.profileSkills','user.profileSkills.jobSkill','job'])
+        // ->whereHas('user.profileExperience', function($q){
+        //     $q->orderBy('profile_experiences.id', 'desc');
+        // })
+        ->whereHas('user', function($q){
+            $q->whereNotNull('id');
+        })
+        ->where('job_id', '=', $job_id)->get();
+        
+        // dd($job_applied_users);
             return view('company.company_candidate_listing')
-                            ->with('company', 'company')
+                            ->with('job_applied_users', $job_applied_users)
                             ->with('messages', 'messages');
            
+    }
+
+    public function getProfileExperienceList($user_id){
+        $experience = ProfileExperience::where('user_id', 2)->orderBy('id', 'desc')->limit(2)->get();
+        $expYears = $this->getExperienceYrs($experience);
+        return array('expYears'=>$expYears, 'experience'=>$experience);
+    }
+
+    public function getExperienceYrs($data){
+        $from = isset($data[1])?$data[1]->emp_working_from_year.'-'.$data[1]->emp_working_from_month.'-01':'';
+        $to = isset($data[0])?$data[0]->emp_working_from_year.'-'.$data[0]->emp_working_from_month.'-01':'';       
+        $origin = new DateTime($from);
+        $target = new DateTime($to);
+        $interval = $origin->diff($target);
+        return $interval->format('%y y %m m');
     }
     
     

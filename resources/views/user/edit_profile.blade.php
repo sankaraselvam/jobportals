@@ -353,7 +353,7 @@
                                                 <li><a href="javascript:void(0);" onclick="delete_profile_education('{{$education->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
                                         </div>
-                                        <span class="jobber-timeline-time">{{ $education->date_completion }} - Pres</span>
+                                        <span class="jobber-timeline-time">{{ $education->date_completion }}</span>
                                         <h6 class="mb-2">{{ $education->degreeType->degree_type }}</h6>
                                         <span>- {{ $education->institution }}</span>
                                         <p class="mt-2"></p>

@@ -67,7 +67,7 @@ $company = $job->getCompany();
                                     </div>
                                 </div>
                                 <div class="job-list-favourite-time">
-                                    <span class="job-list-time order-1 mb-2">Posted {{$job->created_at->format('M d, Y')}}</span>
+                                    <span class="job-list-time order-1 mb-2">Posted {{isset($job->created_at)?$job->created_at->format('M d, Y'):''}}</span>
                                     @if(Auth::check() && Auth::user()->isAppliedOnJob($job->id))
                                         <a class="btn btn-secondary mb-2 btn-md" href="javascript:;" class="btn apply" style="font-size:11px;">{{__('Already Applied')}}</a>
                                     @else
@@ -100,7 +100,7 @@ $company = $job->getCompany();
                                         </div>
                                         <div class="job-list-option">
                                             <ul class="list-unstyled" style="font-family:times new roman">
-                                                <li><i class="far fa-clock pe-2"></i>{{$job->created_at->format('M d, Y')}} - {{$job->expiry_date->format('M d, Y')}} , 9.30 AM - 5.30 PM</li>                                                
+                                                <li><i class="far fa-clock pe-2"></i>{{ isset($job->created_at)?$job->created_at->format('M d, Y'):''}} - {{ isset($job->expiry_date)?$job->expiry_date->format('M d, Y'):''}} , 9.30 AM - 5.30 PM</li>                                                
                                                 <li><i class="fas fa-phone fa-flip-horizontal fa-fw"></i><span class="ps-2">Contact - Mastan ( {{$company->phone}} ) </span></li>
                                             </ul>
                                         </div>

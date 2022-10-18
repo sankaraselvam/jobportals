@@ -84,6 +84,14 @@ use Carbon\Carbon;
     width: 600px;
     margin: 30px auto;
 }}
+label#search-box-error {
+    margin-top: -82px;
+    width: 222px;
+    margin-left: -445px;
+}
+abel.error {
+    color: red !important;
+}
     </style>
 <!--================================= banner -->
     <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;">
@@ -92,7 +100,7 @@ use Carbon\Carbon;
                 <div class="col-12">
                     <div class="job-search-field job-search-field-02 search-under-banner">
                         <div class="job-search-item">
-                            <form class="row basic-select-wrapper">
+                        <form class="row basic-select-wrapper form" id="searchdata" action="{{route('job.find.list')}}" method="get"> 
                                 <div class="col-lg-6">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-6">
@@ -100,8 +108,7 @@ use Carbon\Carbon;
                                                 <div class="form-group-search">
                                                     <label class="form-label">Search Jobs</label>
                                                     <div class="d-flex align-items-center">
-                                                        <select class="form-control searchItem" name="searchItem"></select>
-                                                        <!-- <input class="form-control" type="search" placeholder="Search jobs by Skills, Designation, Companies " style="height: 48px;"> -->
+                                                        <input type="text" class="form-control" id="search-box" name="search-box" placeholder="Search jobs by Skills, Designation, Companies" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,7 +118,7 @@ use Carbon\Carbon;
                                 <div class="col-lg-2">
                                     <div class="form-group mb-3 mt-0">
                                         <div class="mt-0">
-                                            <button class="btn btn-primary align-items-center" type="submit" style="padding:13px 15px!important;"><i class="fas fa-search me-1"></i>Find Jobs</button>
+                                            <button class="btn btn-primary align-items-center" id="SearchItem" type="submit" style="padding:13px 15px!important;"><i class="fas fa-search me-1"></i>Find Jobs</button>
                                         </div>
                                     </div>
                                 </div>
@@ -434,6 +441,14 @@ use Carbon\Carbon;
 @include('includes.footer')
 @endsection
 @push('scripts')
+<!-- jQuery library -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+
+<!-- jQuery UI library -->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $("#exampleModalAlert").modal("hide");
@@ -441,13 +456,41 @@ use Carbon\Carbon;
             alert('The modal is about to be hidden.');
         });
 
+        $("#search-box").autocomplete({
+            source: "{{ route('job.search.list') }}",
+            select: function( event, ui ) {
+                event.preventDefault();
+                // console.log(ui.item)
+                $("#search-box").val(ui.item.search);
+            }
+        });
+
+        $("#SearchItem").on('click', function (e) {
+            e.preventDefault;
+            $("#searchdata").validate({
+                rules: { 
+                    "search-box": 'required',
+                },    
+                messages: {
+                    "search-box": {
+                        required: "Please enter some data"
+                    }
+                },
+                submitHandler: function() {
+                    alert(1321321321);
+                    //submitProfileSummaryForm();
+                }
+            });        
+        });
+
         // $('.searchItem').select2({
         //     placeholder: 'Search jobs by Skills, Designation, Companies',
         //     ajax: {
-        //         url: '/ajaxpro.php',
+        //         url: "{{ route('job.search.list') }}",
         //         dataType: 'json',
         //         delay: 250,
         //         processResults: function (data) {
+        //             console.log(data)
         //             return {
         //                 results: data
         //             };

@@ -114,6 +114,7 @@ class CompanyController extends Controller
     }
     
     public function companyCandidateListing(Request $request, $job_id){
+        $callStatus = config('constants.callStatus');
         $job_applied_users = JobApply::with(['user','user.country','user.state','user.city','user.profileCarrer','user.profileCarrer.jobrole','user.profileEducation','user.profileEducation.degreeLevel','user.profileSkills','user.profileSkills.jobSkill','job'])
         // ->whereHas('user.profileExperience', function($q){
         //     $q->orderBy('profile_experiences.id', 'desc');
@@ -122,11 +123,12 @@ class CompanyController extends Controller
             $q->whereNotNull('id');
         })
         ->where('job_id', '=', $job_id)->get();
-        
-        // dd($job_applied_users);
+        // flash(__('Job has been added in favorites list'))->success();
+        // return \Redirect::route('index');
+        // dd($callStatus);
             return view('company.company_candidate_listing')
                             ->with('job_applied_users', $job_applied_users)
-                            ->with('messages', 'messages');
+                            ->with('callStatus', $callStatus);
            
     }
 
@@ -145,7 +147,28 @@ class CompanyController extends Controller
         return $interval->format('%y y %m m');
     }
     
-    
+    public function deleteApplyCandidate(Request $request){
+        $id = $request->input('id');
+        try {
+        	$JobApply = JobApply::findOrFail($id);
+	    	$JobApply->delete();
+            echo 'ok';
+        } catch (ModelNotFoundException $e) {
+            echo 'notok';
+        }
+    }
+
+    public function changeCandidateStatus(Request $request){
+        try {
+            $user = User::findOrFail($request->input('user_id'));
+            $user->candidate_status = $request->input('status_val');
+        	$user->update();
+            echo 'ok';
+        } catch (ModelNotFoundException $e) {
+            echo 'notok';
+        }
+        
+    }
 	
 	public function companyProfile()
     {

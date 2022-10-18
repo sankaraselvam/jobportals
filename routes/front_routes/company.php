@@ -22,3 +22,5 @@ Route::get('company-change-password', 'Company\CompanyController@companyChangePa
 Route::get('company-connection', 'Company\CompanyController@companyConnection')->name('company.connection');
 Route::get('company-manage-jobs', 'Company\CompanyController@companyManageJobs')->name('company.managejobs');
 Route::get('company-candidate-listing/{id}', 'Company\CompanyController@companyCandidateListing')->name('company.candidate.listing');
+Route::delete('delete-apply-candidate', 'Company\CompanyController@deleteApplyCandidate')->name('delete.apply.candidate');
+Route::post('change-candidate-status', 'Company\CompanyController@changeCandidateStatus')->name('change.candidate.status');

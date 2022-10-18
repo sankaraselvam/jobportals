@@ -97,7 +97,7 @@
                             </div>
                             <div class="profile-avatar-info ms-4">
                                 <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
-                                <p style="color: #fff;text-transform: capitalize;">{{ $user->profileCarrer->jobrole->role }}</p>
+                                <p style="color: #fff;text-transform: capitalize;">{{ isset($user->profileCarrer->jobrole)?$user->profileCarrer->jobrole->role:'' }}</p>
                             </div>
                         </div>
                     </div>
@@ -167,22 +167,22 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#rh">
+                                    <a href="#rh" class="scroll">
                                         <h6 class="category-title">Resume Headline</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#key">
+                                    <a href="#key" class="scroll">
                                         <h6 class="category-title">Key Skills</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#emp">
+                                    <a href="#emp" class="scroll">
                                         <h6 class="category-title">Employment</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#edu">
+                                    <a href="#edu" class="scroll">
                                         <h6 class="category-title">Education</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
@@ -213,7 +213,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#pd">
+                                    <a href="#pd" class="scroll">
                                         <h6 class="category-title">Personal Details</h6><span class="secondary-content ms-auto">Add</span>
                                     </a>
                                 </li>
@@ -234,9 +234,11 @@
                                     <input name="cv_file" id="cv_file" type="file" /><br>
                                     <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
                                     <medium>
-                                    @php
-                                        echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume")
-                                    @endphp
+                                   
+                                        @if(isset($user->profileCvs))
+                                            echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume")
+                                        @endif
+                                    
                                     </medium>
                                 </div>
 
@@ -517,7 +519,7 @@
                             </div>
                             <a class="btn btn-md ms-sm-auto btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#profilesummary"> Add Profile Summary</a>
                         </div>
-                        <small>{{ $user->profileSummary->summary }}</small>
+                        <small>{{ isset($user->profileSummary)?$user->profileSummary->summary:'' }}</small>
                     </div>
 
                     <!--================================= End Profile Summary-->
@@ -528,12 +530,12 @@
                     @php
                         $cityArray=[];
                         $cityidArray=[];
-                   
-                    foreach ($user->profileCarrer->cities as $location){
-                        $cityArray[]=$location->city;
-                        $cityidArray[]=$location->id;
+                    if(isset($user->profileCarrer)){
+                        foreach ($user->profileCarrer->cities as $location){
+                            $cityArray[]=$location->city;
+                            $cityidArray[]=$location->id;
+                        }
                     }
-                  
                     @endphp
                     <div class="user-dashboard-info-box">
                         <div class="dashboard-resume-title d-flex align-items-center">
@@ -546,15 +548,22 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Current Industry</label>
-                                    <p style="color: #000;">{{ $user->profileCarrer->industry->industry }}</p>
+                                    <p style="color: #000;">{{ isset($user->profileCarrer->industry)?$user->profileCarrer->industry->industry:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Availability to Join</label>
-                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($user->profileCarrer->date_of_join)) }}</p>
+                                    <p style="color: #000;">
+                                    @php
+                                        if(isset($user->profileCarrer)){
+                                            echo date("d-M-Y", strtotime($user->profileCarrer->date_of_join));
+                                        }
+                                    @endphp
+                                    
+                                </p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Employment Type</label>
-                                    <p style="color: #000;">{{ $user->profileCarrer->jobShift->job_shift }}</p>
+                                    <p style="color: #000;">{{ isset($user->profileCarrer->jobShift)?$user->profileCarrer->jobShift->job_shift:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Preferred Work Location</label>
@@ -562,35 +571,38 @@
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Expected Salary</label>
-                                    <p style="color: #000;">INR {{ $user->profileCarrer->salary_from }} Lakh(s) {{ $user->profileCarrer->salary_to }} Thousand </p>
+                                    <p style="color: #000;">INR {{ isset($user->profileCarrer)?$user->profileCarrer->salary_from:0 }} Lakh(s) {{ isset($user->profileCarrer)?$user->profileCarrer->salary_to:0 }} Thousand </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Department</label>
-                                    <p style="color: #000;">{{ $user->profileCarrer->functionalArea->functional_area }}</p>
+                                    <p style="color: #000;">{{ isset($user->profileCarrer->functionalArea)?$user->profileCarrer->functionalArea->functional_area:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Job Role</label>
-                                    <p style="color: #000;">{{ $user->profileCarrer->jobrole->role }}</p>
+                                    <p style="color: #000;">{{ isset($user->profileCarrer->jobrole)?$user->profileCarrer->jobrole->role:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Job Type</label>
-                                    <p style="color: #000;">{{ $user->profileCarrer->jobType->job_type }}</p>
+                                    <p style="color: #000;">{{ isset($user->profileCarrer->jobType)?$user->profileCarrer->jobType->job_type:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Desired Shift</label>
                                     <p style="color: #000;">
                                     @php
                                         $working_from='';
-                                        if($user->profileCarrer->working_from==1){
-                                            $working_from='Day';
-                                        }else if($user->profileCarrer->working_from==2)
-                                        {
-                                            $working_from='Night';
-                                        }else if($user->profileCarrer->working_from==3){
-                                            $working_from='Flexible';
-                                        }
+                                        if(isset($user->profileCarrer->working_from)){
+                                            if($user->profileCarrer->working_from==1){
+                                                $working_from='Day';
+                                            }else if($user->profileCarrer->working_from==2)
+                                            {
+                                                $working_from='Night';
+                                            }else if($user->profileCarrer->working_from==3){
+                                                $working_from='Flexible';
+                                            }
+                                        }   
+                                        
                                     @endphp
                                     {{ $working_from }}
                                     </p>
@@ -620,11 +632,11 @@
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Gender</label>
-                                    <p style="color: #000;">{{ $user->gender->gender }}</p>
+                                    <p style="color: #000;">{{ isset($user->gender)?$user->gender->gender:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Marital Status</label>
-                                    <p style="color: #000;">{{ $user->maritalStatus->marital_status }}</p>
+                                    <p style="color: #000;">{{ isset($user->maritalStatus)?$user->maritalStatus->marital_status:'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Category</label>
@@ -834,7 +846,7 @@
                                             <textarea class="form-control" name="job_profile" id="job_profile" rows="4" placeholder="Type here.."></textarea>
                                             <p style="text-align:right;">1000 character(s) left</p>
                                         </div>
-                                        <div class="form-group col-12 mb-4">
+                                        <div class="form-group col-12 mb-4  notice_period">
                                             <div class="row">
                                                 <label class="mb-2">Notice Period<span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
@@ -1284,7 +1296,7 @@
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
-                                            <textarea class="form-control" name="summary" id="summary" rows="4" placeholder="Type here..">{{ $user->profileSummary->summary }}</textarea>
+                                            <textarea class="form-control" name="summary" id="summary" rows="4" placeholder="Type here..">{{ isset($user->profileSummary)?$user->profileSummary->summary:'' }}</textarea>
                                         </div>
                                     </div>
                                     <div class="row mt-2" style="float: right;">
@@ -1323,16 +1335,16 @@
                             <div class="tab-pane active">
                             <form class="form" id="add_edit_career_details" method="POST" action="{{ route('update.career.details') }}">
                                 {{ csrf_field() }}
-                                <input type="hidden" id="id" name="id" value="{{$user->id}}">
-                                <input type="hidden" id="profile_career_id" name="profile_career_id" value="{{$user->profileCarrer->id}}">
+                                <input type="hidden" id="id" name="id" value="{{isset($user->id)?$user->id:0}}">
+                                <input type="hidden" id="profile_career_id" name="profile_career_id" value="{{ isset($user->profileCarrer->id)?$user->profileCarrer->id:0}}">
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Current Industry <span style="color: red;">*</span></label>
-                                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, $user->profileCarrer->industry_id, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                                            {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, isset($user->profileCarrer->industry_id)?$user->profileCarrer->industry_id:0, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Department <span style="color: red;">*</span></label>
-                                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, $user->profileCarrer->functional_area_id, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
+                                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, isset($user->profileCarrer->functional_area_id)?$user->profileCarrer->functional_area_id:0, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Job Role <span style="color: red;">*</span></label>
@@ -1342,19 +1354,19 @@
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, $user->profileCarrer->job_type_id, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
+                                            {!! Form::select('job_type_id', ['' => __('Select Job Type')]+$jobTypes, isset($user->profileCarrer->job_type_id)?$user->profileCarrer->job_type_id:0, array('class'=>'form-control basic-select', 'id'=>'job_type_id')) !!}
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Desired Employment Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, $user->profileCarrer->job_shift_id, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}   
+                                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, isset($user->profileCarrer->job_shift_id)?$user->profileCarrer->job_shift_id:0, array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}   
                                             </div>
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Date of join <span style="color: red;">*</span></label><br>
                                             <div class="form-group col-md-12 select-border mb-3">      
-                                            <input type="text" name="date_of_join" id="date_of_join"  class="form-control datepicker" value="{{date('Y-m-d', strtotime($user->profileCarrer->date_of_join))}}" placeholder="Date of join" >                      
+                                            <input type="text" name="date_of_join" id="date_of_join"  class="form-control datepicker" value="{{date('Y-m-d', strtotime(isset($user->profileCarrer->date_of_join)?$user->profileCarrer->date_of_join:''))}}" placeholder="Date of join" >                      
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">
@@ -1362,13 +1374,13 @@
                                                 <label class="mb-2">Started Working From <span style="color: red;">*</span></label>
                                                 <div class="form-group col-md-12 select-border mb-3">
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="working_from" value="1" {{ ($user->profileCarrer->working_from=="1")? "checked" : "" }}> Day
+                                                        <input class="form-group" type="radio" name="working_from" value="1" {{ (isset($user->profileCarrer->working_from)&&$user->profileCarrer->working_from=="1")? "checked" : "" }}> Day
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input class="form-group" type="radio" name="working_from" value="2" {{ ($user->profileCarrer->working_from=="2")? "checked" : "" }}> Night
+                                                        <input class="form-group" type="radio" name="working_from" value="2" {{ (isset($user->profileCarrer->working_from)&&$user->profileCarrer->working_from=="2")? "checked" : "" }}> Night
                                                     </label>
                                                     <label class="radio-inline">
-                                                        <input type="radio"  class="form-group" name="working_from" value="3" {{ ($user->profileCarrer->working_from=="3")? "checked" : "" }}> Flexible
+                                                        <input type="radio"  class="form-group" name="working_from" value="3" {{ (isset($user->profileCarrer->working_from)&&$user->profileCarrer->working_from=="3")? "checked" : "" }}> Flexible
                                                     </label>                                                    
                                                 </div>                                                
                                             </div>
@@ -1629,7 +1641,24 @@
 
 
 <script type="text/javascript">
+// $(document).ready(function() {
+//     $(".scroll").on("click", function() {
+//     //event.preventDefault();
+//     var el = $(this).attr("href");
+//     $('html, body').animate({
+//         scrollTop: $(el).offset().top
+//     }, 2000);
+//     });
+// });
 $(function() {
+    // $('a[href^="#"]').click(function(e){
+    //     var name = $(this).attr('href').substr(1);
+    //     var pos = $('a[name='+name+']').offset();
+    //     console.log("****", pos.top);
+    //     $('body').animate({ scrollTop: pos.top });
+    //     e.preventDefault();
+    // });
+    
     $(".working_to").hide();
     $("#emp_working_to").hide();
     $("#working_to_year").prop('disabled', true);
@@ -1660,10 +1689,12 @@ $(function() {
             $("#emp_working_to_month").prop('disabled', true);
             $("#emp_worked_till").prop('disabled', false);
             $("#emp_working_to").hide();
+            $(".notice_period").show();
             $(".emp_worked_till").show();
         }else if($(this).val()==0){
             $(".emp_worked_till").hide();
             $("#emp_working_to").show();
+            $(".notice_period").hide();
             $("#emp_working_to_year").prop('disabled', false);
             $("#emp_working_to_month").prop('disabled', false);
             $("#emp_worked_till").prop('disabled', true);
@@ -1689,9 +1720,9 @@ $(function() {
     	allowClear: true
 	});
 
-    $('#salary_from').val("{{$user->profileCarrer->salary_from }}");
+    $('#salary_from').val("{{isset($user->profileCarrer->salary_from)?$user->profileCarrer->salary_from:'' }}");
     $('#salary_from').select2().trigger('change');
-    $('#salary_to').val("{{$user->profileCarrer->salary_to }}");
+    $('#salary_to').val("{{isset($user->profileCarrer->salary_to)?$user->profileCarrer->salary_to:'' }}");
     $('#salary_to').select2().trigger('change');
 
     $("#btnSaveIt").on('click', function (e) {
@@ -1942,7 +1973,7 @@ $(function() {
     e.preventDefault();
         filterDegreeTypes($(this).val());
     });
-    filterLangRoles('{{ $user->profileCarrer->functional_area_id }}');
+    filterLangRoles('{{ isset($user->profileCarrer->functional_area_id)?$user->profileCarrer->functional_area_id:0 }}');
 });
 function submitProfileDetailsForm(){    
     var form = $('#add_edit_personal_details');

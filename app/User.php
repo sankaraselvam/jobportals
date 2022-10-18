@@ -42,16 +42,21 @@ class User extends Authenticatable
 	
 	public function getProfileSummary($field = '')
     {
-        if(null !== $this->profileSummary->first()){
-			$profileSummary = $this->profileSummary->first();
-			if($field != ''){
-				return $profileSummary->$field;
-			}else{
-				return $profileSummary;
-			}
-		}else{
-			return '';
-		}
+        if(isset($this->profileSummary)){
+            if(null !== $this->profileSummary->first()){
+                $profileSummary = $this->profileSummary->first();
+                if($field != ''){
+                    return $profileSummary->$field;
+                }else{
+                    return $profileSummary;
+                }
+            }else{
+                return '';
+            }
+        }else{
+            return '';
+        }
+        
     }
     public function ProfileItSkills()
     {
@@ -110,7 +115,7 @@ class User extends Authenticatable
 	
 	public function countProfileCvs()
     {
-        return $this->profileCvs->count();
+        return isset($this->profileCvs)?$this->profileCvs->count():'';
     }
 	
 	public function profileExperience()

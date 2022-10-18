@@ -339,7 +339,7 @@ class JobController extends Controller
 
 	public function jobsBySearchList(Request $request){
 	
-		$searchItem=$request->input("q");
+		$searchItem=$request->input("term");
 		$searchListArr=[];
 		$inc=0;
 		if($searchItem !=""){
@@ -350,24 +350,73 @@ class JobController extends Controller
 				})
 				->orWhereHas('jobSkills.jobSkill', function($query) use($searchItem){
 					$query->where('job_skill','like','%' . $searchItem . '%');
-				});
+				})
+				->orWhere('title','like','%' . $searchItem . '%');
 			}
 			$jobs=$jobs->get();
 			
-			
+			//print_r($jobs->toArray());
 			foreach($jobs as $jobarr){
 				foreach($jobarr->jobSkills as $skills){
-					$searchListArr[]=array('id'=>$skills->jobSkill->job_skill.','.$jobarr->company->name,'text'=>$skills->jobSkill->job_skill.','.$jobarr->company->name);
-					$inc++;
+					$data['id'] = $jobarr->id; 
+        			$data['title'] = $jobarr->title;
+        			$data['company'] = $jobarr->company->name;
+        			$data['skill'] = $skills->jobSkill->job_skill;
+        			$data['search'] = $skills->jobSkill->job_skill.','.$jobarr->title.','.$jobarr->company->name;
+					array_push($searchListArr, $data); 
+
+					// $searchListArr[]=array('id'=>$jobarr->id.','.$jobarr->company->name,'text'=>$skills->jobSkill->job_skill.','.$jobarr->title.','.$jobarr->company->name);
+					// $inc++;
 				}
-			}
-			return json_encode($searchListArr) ;
+			}			
 		}
+		return json_encode($searchListArr);
 		
 	}
 
 	public function findJobsSearch(Request $request){
-		dd($request->all());
+		$searchText = $request->query('search-box');
+		$job_skill='';
+		$title='';
+		$company='';
+		$searchItem='';
+		$limit=10;
+		if(strpos($searchText, ',') !== false){
+			$searchTextArr = explode(',', $searchText);
+			$job_skill=isset($searchTextArr[0])?$searchTextArr[0]:'';
+			$title=isset($searchTextArr[1])?$searchTextArr[1]:'';
+			$company=isset($searchTextArr[2])?$searchTextArr[2]:'';
+		} else{
+			$searchItem=$searchText;
+		}
+
+		$jobs = Job::with(['jobSkills.jobSkill','company']);
+		if($company!=''){
+			$jobs=$jobs->whereHas('company', function($q) use($company){
+				$q->where('name','like','%' . $company . '%');
+			});
+		}
+		if($job_skill!=''){
+			$jobs=$jobs->whereHas('jobSkills.jobSkill', function($query) use($job_skill){
+				$query->where('job_skill','like','%' . $job_skill . '%');
+			});
+		}
+		if($title!=""){
+			$jobs=$jobs->where('title','like','%' . $title . '%');
+		}
+
+		if($searchItem !=""){
+			$jobs=$jobs->whereHas('company', function($q) use($searchItem){
+				$q->where('name','like','%' . $searchItem . '%');
+			})
+			->orWhereHas('jobSkills.jobSkill', function($query) use($searchItem){
+				$query->where('job_skill','like','%' . $searchItem . '%');
+			})
+			->orWhere('title','like','%' . $searchItem . '%');
+		}
+		$jobs=$jobs->paginate($limit);
+		return view('job.list')
+					->with('jobs', $jobs);
 	} 
 
 }

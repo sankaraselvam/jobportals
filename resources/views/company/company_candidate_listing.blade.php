@@ -319,13 +319,13 @@ candidate post-box list -->
             <div class="secondary-menu" style="margin-top:1%;">
               <ul>
                 <li>
-                  <input type="checkbox" class="form-check-input mt-2" id="select-all">
-                  <label class="form-check-label ps-2 mt-2" for="select-all">Select All</label>
+                <input type="checkbox" class="form-check-input mt-2" id="select_all">
+                <label class="form-check-label ps-2 mt-2" for="select_all">Select All</label>
                 <li><a href="#"><i class="fas fa-check pe-2"></i>Shortlist</a></li>
                 <li><a href="#"><i class="fas fa-registered pe-2"></i>Reject</a></li>
                 <li><a href="#"><i class="fas fa-envelope pe-2"></i>Email</a></li>
                 <li><a href="#"><i class="fas fa-download pe-2"></i>Download</a></li>
-                <li><a href="#"><i class="fas fa-trash pe-2"></i>Delete</a></li>
+                <li><a><i class="fas fa-trash pe-2"></i>Delete</a></li>
               </ul>
               
             </div>
@@ -354,8 +354,9 @@ candidate post-box list -->
                       <div class="candidate-list-info">
                         <div class="candidate-list-title">
                           <h5 class="mb-0">
-                            <input type="checkbox" class="form-check-input" id="name1">
-                            <label class="form-check-label" for="name1">{{ $appliedUsers->user->name }}</label>
+                          <input type="hidden" class="form-check-input" id="user_id" name="user_id" value="{{ $appliedUsers->user->id }}">
+                          <input type="checkbox" class="form-check-input check" id="name1{{ $appliedUsers->user->id }}">                            
+                          <label class="form-check-label" for="name1{{ $appliedUsers->user->id }}">{{ $appliedUsers->user->name }}</label>
                           </h5>
                         </div>
                         <div class="candidate-list-option ps-4">
@@ -410,12 +411,7 @@ candidate post-box list -->
                       <label class="mb-1 ">+91 {{ $appliedUsers->user->mobile_num }} <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
                     </div>                          
                     <div class="feature-info-content ps-3 text-center">
-                      <select class="form-control basic-select select2-hidden-accessible mb-1">
-                        <option>Call Status</option>
-                        <option>Messaged</option>
-                        <option>Call not picked</option>
-                        <option>Not Reachable</option>                        
-                      </select>
+                      {!! Form::select('change_status', [''=>__('Select Status')]+$callStatus, $appliedUsers->user->candidate_status, array('class'=>'form-control basic-select', 'id'=>'change_status')) !!}
                     </div>
                     <div class="feature-info-content ps-3 text-center">
                       <label class="mb-1 ">{{ $appliedUsers->user->email }}</label>
@@ -430,7 +426,7 @@ candidate post-box list -->
                         <a href="#"><i class="fas fa-share pe-1"></i></a>
                       </div>
                       <div class="col-md-12 side-icon">
-                        <a href="#"><i class="fas fa-trash pe-1"></i></a>
+                        <a href="javascript:void(0);" onclick="delete_candidate('{{ $appliedUsers->id }}', '{{ $appliedUsers->job_id }}');"><i class="fas fa-trash pe-1"></i></a>
                       </div>
                       <div class="col-md-12 side-icon">
                         <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i></a>
@@ -465,8 +461,60 @@ candidate post-box list -->
 </section>
 <!--=================================
 candidate post-box list -->
+@include('includes.footer')
+@endsection
+@push('scripts')
+<script type="text/javascript">
+$(function() {
+  $('#change_status').on('change', function (e) {
+        e.preventDefault();
+        $.post("{{ route('change.candidate.status') }}", {user_id: $("#user_id").val(), status_val: $(this).val(), _method: 'POST', _token: '{{ csrf_token() }}'})
+        .done(function (response) {
+            if (response == 'ok')
+            {
+              // var redirect = "{{ url('company.candidate.listing') }}"+"/"+job_id;
+              // location.replace(redirect);
+              $("#change_status").val($(this).val());
+              $('#change_status').select2().trigger('change');
+            } 
+        });
+  });
 
+  $('#select_all').on('click',function(){
+      if(this.checked){
+          $('.check').each(function(){
+              this.checked = true;
+          });
+      }else{
+          $('.check').each(function(){
+              this.checked = false;
+          });
+      }
+  });
+  $('.check').on('click',function(){
+      if($('.check:checked').length == $('.check').length){
+          $('#select_all').prop('checked',true);
+      }else{
+          $('#select_all').prop('checked',false);
+      }
+  });
+});  
 
-
-  @include('includes.footer')
-  @endsection
+function delete_candidate(id,job_id) {
+  var msg = "{{__('Are you sure! you want to delete?')}}";
+  if (confirm(msg)) {
+	  $.post("{{ route('delete.apply.candidate') }}", {id: id, _method: 'DELETE', _token: '{{ csrf_token() }}'})
+			  .done(function (response) {
+				  if (response == 'ok')
+				  {
+            var redirect = "{{ url('company.candidate.listing') }}"+"/"+job_id;
+            location.replace(redirect);
+				  } else
+				  {
+					  alert('Request Failed!');
+				  }
+			  });
+  }
+}
+</script>
+@endpush

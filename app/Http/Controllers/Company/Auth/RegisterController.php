@@ -62,9 +62,9 @@ use VerifiesUsers;
         return Auth::guard('company');
     }
 	
-	public function register(CompanyFrontRegisterFormRequest $request)
+	public function register(Request $request)
     {
-        //dd('ss');
+        dd($request->all());
         $company = new Company();
         $company->name = $request->input('name');
 		$company->email = $request->input('email');

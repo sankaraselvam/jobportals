@@ -12,5 +12,11 @@ return [
         'completedProfileSkills' => '10',
         'completedProfileResumeSummary' => '5',
         'completedProfileCvs' => '10',
+    ],
+    'callStatus' => [
+        '1' => 'Call Status',
+        '2' => 'Messaged',
+        '3' => 'Call not picked',
+        '4' => 'Not Reachable'
     ]
 ];

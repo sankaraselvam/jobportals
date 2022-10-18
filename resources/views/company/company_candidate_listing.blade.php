@@ -405,10 +405,10 @@ candidate post-box list -->
                     @endif
                     </div><br>
                     <div class="feature-info-content ps-3 text-center">
-                      <label class="mb-1 ">WATER TREATMENT PLANT</label>
+                      <label class="mb-1 ">{{ $appliedUsers->user->profileCarrer->jobrole->role }}</label>
                     </div>
                     <div class="feature-info-content ps-3 text-center">
-                      <label class="mb-1 ">+91 {{ $appliedUsers->user->mobile_num }} <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
+                      <label class="mb-1 ">+91 {{ $appliedUsers->user->mobile_num }} <a href="tel:{{ $appliedUsers->user->mobile_num }}"><i class="fas fa-phone pe-1 fa-rotate-90"></i>Call</a></label>
                     </div>                          
                     <div class="feature-info-content ps-3 text-center">
                       {!! Form::select('change_status', [''=>__('Select Status')]+$callStatus, $appliedUsers->user->candidate_status, array('class'=>'form-control basic-select', 'id'=>'change_status')) !!}
@@ -422,14 +422,14 @@ candidate post-box list -->
                       <div class="col-md-12 side-icon">
                         <a href="#"><i class="fas fa-envelope pe-1"></i></a>
                       </div>
-                      <div class="col-md-12 side-icon">
+                     <!-- <div class="col-md-12 side-icon">
                         <a href="#"><i class="fas fa-share pe-1"></i></a>
-                      </div>
+                      </div>-->
                       <div class="col-md-12 side-icon">
                         <a href="javascript:void(0);" onclick="delete_candidate('{{ $appliedUsers->id }}', '{{ $appliedUsers->job_id }}');"><i class="fas fa-trash pe-1"></i></a>
                       </div>
                       <div class="col-md-12 side-icon">
-                        <a href="#"><i class="fas fa-phone pe-1 fa-rotate-90"></i></a>
+                        <a href="tel:{{ $appliedUsers->user->mobile_num }}"><i class="fas fa-phone pe-1 fa-rotate-90"></i></a>
                       </div>
                     </div>
                   </div>

@@ -22,7 +22,7 @@
                                                     {{ date("d-M-Y", strtotime($jobs->created_at)) }}                                       
                                                 </td>
                                                 <td class="text-center">                                        
-                                                    <a href="{{route('company.candidate.listing', [$jobs->id])}}" class="text-primary">{{count($jobs->appliedUsers)}}</a>                                       
+                                                    <a href="{{route('company.candidate.listing', [$jobs->id])}}" class="text-primary" target="_blank">{{count($jobs->appliedUsers)}}</a>                                       
                                                 </td>
                                         </tr>
 

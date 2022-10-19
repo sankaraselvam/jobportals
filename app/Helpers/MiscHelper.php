@@ -144,5 +144,21 @@ class MiscHelper
         $different_days = $start_date->diffInDays($end_date);
         return $different_days;
     }
+
+    public static function convert_rupee($amount){
+        $length = strlen($amount);
+        $result = 0;
+        if($length>=6 && $length <=7){
+            $result= round($amount/100000,2).' Lac(s)';
+        }else if($length>=8 && $length <=9){
+            $result= round($amount/10000000,2).' Cr.';
+        }else if($length>=4 && $length <=5){
+            $result= round($amount/1000,2).' K';
+    
+        }else{ 
+            $result= 0;
+        }
+        return $result;
+    }
 	
 }

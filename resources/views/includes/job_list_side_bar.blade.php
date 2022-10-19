@@ -96,26 +96,27 @@
                             </div>
                             <div class="collapse show" id="Offeredsalary">
                                 <div class="widget-content">
+                                @php
+                                    //echo MiscHelper::convert_rupee(1550000);
+                                    $salaryArr=[];
+                                    foreach($jobs as $job){
+                                        $data=[];
+                                        $data['from']=$job->salary_from;
+                                        $data['to']=$job->salary_to;
+                                        array_push($salaryArr, $data );
+                                    }
+                                    asort($salaryArr);
+                                @endphp
+                                @foreach ($salaryArr as $salary)
+                                    @php
+                                        $from=MiscHelper::convert_rupee($salary['from']);
+                                        $to=MiscHelper::convert_rupee($salary['to']);
+                                    @endphp
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="Offeredsalary1">
-                                        <label class="form-check-label" for="Offeredsalary1">10k - 20k</label>
+                                        <label class="form-check-label" for="Offeredsalary1">{{ $from }} - {{ $to }}</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="Offeredsalary2">
-                                        <label class="form-check-label" for="Offeredsalary2">20k - 30k</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="Offeredsalary3">
-                                        <label class="form-check-label" for="Offeredsalary3">30k - 40k</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="Offeredsalary4">
-                                        <label class="form-check-label" for="Offeredsalary4">40k - 50k</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="Offeredsalary5">
-                                        <label class="form-check-label" for="Offeredsalary5">50k - 60k</label>
-                                    </div>
+                                @endforeach
                                 </div>
                             </div>
                             <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>

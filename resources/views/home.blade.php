@@ -161,7 +161,6 @@ abel.error {
     <!--================================= Dashboard Nav -->
 
     <!--================================= Recommanded Jobs -->
-   
     <section>
     @include('flash::message')
         <div class="container">

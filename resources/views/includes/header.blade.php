@@ -1,5 +1,9 @@
 
 <!--================================= header -->
+@php
+$routeName = app('request')->route()->getAction();
+@endphp
+    
 <header class="header bg-white">
         <nav class="navbar navbar-static-top navbar-expand-lg header-sticky">
             <div class="container-fluid">
@@ -11,6 +15,7 @@
                 <a class="navbar-brand" href="{{url('/')}}">
                     <img class="img-fluid" src="{{asset('/')}}images/udhyog.png" alt="logo">
                 </a>
+                <input type="hidden" value="{{$routeName['as']}}" id="routeName">
                 <div class="navbar-collapse collapse justify-content-start">
                     <ul class="nav navbar-nav">
                         <li class="nav-item {{ Request::url() == route('index') ? 'active' : '' }}">
@@ -164,3 +169,15 @@
         </nav>
     </header>
     <!--================================= header -->
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+        console.log($("#routeName").val())
+        if($("#routeName").val()=="home"){
+            //
+        }else if($("#routeName").val()=="my.profile"){
+            $("#my_profile").addClass('active'); 
+        }
+    });
+</script>
+@endpush

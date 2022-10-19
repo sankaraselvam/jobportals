@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content') 
@@ -81,65 +82,10 @@
     </style>
 
     <!--=================================    inner banner -->
-    <div class="header-inner" style="background: #009befd6;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="candidates-user-info">
-                        <div class="jobber-user-info">
-                            <div class="profile-avatar">
-                                @if ($user->image !='')
-                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
-                                @else
-                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
-                                @endif
-                                <i class="fas fa-pencil-alt" data-bs-toggle="modal" data-bs-target="#personal"></i>
-                            </div>
-                            <div class="profile-avatar-info ms-4">
-                                <h4 class="mt-4" style="color: #fff;text-transform: capitalize;">{{$user->getName()}}</h4>
-                                <p style="color: #fff;text-transform: capitalize;">{{ isset($user->profileCarrer->jobrole)?$user->profileCarrer->jobrole->role:'' }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    
-                    @include('job.progress')
-                    @include('user.profileDetails')
-
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('common.header_banner')
     <!--=================================    inner banner -->
     <!--=================================    Dashboard Nav -->
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sticky-top secondary-menu-sticky-top">
-                        <div class="secondary-menu">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="{{route('home')}}">Dashboard</a></li>
-                                <li><a class="active" href="{{ route('my.profile') }}">My Profile</a></li>
-                                <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
-                                <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
-                                <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
-                                <li><a href="{{route('my.messages')}}">My Message</a></li>
-                                <li><a href="{{route('my.followings')}}">My Followings</a></li>
-                                <li><a href="">Pricing Plan</a></li>
-                                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
-                                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                  </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('common.nav_menu')
     <!--=================================    Dashboard Nav -->
     <!--=================================    My Resume -->
     <section>
@@ -227,19 +173,18 @@
                         <div class="user-dashboard-info-box">
                             <div class="form-group col-md-12 p-0">
                                 <h5>Attach Resume</h5>
-                                
+                                <medium>
+                                    @php
+                                        if(isset($user->profileCvs)){
+                                            echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume");
+                                        }   
+                                    @endphp                                    
+                                </medium>
                                 <div id="cv_response_msg"></div>
                                 <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
                                 <div class="text-center">
                                     <input name="cv_file" id="cv_file" type="file" /><br>
                                     <small>Supported Formats: doc, docx, pdf, upto 2 MB</small>
-                                    <medium>
-                                   
-                                        @if(isset($user->profileCvs))
-                                            echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume")
-                                        @endif
-                                    
-                                    </medium>
                                 </div>
 
                             </div>

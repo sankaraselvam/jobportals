@@ -333,7 +333,9 @@ class JobController extends Controller
     {
 		$myFavouriteJobSlugs = Auth::user()->getFavouriteJobSlugsArray();
 		$jobs = Job::whereIn('slug', $myFavouriteJobSlugs)->paginate(10);
+		$user = User::with(['country','state','city','profileCarrer','profileCarrer.jobrole'])->findOrFail(Auth::user()->id);
 		return view('job.my_favourite_jobs')
+				->with('user', $user)
 				->with('jobs', $jobs);
     }
 

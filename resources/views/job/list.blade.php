@@ -145,6 +145,7 @@ banner -->
  <section class="space-ptb mb-4 bg-light">
         <div class="container">
         @include('flash::message')
+        
 <form action="{{route('job.list')}}" method="get">
             <div class="row">  
               @include('includes.job_list_side_bar')      

@@ -60,67 +60,13 @@
             padding: .375rem .5625rem;
         }
     </style>
-<!--=================================    inner banner -->
-<div class="header-inner" style="background: #009befd6;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="candidates-user-info">
-                        <div class="jobber-user-info">
-                            <div class="profile-avatar">
-                                @if ($user->image !='')
-                                    <img class="img-fluid " src="{{asset('/')}}user_images/{{$user->image}}" alt="">
-                                @else
-                                    <img class="img-fluid " src="{{asset('/')}}images/avatar/04.jpg" alt=""> 
-                                @endif
-                                <i class="fas fa-pencil-alt"></i>
-                            </div>
-                            <div class="profile-avatar-info ms-4">
-                                <h4 class="mt-4" style="color: #fff;text-transform: capitalize;"></h4>
-                                <p style="color: #fff;text-transform: capitalize;">PHP Developer at Dawn Info System</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    @include('job.progress')
-                    @include('user.profileDetails')
 
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <!--=================================    inner bannr -->
+    @include('common.header_banner')
     <!--=================================    inner banner -->
-
-
     <!--================================= Dashboard Nav -->
-    <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="sticky-top secondary-menu-sticky-top">
-                            <div class="secondary-menu">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="{{route('home')}}">Dashboard</a></li>
-                                    <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                    <li><a href="">Change Password</a></li>
-                                    <li><a class="active" href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
-                                    <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
-                                    <li><a href="{{route('my.messages')}}">My Message</a></li>
-                                    <li><a href="{{route('my.followings')}}">My Followings</a></li>
-                                    <li><a href="">Pricing Plan</a></li>
-                                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </section>
+    @include('common.nav_menu')
     <!--================================= Dashboard Nav -->
 
     <!--================================= Manage Jobs -->
@@ -164,7 +110,7 @@
                                       <tr>   
                                           <th scope="row"><a href="{{route('job.detail', [$job->slug])}}" title="{{$job->title}}">{{$job->title}}</a> 
                                           <p>{{str_limit(strip_tags($job->description), 75, '...')}}</p>
-                                              <p class="mb-1 mt-2">Expiry: {{$job->expiry_date->format('M d, Y')}}</p>
+                                              <p class="mb-1 mt-2">Expiry: {{isset($job->expiry_date)?$job->expiry_date->format('M d, Y'):''}}</p>
                                               <p class="mb-0">Company Name: <a href="{{route('company.detail', $company->slug)}}" title="{{$company->name}}">{{$company->name}}</a></p>
                                           </th>
                                           <td><span>52 Total Applications | 03 Applications viewed by Recruiters</span> </td>

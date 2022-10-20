@@ -61,8 +61,7 @@ class JobController extends Controller
 	
     public function jobsBySearch(Request $request)
     {
-
-        $search = $request->query('search', '');
+		$search = $request->query('search', '');
 		$job_titles = $request->query('job_title', array());
 		$company_ids = $request->query('company_id', array());
 		$industry_ids = $request->query('industry_id', array());
@@ -78,8 +77,9 @@ class JobController extends Controller
 		$gender_ids = $request->query('gender_id', array());
 		$degree_level_ids = $request->query('degree_level_id', array());
 		$job_experience_ids = $request->query('job_experience_id', array());
-        $salary_from = $request->query('salary_from', '');
-        $salary_to = $request->query('salary_to', '');
+		$salary = $this->getSalary($request->query('salary', array()));
+        $salary_from = $salary['salary_from'];
+        $salary_to = $salary['salary_to'];
 		$salary_currency = $request->query('salary_currency', '');
         $is_featured = $request->query('is_featured', 2);
         $order_by = $request->query('order_by', 'id');
@@ -188,6 +188,20 @@ class JobController extends Controller
 						->with('jobExperienceIdsArray',$jobExperienceIdsArray)
                         ->with('seo', $seo);
     }
+
+	public function getSalary($salary){
+		$fromArr=[];
+		$toArr=[];
+		if($salary!=""){
+			foreach($salary as $item){
+				$list = explode('-', $item);
+				$fromArr[]=$list[0];
+				$toArr[]=$list[1];
+			}
+		}
+		
+		return array("salary_from"=>$fromArr, "salary_to"=>$toArr);
+	}
 	
 	public function jobDetail(Request $request, $job_slug)
 	{		

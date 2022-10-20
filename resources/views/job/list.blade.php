@@ -146,7 +146,7 @@ banner -->
         <div class="container">
         @include('flash::message')
         
-<form action="{{route('job.list')}}" method="get">
+<form action="{{route('job.list')}}" method="get" id="formName">
             <div class="row">  
               @include('includes.job_list_side_bar')      
                 <div class="col-lg-7">
@@ -306,6 +306,10 @@ banner -->
 <script>
 
     $(document).ready(function ($) {
+
+        $("#formname").on("change", "input:checkbox", function(){
+            $("#formname").submit();
+        });
 
         $("form").submit(function () {
 

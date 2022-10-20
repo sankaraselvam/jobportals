@@ -19,7 +19,7 @@
                             @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                    <input type="checkbox" name="job_experience_id[]" id="job_experience_{{$jobExperience->job_experience_id}}" value="{{$jobExperience->job_experience_id}}" {{$checked}}>
+                                    <input type="checkbox" name="job_experience_id[]" id="job_experience_{{$jobExperience->job_experience_id}}" value="{{$jobExperience->job_experience_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                        <label class="form-check-label me-2 mt-2" for="job_experience_{{$jobExperience->job_experience_id}}" ></label>
                                        {{$jobExperience->job_experience}} <span style="float:right;">({{App\Job::countNumJobs('job_experience_id', $jobExperience->job_experience_id)}})</span>
                                     </div>
@@ -48,7 +48,7 @@
 			                      @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                      <input type="checkbox" class="form-check-input" name="functional_area_id[]" id="functional_area_id_{{$functionalArea->functional_area_id}}" value="{{$functionalArea->functional_area_id}}" {{$checked}}>
+                                      <input type="checkbox" class="form-check-input" name="functional_area_id[]" id="functional_area_id_{{$functionalArea->functional_area_id}}" value="{{$functionalArea->functional_area_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                       <label class="form-check-label me-2 mt-2" for="functional_area_id_{{$functionalArea->functional_area_id}}" ></label>
                                       {{str_limit(strip_tags($functionalArea->functional_area), 25, '...')}}  <span style="float:right;">({{App\Job::countNumJobs('functional_area_id', $functionalArea->functional_area_id)}})</span>
                                     </div>
@@ -77,7 +77,7 @@
                       @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                      <input type="checkbox"  class="form-check-input" name="city_id[]" id="city_{{$city->city_id}}" value="{{$city->city_id}}" {{$checked}}>
+                                      <input type="checkbox"  class="form-check-input" name="city_id[]" id="city_{{$city->city_id}}" value="{{$city->city_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                       <label class="form-check-label me-2 mt-2" for="city_{{$city->city_id}}"></label>
                                       {{$city->city}} <span style="float:right;">({{App\Job::countNumJobs('city_id', $city->city_id)}})</span> 
                                     </div>
@@ -106,14 +106,17 @@
                                         array_push($salaryArr, $data );
                                     }
                                     asort($salaryArr);
+                                    
                                 @endphp
-                                @foreach ($salaryArr as $salary)
+                                @foreach ($salaryArr as $key=>$salary)
                                     @php
                                         $from=MiscHelper::convert_rupee($salary['from']);
                                         $to=MiscHelper::convert_rupee($salary['to']);
+                                        $chkSalary = $salary['from'].' - '.$salary['to'];
+                                        $checked = (in_array(trim($chkSalary), Request::get('salary', array())))? 'checked="checked"':'';
                                     @endphp
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="Offeredsalary1">
+                                        <input type="checkbox" class="form-check-input" name="salary[]" id="salary_{{$key}}" value="{{ $chkSalary }}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                         <label class="form-check-label" for="Offeredsalary1">{{ $from }} - {{ $to }}</label>
                                     </div>
                                 @endforeach
@@ -139,7 +142,7 @@
 			                        @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="career_level_id[]" id="career_level_{{$careerLevel->career_level_id}}" value="{{$careerLevel->career_level_id}}" {{$checked}}>
+                                        <input type="checkbox" class="form-check-input" name="career_level_id[]" id="career_level_{{$careerLevel->career_level_id}}" value="{{$careerLevel->career_level_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                         <label class="form-check-label me-2 mt-2" for="career_level_{{$careerLevel->career_level_id}}"></label>
                                         {{str_limit(strip_tags($careerLevel->career_level), 25, '...')}} <span style="float:right;">({{App\Job::countNumJobs('career_level_id', $careerLevel->career_level_id)}})</span>
                                     </div>                                    
@@ -168,7 +171,7 @@
                             @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                      <input type="checkbox"  class="form-check-input" name="degree_level_id[]" id="degree_level_{{$degreeLevel->degree_level_id}}" value="{{$degreeLevel->degree_level_id}}" {{$checked}}>
+                                      <input type="checkbox"  class="form-check-input" name="degree_level_id[]" id="degree_level_{{$degreeLevel->degree_level_id}}" value="{{$degreeLevel->degree_level_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                       <label class="form-check-label me-2 mt-2" for="degree_level_{{$degreeLevel->degree_level_id}}"></label>
                                       {{str_limit(strip_tags($degreeLevel->degree_level), 25, '...')}} <span style="float:right;">({{App\Job::countNumJobs('degree_level_id', $degreeLevel->degree_level_id)}})</span>
                                     </div>                                    
@@ -197,7 +200,7 @@
                                 @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="industry_id[]" id="industry_{{$industry->id}}" value="{{$industry->id}}" {{$checked}}>
+                                        <input type="checkbox" class="form-check-input" name="industry_id[]" id="industry_{{$industry->id}}" value="{{$industry->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                         <label class="form-check-label me-2 mt-2" for="industry_{{$industry->id}}"></label>
                                         {{str_limit(strip_tags($industry->industry), 25, '...')}} <span style="float:right;">({{App\Job::countNumJobs('industry_id', $industry->id)}})</span>
                                     </div>                          
@@ -233,7 +236,7 @@
 			                        @endphp
                                 <div class="widget-content">
                                     <div class="form-check fulltime-job">
-                                    <input type="checkbox" class="form-check-input"  name="job_type_id[]" id="job_type_{{$jobType->job_type_id}}" value="{{$jobType->job_type_id}}" {{$checked}}>
+                                    <input type="checkbox" class="form-check-input"  name="job_type_id[]" id="job_type_{{$jobType->job_type_id}}" value="{{$jobType->job_type_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                     <label class="form-check-label me-2 mt-2"  for="job_type_{{$jobType->job_type_id}}"></label>
                                     {{$jobType->job_type}} <span style="float:right;">({{App\Job::countNumJobs('job_type_id', $jobType->job_type_id)}})</span> 
                                     </div>                                   

@@ -51,7 +51,7 @@ trait FetchJobs
 						'jobs.updated_at'
     );
 
-    public function fetchJobs($search = '', $job_titles = array(), $company_ids = array(), $industry_ids = array(), $job_skill_ids = array(),$functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $is_freelance = -1, $career_level_ids = array(), $job_type_ids = array(), $job_shift_ids = array(), $gender_ids = array(), $degree_level_ids = array(), $job_experience_ids = array(), $salary_from = 0, $salary_to = 0, $salary_currency = '',$is_featured = -1, $orderBy = 'id', $limit = 10)
+    public function fetchJobs($search = '', $job_titles = array(), $company_ids = array(), $industry_ids = array(), $job_skill_ids = array(),$functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $is_freelance = -1, $career_level_ids = array(), $job_type_ids = array(), $job_shift_ids = array(), $gender_ids = array(), $degree_level_ids = array(), $job_experience_ids = array(), $salary_from = array(), $salary_to = array(), $salary_currency = '',$is_featured = -1, $orderBy = 'id', $limit = 10)
     {
         $asc_desc = 'DESC';
 
@@ -73,8 +73,9 @@ trait FetchJobs
 		return array_unique($array);
     }
 	
-	public function createQuery($query, $search = '', $job_titles = array(), $company_ids = array(), $industry_ids = array(), $job_skill_ids = array(),$functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $is_freelance = -1, $career_level_ids = array(), $job_type_ids = array(), $job_shift_ids = array(), $gender_ids = array(), $degree_level_ids = array(), $job_experience_ids = array(), $salary_from = 0, $salary_to = 0, $salary_currency = '', $is_featured = -1)
+	public function createQuery($query, $search = '', $job_titles = array(), $company_ids = array(), $industry_ids = array(), $job_skill_ids = array(),$functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $is_freelance = -1, $career_level_ids = array(), $job_type_ids = array(), $job_shift_ids = array(), $gender_ids = array(), $degree_level_ids = array(), $job_experience_ids = array(), $salary_from = array(), $salary_to = array(), $salary_currency = '', $is_featured = -1)
 	{
+		
 		$query->where('jobs.is_active', 1);
         if ($search != '') {
 			$query = $query->whereRaw("MATCH (`search`) AGAINST ('$search*' IN BOOLEAN MODE)");
@@ -129,13 +130,19 @@ trait FetchJobs
 		if (isset($job_experience_ids[0])) {
             $query->whereIn('jobs.job_experience_id', $job_experience_ids);
         }
-		if ((int)$salary_from > 0) {
-            $query->where('jobs.salary_from', '>=', $salary_from);
+		if (isset($salary_from[0])) {
+            $query->whereIn('jobs.salary_from',  $salary_from);
         }
-		if ((int)$salary_to > 0) {
-			$query = $query->whereRaw("(`jobs`.`salary_to` - $salary_to) >= 0");
-            //$query->where('jobs.salary_to', '<=', $salary_to);
+		if (isset($salary_to[0])) {
+            $query->whereIn('jobs.salary_to', $salary_to);
         }
+		// if ((int)$salary_from > 0) {
+        //     $query->where('jobs.salary_from', '>=', $salary_from);
+        // }
+		// if ((int)$salary_to > 0) {
+		// 	$query = $query->whereRaw("(`jobs`.`salary_to` - $salary_to) >= 0");
+        //     //$query->where('jobs.salary_to', '<=', $salary_to);
+        // }
 		if (!empty(trim($salary_currency))) {
             $query->where('jobs.salary_currency', 'like', $salary_currency);
         }

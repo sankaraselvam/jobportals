@@ -45,10 +45,12 @@ trait ProfileCvsTrait
 
 	public function uploadCvFile($request)
     {
+        $user = User::findOrFail(Auth::user()->id);
 		$fileName = '';
         if ($request->hasFile('cv_file')) {
             $cv_file = $request->file('cv_file');
-            $fileName = ImgUploader::UploadDoc('cvs', $cv_file, "my-resume");
+            $fileName = preg_replace('/\s+/', '', $user->name);
+            $fileName = ImgUploader::UploadDoc('cvs', $cv_file, $fileName);
         }
 		return $fileName;
     }

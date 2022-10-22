@@ -78,6 +78,9 @@
     transition: all 0.5s ease-in-out;
     border-radius: 3px;
 }
+.othertext{
+    display: none;
+}
 
     </style>
 
@@ -176,7 +179,7 @@
                                 <medium>
                                     @php
                                         if(isset($user->profileCvs)){
-                                            echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,"My Resume","My Resume");
+                                            echo ImgUploader::get_doc("cvs/".$user->profileCvs->cv_file,$user->profileCvs->cv_file,$user->name)."- Uploaded on ".date("M d, Y", strtotime($user->profileCvs->created_at))    ;
                                         }   
                                     @endphp                                    
                                 </medium>
@@ -1286,10 +1289,12 @@
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Current Industry <span style="color: red;">*</span></label>
                                             {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industries, isset($user->profileCarrer->industry_id)?$user->profileCarrer->industry_id:0, array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                                            <input class="form-control othertext" type="text" id="other_industry" name="industry" value="" placeholder="Please enter industry">
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Department <span style="color: red;">*</span></label>
                                             {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, isset($user->profileCarrer->functional_area_id)?$user->profileCarrer->functional_area_id:0, array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}
+                                            <input class="form-control othertext" type="text" id="other_functional_area" name="functional_area" value="" placeholder="Please enter functional area">
                                         </div>
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Job Role <span style="color: red;">*</span></label>
@@ -1669,6 +1674,22 @@ $(function() {
     $('#salary_from').select2().trigger('change');
     $('#salary_to').val("{{isset($user->profileCarrer->salary_to)?$user->profileCarrer->salary_to:'' }}");
     $('#salary_to').select2().trigger('change');
+
+    $("#industry_id").on("change", function(){
+        if($(this).find('option:selected').text()=="Other"){
+            $("#other_industry").show();
+        }else{
+            $("#other_industry").hide();
+        }   
+    });
+    $("#functional_area_id").on("change", function(){        
+        if($(this).find('option:selected').text()=="Other"){
+            $("#other_functional_area").show();
+        }else{
+            $("#other_functional_area").hide();
+        }   
+    });
+
 
     $("#btnSaveIt").on('click', function (e) {
         e.preventDefault;

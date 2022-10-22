@@ -34,7 +34,8 @@ class ImageUploadingHelper
         $thumbImagePath = $destinationPath . self::$thumbFolder;
 
         $extension = $field->getClientOriginalExtension();
-        $fileName = str_slug($newName, '-') . '-' . time() . '-' . rand(1, 999) . '.' . $extension;
+        // $fileName = str_slug($newName, '-') . '-' . time() . '-' . rand(1, 999) . '.' . $extension;
+        $fileName = str_slug($newName, '-') . '.' . $extension;
 
         $field->move($destinationPath, $fileName);
 
@@ -68,7 +69,8 @@ class ImageUploadingHelper
         $destinationPath = ImageUploadingHelper::real_public_path() . $destinationPath;
 
         $extension = $field->getClientOriginalExtension();
-        $fileName = str_slug($newName, '-') . '-' . time() . '-' . rand(1, 999) . '.' . $extension;
+        // $fileName = str_slug($newName, '-') . '-' . time() . '-' . rand(1, 999) . '.' . $extension;
+        $fileName = str_slug($newName, '-') . '.' . $extension;
 
         $field->move($destinationPath, $fileName);
 

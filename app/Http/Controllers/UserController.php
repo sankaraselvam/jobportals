@@ -331,14 +331,21 @@ class UserController extends Controller
     }
     
     public function updateCareerDetails(Request $request){
-        
+        $industry_id=0;
+        $functional_area_id=0;
+        if($request->input('industry')!=""){
+            $industry_id=$this->storeIndustry($request->input('industry'));
+        }
+        if($request->input('functional_area')!=""){
+            $functional_area_id=$this->storeFunctionalArea($request->input('functional_area'));
+        }
         $exitsCareer = ProfileCareer::select('id')->where('user_id', '=', $request->input('id'))->first();    
        
         if(!isset($exitsCareer->id)){
             $ProfileCareer = new ProfileCareer();
             $ProfileCareer->user_id = $request->input('id');
-            $ProfileCareer->industry_id = $request->input('industry_id');
-            $ProfileCareer->functional_area_id = $request->input('functional_area_id');
+            $ProfileCareer->industry_id = ($industry_id==0)?$request->input('industry_id'):$industry_id;
+            $ProfileCareer->functional_area_id = ($functional_area_id==0)?$request->input('functional_area'):$functional_area_id;
             $ProfileCareer->role_id = $request->input('role_id');
             $ProfileCareer->job_type_id = $request->input('job_type_id');
             $ProfileCareer->job_shift_id = $request->input('job_shift_id');
@@ -356,8 +363,8 @@ class UserController extends Controller
         } else{
             $ProfileCareer = ProfileCareer::findOrFail($request->input('profile_career_id'));
             $ProfileCareer->user_id = $request->input('id');
-            $ProfileCareer->industry_id = $request->input('industry_id');
-            $ProfileCareer->functional_area_id = $request->input('functional_area_id');
+            $ProfileCareer->industry_id = ($industry_id==0)?$request->input('industry_id'):$industry_id;
+            $ProfileCareer->functional_area_id = ($functional_area_id==0)?$request->input('functional_area'):$functional_area_id;
             $ProfileCareer->role_id = $request->input('role_id');
             $ProfileCareer->job_type_id = $request->input('job_type_id');
             $ProfileCareer->job_shift_id = $request->input('job_shift_id');
@@ -371,6 +378,44 @@ class UserController extends Controller
             return response()->json(array('success' => true, 'status' => 200, 'message'=>"Career details successfully updated... "), 200);
         }
         
+    }
+    public function storeIndustry($industry){
+        $exitsIndustry = Industry::where('industry', '=', $industry)->count();
+        if($exitsIndustry==0){
+            $industryMod = new Industry();
+            $industryMod->industry = $industry;
+            $industryMod->is_active = 1;
+            $industryMod->lang = 'en';
+            $industryMod->is_default = 1;
+
+            $industryMod->save();
+
+            // /** ************************************ */
+            $industryMod->sort_order = $industryMod->id;
+            $industryMod->industry_id = $industryMod->id;
+            $industryMod->update();
+
+            return $industryMod->id;
+        }
+    }
+    public function storeFunctionalArea($functionalarea){
+        $exitsFunctionalArea = FunctionalArea::where('functional_area', '=', $functionalarea)->count();
+        if($exitsFunctionalArea==0){
+            $functionalAreaMod = new FunctionalArea();
+            $functionalAreaMod->functional_area = $functionalarea;
+            $functionalAreaMod->is_active = 1;
+            $functionalAreaMod->lang = 'en';
+            $functionalAreaMod->is_default = 1;
+
+            $functionalAreaMod->save();
+
+            // /** ************************************ */
+            $functionalAreaMod->sort_order = $functionalAreaMod->id;
+            $functionalAreaMod->functional_area_id = $functionalAreaMod->id;
+            $functionalAreaMod->update();
+
+            return $functionalAreaMod->id;
+        }
     }
 
     public function insertProfileCareerLocation($location, $profile_career_id){

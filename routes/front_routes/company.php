@@ -24,3 +24,27 @@ Route::get('company-manage-jobs', 'Company\CompanyController@companyManageJobs')
 Route::get('company-candidate-listing/{id}', 'Company\CompanyController@companyCandidateListing')->name('company.candidate.listing');
 Route::delete('delete-apply-candidate', 'Company\CompanyController@deleteApplyCandidate')->name('delete.apply.candidate');
 Route::post('change-candidate-status', 'Company\CompanyController@changeCandidateStatus')->name('change.candidate.status');
+
+// // Clear application cache:
+// Route::get('/clear-cache', function() {
+//     Artisan::call('cache:clear');
+//     return 'Application cache has been cleared';
+// });
+
+// //Clear route cache:
+// Route::get('/route-cache', function() {
+// 	Artisan::call('route:cache');
+//     return 'Routes cache has been cleared';
+// });
+
+// //Clear config cache:
+// Route::get('/config-cache', function() {
+//  	Artisan::call('config:cache');
+//  	return 'Config cache has been cleared';
+// }); 
+
+// // Clear view cache:
+// Route::get('/view-clear', function() {
+//     Artisan::call('view:clear');
+//     return 'View cache has been cleared';
+// });

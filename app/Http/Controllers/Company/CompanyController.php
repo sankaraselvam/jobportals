@@ -184,10 +184,36 @@ class CompanyController extends Controller
                         ->with('ownershipTypes', $ownershipTypes);
     }
 
-    public function updateCompanyProfile(CompanyFrontFormRequest $request)
+    public function updateCompanyProfile(Request $request)
     {
+        // print_r($image); 
+        // exit;
+        
         $company = Company::findOrFail(Auth::guard('company')->user()->id);
-        /*         * **************************************** */
+        $saveAccountDetails = ($request->input('saveAccountDetails'))?$request->input('saveAccountDetails'):'';
+        $saveCompanyDetails = ($request->input('saveCompanyDetails'))?$request->input('saveCompanyDetails'):'';
+        $saveKYCDetails = ($request->input('saveKYCDetails'))?$request->input('saveKYCDetails'):'';
+
+        if($saveAccountDetails==1){
+            $updateAccountDetails = $this->updateAccountDetails($request, $company);
+            if($updateAccountDetails){
+                return response()->json(array('success' => true, 'status' => 200, 'message'=>"Company Account Details has been updated..."), 200);
+            }
+        }
+        if($saveCompanyDetails==1){
+            $updateCompanyDetails = $this->updateCompanyDetails($request, $company);
+            if($updateCompanyDetails){
+                return response()->json(array('success' => true, 'status' => 200, 'message'=>"Company Details has been updated..."), 200);
+            }
+        }
+        if($saveKYCDetails==1){
+            $updateKYCDetails = $this->updateKYCDetails($request, $company);
+            if($updateKYCDetails){
+                return response()->json(array('success' => true, 'status' => 200, 'message'=>"Company KYC Details has been updated..."), 200);
+            }
+        }
+        exit;
+        /** **************************************** */
 	   if ($request->hasFile('logo')) {
             $is_deleted = $this->deleteCompanyLogo($company->id);
             $image = $request->file('logo');
@@ -231,6 +257,57 @@ class CompanyController extends Controller
 		
         flash(__('Company has been updated'))->success();
         return \Redirect::route('company.profile');
+    }
+
+    public function updateAccountDetails($request, $company)
+    {
+        $company->email = $request->input('email');
+        $company->communication_email = $request->input('communication_email');
+        $company->employer_role = $request->input('employer_role');
+        $company->phone = $request->input('phone');
+        $company->update();
+        return true;
+    }
+    public function updateCompanyDetails($request, $company)
+    {
+        $company->ceo = $request->input('ceo');
+        $company->industry_id = $request->input('industry_id');
+        $company->description = $request->input('description');
+        $company->location = $request->input('location');
+        $website = $request->input('website');
+        $company->website = (false === strpos($website, 'http')) ? 'http://' . $website : $website;
+        $company->established_in = $request->input('established_in');
+        $company->update();
+        return true;
+    }
+
+    public function updateKYCDetails($request, $company)
+    {
+        $company->country_id = $request->input('country_id');
+        $company->state_id = $request->input('state_id');
+        $company->city_id = $request->input('city_id');
+        $company->address = $request->input('address');
+        $company->address_proof = $request->input('address_proof');
+        $company->pan_number = $request->input('pan_number');
+        $company->pan_card_name = $request->input('pan_card_name');
+        $company->pan_card_date = date("Y-m-d", strtotime($request->input('pan_card_date')));
+        $company->pincode = $request->input('pincode');
+        $company->gstin_number = $request->input('gstin_number');
+       
+        if ($request->hasFile('address_proof_image')) {
+            $image = $request->file('address_proof_image');
+            $fileName=$request->file('address_proof_image')->getClientOriginalName();
+            $fileName = ImgUploader::UploadDoc('company_logos/docs', $image, $fileName);
+            $company->address_proof_image = $fileName;
+        }
+        if ($request->hasFile('pancard_image')) {
+            $image = $request->file('pancard_image');
+            $fileName=$request->file('pancard_image')->getClientOriginalName();
+            $fileName = ImgUploader::UploadDoc('company_logos/docs', $image, $fileName);
+            $company->pancard_image = $fileName;
+        }
+        $company->update();
+        return true;
     }
 	
 	public function addToFavouriteApplicant(Request $request, $application_id, $user_id, $job_id, $company_id)

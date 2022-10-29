@@ -54,11 +54,13 @@ class CompanyController extends Controller
     }
 
     public function getJobPosts(){
+        $userId= Auth::guard('company')->user()->id;
         $postList = Job::select('id','title','created_at','expiry_date','slug')
         ->with('appliedUsers')
         // ->whereHas('appliedUsers', function($q) use($user_id){
         //     $q->where('job_apply.user_id','=',$user_id);
         // })
+        ->where('company_id',$userId)
         ->orderBy('jobs.id', 'DESC')->limit(5)->get();
 
         return $postList;
@@ -66,7 +68,7 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $users= Auth::guard('company')->user();//->id;
+        $users= Auth::guard('company')->user()->id;
         
         $postJobs = $this->getJobPosts();
         return view('company_home',compact('postJobs'));
@@ -100,14 +102,15 @@ class CompanyController extends Controller
     }
 
     public function companyManageJobs() {
-            // $postJobs = $this->getJobPosts()->paginate(2);    
+            // $postJobs = $this->getJobPosts()->paginate(2);  
+            $users= Auth::guard('company')->user();  
             $postJobs = Job::select('id','title','created_at','expiry_date','slug')
             ->with('appliedUsers') 
-            ->where('deleted_at', 'N')           
+            ->where('deleted_at', 'N') 
+            ->where('company_id',$users->id)          
             ->orderBy('jobs.id', 'DESC')->paginate(2);
-
-            $users= Auth::guard('company')->user();
-            // dd($postJobs);
+            
+            
             return view('company.company_manage_jobs')
             ->with('postJobs', $postJobs)
             ->with('user', $users);

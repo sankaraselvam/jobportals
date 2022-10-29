@@ -82,6 +82,25 @@
                         
                     </div>
                 </div>
+                @php
+                $company="";
+                $role="";
+                $cityArray=[];
+                    if(isset($user->profileExperience)){
+                        foreach($user->profileExperience as $experience){
+                            if($experience->emp_worked_till=="present"){
+                                $company=$experience->company;
+                                $role=$experience->jobRole->role;
+                            }
+                        }
+                    }
+                    
+                    if(isset($user->profileCarrer)){
+                        foreach ($user->profileCarrer->cities as $location){
+                            $cityArray[]=$location->city;
+                        }
+                    }
+                @endphp
                 <div class="col-md-4">
                     <div class="job-list job-grid">
                         <div class="job-list-logo">
@@ -95,11 +114,15 @@
                                 <div class="job-list-option">
                                     <ul class="list-unstyled" style="justify-content: left;">
                                         <li> <span>Your Preferred Job Role</span> <a href="employer-detail.html"><i class="far fa-edit"></i></a>
-                                            <p><span class="chip">PHP and Web Developer</span> </p>
-                                            <p></p>
+                                            <p><span class="chip">{{$role}} at {{$company}}</span> </p>
                                         </li>
-                                        <li> <span>Your Preferred Work Location </span> <a href="employer-detail.html"><i class="far fa-edit"></i></a> </li>
-                                        <li> <span>Add Your Preferred Salary</span> <a href="employer-detail.html"><i class="far fa-edit"></i></a> </li>
+                                        <li> <span>Your Preferred Work Location </span> <a href="employer-detail.html"><i class="far fa-edit"></i></a> 
+                                            <p><span class="chip">{{ implode(' , ',$cityArray) }}</span></p>
+                                        </li>
+                                        <li> <span>Add Your Preferred Salary</span> <a href="employer-detail.html"><i class="far fa-edit"></i></a>
+                                            <p><span class="chip">INR {{ isset($user->profileCarrer)?$user->profileCarrer->salary_from:0 }} Lakh(s) {{ isset($user->profileCarrer)?$user->profileCarrer->salary_to:0 }} Thousand</span></p>
+                                        </li>
+                                         
                                     </ul>
                                 </div>
                             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Company;
 
 class CandidateController extends Controller
 {
@@ -30,6 +31,27 @@ class CandidateController extends Controller
         }else{
             return redirect('/register-cmpy')->with('message', 'Something went wrong Do again!');
         }
+    }
+    public function employerRegistration(Request $request){
+        $data = new Company();
+        $data->name = $request->first_name;
+        $data->email = $request->email;        
+        if($request->password_confirmation != $request->password){
+            return redirect('/register-cmpy')->with('message', 'Password and Confirm password must be same');
+        }
+        $data->password = bcrypt($request->password);
+        $data->phone = $request->mobile_num;
+        $data->save();       
+        
+        $data->slug = str_slug($data->name, '-').'-'.$data->id;
+
+        $data->update();
+        if($data){
+            return redirect('/')->with('message', 'Welcome to our site');
+        }else{
+            return redirect('/register-cmpy')->with('message', 'Something went wrong Do again!');
+        }
+        
     }
 
 }

@@ -48,7 +48,7 @@
                                             <label class="form-check-label" for="specialism2"><a href="{{ route('post.job') }}">Post a Job </a></label>
                                         </div>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="specialism2"><a href="{{ route('posted.jobs') }}">Manage Jobs</a></label>
+                                            <label class="form-check-label" for="specialism2"><a href="{{ route('company.managejobs') }}">Manage Jobs</a></label>
                                         </div>
 
                                     </div>

@@ -142,7 +142,7 @@
                         </div>
                             </div>
                             <div class="tab-pane fade {{($c_or_e == 'employer')? 'active in':''}}" id="employer" role="tabpanel">
-                                <form class="mt-4" method="POST" action="{{ route('company.register') }}">
+                                <form class="mt-4" method="POST" action="{{ route('employer.register') }}">
                                   {{ csrf_field() }}
                                     <input type="hidden" name="candidate_or_employer" value="candidate" />
                                     <div class="row">

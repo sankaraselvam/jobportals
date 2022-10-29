@@ -30,6 +30,7 @@ Route::get('company-email-verification/check/{token}', 'Company\Auth\RegisterCon
 //auth registration
 Route::get('register-cmpy', 'CandidateController@myregistration')->name('myregi');
 Route::post('register-cmpy-save', 'CandidateController@myregistrationsave')->name('myregisave');
+Route::post('register-employer-save', 'CandidateController@employerRegistration')->name('employer.register');
 // Sociallite Start
 // OAuth Routes
 Route::get('login/jobseeker/{provider}', 'Auth\LoginController@redirectToProvider');

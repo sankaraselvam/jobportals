@@ -324,10 +324,9 @@ candidate post-box list -->
                 <li><a href="#"><i class="fas fa-check pe-2"></i>Shortlist</a></li>
                 <li><a href="#"><i class="fas fa-registered pe-2"></i>Reject</a></li>
                 <li><a href="#"><i class="fas fa-envelope pe-2"></i>Email</a></li>
-                <li><a href="#"><i class="fas fa-download pe-2"></i>Download</a></li>
+                <li><a href="{{ route('export.candidate.list',[$job_id]) }}"><i class="fas fa-download pe-2"></i>Download</a></li>
                 <li><a><i class="fas fa-trash pe-2"></i>Delete</a></li>
-              </ul>
-              
+              </ul>              
             </div>
            
           </div>

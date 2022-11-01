@@ -24,6 +24,7 @@ Route::get('company-manage-jobs', 'Company\CompanyController@companyManageJobs')
 Route::get('company-candidate-listing/{id}', 'Company\CompanyController@companyCandidateListing')->name('company.candidate.listing');
 Route::delete('delete-apply-candidate', 'Company\CompanyController@deleteApplyCandidate')->name('delete.apply.candidate');
 Route::post('change-candidate-status', 'Company\CompanyController@changeCandidateStatus')->name('change.candidate.status');
+Route::get('export-candidate-list/{id}', 'Company\CompanyController@exportCandidateListing')->name('export.candidate.list');
 
 // // Clear application cache:
 // Route::get('/clear-cache', function() {

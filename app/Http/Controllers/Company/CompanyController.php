@@ -38,6 +38,8 @@ use App\Http\Controllers\Controller;
 use App\ProfileExperience;
 use App\Traits\CompanyTrait;
 use DateTime;
+use Excel;
+use App\Exports\DataExport;
 
 class CompanyController extends Controller
 {
@@ -115,9 +117,8 @@ class CompanyController extends Controller
             ->with('postJobs', $postJobs)
             ->with('user', $users);
     }
-    
-    public function companyCandidateListing(Request $request, $job_id){
-        $callStatus = config('constants.callStatus');
+
+    public function jobApplyList($job_id){
         $job_applied_users = JobApply::with(['user','user.country','user.state','user.city','user.profileCarrer','user.profileCarrer.jobrole','user.profileEducation','user.profileEducation.degreeLevel','user.profileSkills','user.profileSkills.jobSkill','job'])
         // ->whereHas('user.profileExperience', function($q){
         //     $q->orderBy('profile_experiences.id', 'desc');
@@ -126,13 +127,25 @@ class CompanyController extends Controller
             $q->whereNotNull('id');
         })
         ->where('job_id', '=', $job_id)->get();
+        return  $job_applied_users;
+    }
+    
+    public function companyCandidateListing(Request $request, $job_id){
+        $callStatus = config('constants.callStatus');
+        $job_applied_users = $this->jobApplyList($job_id);
         // flash(__('Job has been added in favorites list'))->success();
         // return \Redirect::route('index');
         // dd($callStatus);
             return view('company.company_candidate_listing')
                             ->with('job_applied_users', $job_applied_users)
+                            ->with('job_id', $job_id)
                             ->with('callStatus', $callStatus);
            
+    }
+
+    public function exportCandidateListing(Request $request, $job_id){
+        $data = new DataExport($job_id);
+        return Excel::download(new DataExport($job_id), 'candidateListing.xlsx');
     }
 
     public function getProfileExperienceList($user_id){

@@ -118,7 +118,10 @@ class CompanyController extends Controller
             ->with('user', $users);
     }
 
-    public function jobApplyList($job_id){
+    public function jobApplyList($job_id,$perPage,$sorting){
+
+        
+
         $job_applied_users = JobApply::with(['user','user.country','user.state','user.city','user.profileCarrer','user.profileCarrer.jobrole','user.profileEducation','user.profileEducation.degreeLevel','user.profileSkills','user.profileSkills.jobSkill','job'])
         // ->whereHas('user.profileExperience', function($q){
         //     $q->orderBy('profile_experiences.id', 'desc');
@@ -126,22 +129,34 @@ class CompanyController extends Controller
         ->whereHas('user', function($q){
             $q->whereNotNull('id');
         })
-        ->where('job_id', '=', $job_id)->get();
+        ->where('job_id', '=', $job_id)
+        ->orderBy('job_id', $sorting)
+        ->limit($perPage)
+        ->get();
         return  $job_applied_users;
     }
     
     public function companyCandidateListing(Request $request, $job_id){
+        //dd($request->all());
         $callStatus = config('constants.callStatus');
-        $job_applied_users = $this->jobApplyList($job_id);
+        $pageLimit = config('constants.pageLimit');
+        $sortBy = config('constants.sortBy');
+        $perPage = $request->input('perPage')?$request->input('perPage'):10;
+        $sorting = $request->input('sorting')?$request->input('sorting'):'desc';
+        $job_applied_users = $this->jobApplyList($job_id,$perPage,$sorting);
         // flash(__('Job has been added in favorites list'))->success();
         // return \Redirect::route('index');
         // dd($callStatus);
             return view('company.company_candidate_listing')
                             ->with('job_applied_users', $job_applied_users)
                             ->with('job_id', $job_id)
+                            ->with('pagelimit', $pageLimit)
+                            ->with('perPage', $perPage)
+                            ->with('sortBy', $sortBy)
+                            ->with('sorting', $sorting)
                             ->with('callStatus', $callStatus);
            
-    }
+    }   
 
     public function exportCandidateListing(Request $request, $job_id){
         $data = new DataExport($job_id);

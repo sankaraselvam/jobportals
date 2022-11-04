@@ -69,6 +69,7 @@
   .side-icon >a{
     color: grey;
   }
+  
 </style>
 <!--=================================
 banner -->
@@ -86,94 +87,69 @@ candidate post-box list -->
         <div class="sidebar">
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Date Posted</h6>
+              <h6>Relavent Score</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="dateposted">
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="dateposted1">
-                  <label class="form-check-label" for="dateposted1">Last hour</label>
+                  <label class="form-check-label" for="dateposted1">High Match</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="dateposted2">
-                  <label class="form-check-label" for="dateposted2">Last 24 hour</label>
+                  <label class="form-check-label" for="dateposted2">Medium Match</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="dateposted3">
-                  <label class="form-check-label" for="dateposted3">Last 7 days</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="dateposted4">
-                  <label class="form-check-label" for="dateposted4">Last 14 days</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="dateposted5">
-                  <label class="form-check-label" for="dateposted5">Last 30 days</label>
-                </div>
+                  <label class="form-check-label" for="dateposted3">Low Match</label><span style="float:right;">(5)</span>
+                </div>                
               </div>
             </div>
           </div>
           <hr>
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Specialism</h6>
+              <h6>Location</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="specialism">
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="specialism1">
-                  <label class="form-check-label" for="specialism1">IT Contractor</label>
+                  <label class="form-check-label" for="specialism1">Chennai</label><span style="float:right;">(15)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="specialism2">
-                  <label class="form-check-label" for="specialism2">Charity & Voluntary</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism3">
-                  <label class="form-check-label" for="specialism3">Digital & Creative</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism4">
-                  <label class="form-check-label" for="specialism4">Estate Agency</label>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism5">
-                  <label class="form-check-label" for="specialism5">Graduate</label>
-                </div>
+                  <label class="form-check-label" for="specialism2">Bangalore</label><span style="float:right;">(10)</span>
+                </div>                
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
           <hr>
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Job Type</h6>
-              <a class="ms-auto" data-bs-toggle="collapse" href="#jobtype" role="button" aria-expanded="false" aria-controls="jobtype"> <i class="fas fa-chevron-down"></i> </a>
+              <h6>Institute</h6>
+              <a class="ms-auto" data-bs-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
             </div>
-            <div class="collapse show" id="jobtype">
+            <div class="collapse show" id="specialism">
               <div class="widget-content">
-                <div class="form-check fulltime-job">
-                  <input type="checkbox" class="form-check-input" id="jobtype1">
-                  <label class="form-check-label" for="jobtype1">Full Time</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="specialism1">
+                  <label class="form-check-label" for="specialism1">Anna University</label><span style="float:right;">(15)</span>
                 </div>
-                <div class="form-check parttime-job">
-                  <input type="checkbox" class="form-check-input" id="jobtype2">
-                  <label class="form-check-label" for="jobtype2">Part-Time</label>
-                </div>
-                <div class="form-check freelance-job">
-                  <input type="checkbox" class="form-check-input" id="jobtype3">
-                  <label class="form-check-label" for="jobtype3">Freelance</label>
-                </div>
-                <div class="form-check temporary-job">
-                  <input type="checkbox" class="form-check-input" id="jobtype4">
-                  <label class="form-check-label" for="jobtype4">Temporary</label>
-                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="specialism2">
+                  <label class="form-check-label" for="specialism2">Manipal University</label><span style="float:right;">(10)</span>
+                </div>                
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
           <hr>
-          <div class="widget">
+
+                   <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Experience</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#experience" role="button" aria-expanded="false" aria-controls="experience"> <i class="fas fa-chevron-down"></i> </a>
@@ -182,98 +158,193 @@ candidate post-box list -->
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="experience1">
-                  <label class="form-check-label" for="experience1">Fresher</label>
+                  <label class="form-check-label" for="experience1">Fresher</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="experience2">
-                  <label class="form-check-label" for="experience2">Less than 1 year</label>
+                  <label class="form-check-label" for="experience2">Less than 1 year</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="experience3">
-                  <label class="form-check-label" for="experience3">2 Year</label>
+                  <label class="form-check-label" for="experience3">2 Year</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="experience4">
-                  <label class="form-check-label" for="experience4">3 Year</label>
+                  <label class="form-check-label" for="experience4">3 Year</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="experience5">
                   <label class="form-check-label" for="experience5">4 Year</label>
                 </div>
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
           <hr>
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Offered Salary</h6>
+              <h6>Salary</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#Offeredsalary" role="button" aria-expanded="false" aria-controls="Offeredsalary"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="Offeredsalary">
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="Offeredsalary1">
-                  <label class="form-check-label" for="Offeredsalary1">10k - 20k</label>
+                  <label class="form-check-label" for="Offeredsalary1">10k - 20k</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="Offeredsalary2">
-                  <label class="form-check-label" for="Offeredsalary2">20k - 30k</label>
+                  <label class="form-check-label" for="Offeredsalary2">20k - 30k</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="Offeredsalary3">
-                  <label class="form-check-label" for="Offeredsalary3">30k - 40k</label>
+                  <label class="form-check-label" for="Offeredsalary3">30k - 40k</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="Offeredsalary4">
-                  <label class="form-check-label" for="Offeredsalary4">40k - 50k</label>
+                  <label class="form-check-label" for="Offeredsalary4">40k - 50k</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="Offeredsalary5">
-                  <label class="form-check-label" for="Offeredsalary5">50k - 60k</label>
+                  <label class="form-check-label" for="Offeredsalary5">50k - 60k</label><span style="float:right;">(5)</span>
                 </div>
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
           <hr>
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Gender</h6>
+              <h6>Company</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#gender" role="button" aria-expanded="false" aria-controls="gender"><i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="gender">
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="gender1">
-                  <label class="form-check-label" for="gender1">Male</label>
+                  <label class="form-check-label" for="gender1">IHD INDUSTRIES</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="gender2">
-                  <label class="form-check-label" for="gender2">Female</label>
+                  <label class="form-check-label" for="gender2">Toppan Merrill</label><span style="float:right;">(5)</span>
                 </div>
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
           <hr>
           <div class="widget">
             <div class="widget-title widget-collapse">
-              <h6>Qualification</h6>
+              <h6>Designation</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="qualification">
               <div class="widget-content">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="qualification1">
-                  <label class="form-check-label" for="qualification1">Matriculation</label>
+                  <label class="form-check-label" for="qualification1">Accountant</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="qualification2">
-                  <label class="form-check-label" for="qualification2">Intermediate</label>
+                  <label class="form-check-label" for="qualification2">Accounts Assistant</label><span style="float:right;">(5)</span>
                 </div>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="qualification3">
-                  <label class="form-check-label" for="qualification3">Graduate</label>
+                  <label class="form-check-label" for="qualification3">Junior Accounts Executive</label><span style="float:right;">(5)</span>
                 </div>
               </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+            </div>
+          </div>
+          <hr>
+          <div class="widget">
+            <div class="widget-title widget-collapse">
+              <h6>FunctionalArea</h6>
+              <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="collapse show" id="qualification">
+              <div class="widget-content">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification1">
+                  <label class="form-check-label" for="qualification1">Finance & Accounting</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification2">
+                  <label class="form-check-label" for="qualification2">Other</label><span style="float:right;">(5)</span>
+                </div>                
+              </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+            </div>
+          </div>
+          <hr>
+          <div class="widget">
+            <div class="widget-title widget-collapse">
+              <h6>Industry</h6>
+              <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="collapse show" id="qualification">
+              <div class="widget-content">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification1">
+                  <label class="form-check-label" for="qualification1">Accounting / Auditing</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification2">
+                  <label class="form-check-label" for="qualification2">Miscellaneous</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification3">
+                  <label class="form-check-label" for="qualification3">Financial Services</label><span style="float:right;">(5)</span>
+                </div>
+              </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+            </div>
+          </div>
+          <hr>
+          <div class="widget">
+            <div class="widget-title widget-collapse">
+              <h6>Education</h6>
+              <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="collapse show" id="qualification">
+              <div class="widget-content">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification1">
+                  <label class="form-check-label" for="qualification1">B.Com</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification2">
+                  <label class="form-check-label" for="qualification2">MBA/PGDM</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification3">
+                  <label class="form-check-label" for="qualification3">Others</label><span style="float:right;">(5)</span>
+                </div>
+              </div>
+              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+            </div>
+          </div>
+          <hr>
+          <div class="widget">
+            <div class="widget-title widget-collapse">
+              <h6>Gender</h6>
+              <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="collapse show" id="qualification">
+              <div class="widget-content">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification1">
+                  <label class="form-check-label" for="qualification1">Male</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification2">
+                  <label class="form-check-label" for="qualification2">Female</label><span style="float:right;">(5)</span>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="qualification3">
+                  <label class="form-check-label" for="qualification3">Others</label>
+                </div>
+              </div>              
             </div>
           </div>
           <div class="widget">
@@ -415,8 +486,21 @@ candidate post-box list -->
                     </div>
                     <div class="feature-info-content ps-3 text-center">
                       <label class="mb-1 ">{{ $appliedUsers->user->email }}</label>
-                    </div>  
-                  </div>
+                    </div> 
+                    <div class="row mt-2">
+                      <div class="col-md-6" style="margin-right: 5%;">
+                        <div class="feature-info-content">
+                          <a class="btn btn-info mb-2 btn-sm ps-4" href="#">Shortlist </a>                          
+                      </div>
+                      </div>                      
+                      <div class="col-md-4">
+                        <div class="feature-info-content">                          
+                          <a class="btn btn-danger mb-2 btn-sm ps-4" href="#">Reject </a></div>
+                      </div>
+                      </div>
+                      
+                    </div>
+                   
                   <div class="col-md-2">
                     <div class="row">
                       <div class="col-md-12 side-icon">

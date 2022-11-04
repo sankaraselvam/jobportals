@@ -57,119 +57,55 @@ Candidates & Companies -->
                 <!-- Top Companies -->
                 <div class="col-lg-4">
                     <div class="section-title">
-                        <h2 class="title">Top Companies</h2>                        
+                        <h2 class="title" style="margin-left:15%;">Top Companies</h2>                        
                     </div>
                     <div class="owl-carousel owl-nav-bottom-center" data-nav-arrow="false" data-nav-dots="true" data-items="1" data-md-items="1" data-sm-items="2" data-xs-items="1" data-xx-items="1" data-space="15" data-autoheight="true">
-                        <div class="item">
+                       @if(isset($latestJobs) && count($latestJobs) > 0)
+                               
+                                @foreach($latestJobs as $latestJob)
+
+                               @php
+                                $company = $latestJob->getCompany();
+                                $current_date = Carbon::now()->toDateTimeString();
+                                $different_days = MiscHelper::diffInDays($current_date, $latestJob->created_at);
+                                $number = MiscHelper::getNumbers();
+
+                                $favouritejob = app('App\Http\Controllers\IndexController')->getFavouriteJob($latestJob->slug);
+                               @endphp
+                                
+
+                                @if(null !== $company) 
+                                
+                                <div class="item">
                             <div class="employers-grid">
                                 <div class="employers-list-logo">
-                                    <img class="img-fluid" src="{{asset('/')}}images/svg/09.svg" alt="">
+                                    <a href="{{route('job.detail', [$latestJob->slug])}}" title="{{$latestJob->title}}" >
+                                            {{$company->printCompanyImage()}}
+                                            </a>
                                 </div>
                                 <div class="employers-list-details">
                                     <div class="employers-list-info">
                                         <div class="employers-list-title">
-                                            <h5 class="mb-0"><a href="employer-detail.html">Bright Sparks PLC</a></h5>
+                                            <h5 class="mb-0"><a href="employer-detail.html">{{$latestJob->title}}</a></h5>
                                         </div>
                                         <div class="employers-list-option">
                                             <ul class="list-unstyled">
-                                                <li><i class="fas fa-map-marker-alt pe-1"></i>Botchergate, Carlisle</li>
+                                                <li><i class="fas fa-map-marker-alt pe-1"></i>{{$latestJob->getCity('city')}}</li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="employers-list-position">
-                                    <a class="btn btn-sm btn-dark" href="#">17 Open position</a>
+                                    <a class="btn btn-sm btn-dark" href="{{route('job.list')}}">{{__('View More Jobs')}}</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="employers-grid">
-                                <div class="employers-list-logo">
-                                    <img class="img-fluid" src="{{asset('/')}}images/svg/10.svg" alt="">
-                                </div>
-                                <div class="employers-list-details">
-                                    <div class="employers-list-info">
-                                        <div class="employers-list-title">
-                                            <h5 class="mb-0"><a href="employer-detail.html">Fleet Improvements Pvt</a></h5>
-                                        </div>
-                                        <div class="employers-list-option">
-                                            <ul class="list-unstyled">
-                                                <li><i class="fas fa-map-marker-alt pe-1"></i>Green Lanes, London</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="employers-list-position">
-                                    <a class="btn btn-sm btn-dark" href="#">20 Open position</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="employers-grid">
-                                <div class="employers-list-logo">
-                                    <img class="img-fluid" src="{{asset('/')}}images/svg/08.svg" alt="">
-                                </div>
-                                <div class="employers-list-details">
-                                    <div class="employers-list-info">
-                                        <div class="employers-list-title">
-                                            <h5 class="mb-0"><a href="employer-detail.html">Suttons Financial Ltd</a></h5>
-                                        </div>
-                                        <div class="employers-list-option">
-                                            <ul class="list-unstyled">
-                                                <li><i class="fas fa-map-marker-alt pe-1"></i>Paris, Île-de-France</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="employers-list-position">
-                                    <a class="btn btn-sm btn-dark" href="#">23 Open position</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="employers-grid">
-                                <div class="employers-list-logo">
-                                    <img class="img-fluid" src="{{asset('/')}}images/svg/19.svg" alt="">
-                                </div>
-                                <div class="employers-list-details">
-                                    <div class="employers-list-info">
-                                        <div class="employers-list-title">
-                                            <h5 class="mb-0"><a href="employer-detail.html">Co-operative Funeralcare</a></h5>
-                                        </div>
-                                        <div class="employers-list-option">
-                                            <ul class="list-unstyled">
-                                                <li><i class="fas fa-map-marker-alt pe-1"></i>Lynch Lane, Weymouth</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="employers-list-position">
-                                    <a class="btn btn-sm btn-dark" href="#">30 Open position</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="employers-grid">
-                                <div class="employers-list-logo">
-                                    <img class="img-fluid" src="{{asset('/')}}images/svg/06.svg" alt="">
-                                </div>
-                                <div class="employers-list-details">
-                                    <div class="employers-list-info">
-                                        <div class="employers-list-title">
-                                            <h5 class="mb-0"><a href="employer-detail.html">Altenwerth and Hamill</a></h5>
-                                        </div>
-                                        <div class="employers-list-option">
-                                            <ul class="list-unstyled">
-                                                <li><i class="fas fa-map-marker-alt pe-1"></i>Taunton, London</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="employers-list-position">
-                                    <a class="btn btn-sm btn-dark" href="#">35 Open position</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
+
+                        @endforeach
+
+                        @endif 
+                        
                     </div>
                 </div>
             </div>

@@ -80,8 +80,10 @@ banner -->
 
 <!--=================================
 candidate post-box list -->
+
 <section class="space-ptb">
   <div class="container">
+    <form action="{{route('company.candidate.listing',[$job_id])}}" method="get" id="formName">
     <div class="row">
       <div class="col-lg-3 mb-0">
         <div class="sidebar">
@@ -355,32 +357,26 @@ candidate post-box list -->
       </div>
       <div class="col-lg-9 ">       
         <div class="job-filter d-sm-flex align-items-center"> 
-          <div class="job-alert-bt">  <h6 class="mb-0"> Showing {{count($job_applied_users)}} applies</h6></div>         
+          <div class="job-alert-bt">  
+            <h6 class="mb-0"> Showing {{count($job_applied_users)}} applies</h6>
+          </div>         
           <div class="job-shortby ms-sm-auto d-flex align-items-center">
-            <form class="form-inline">
+            <!-- <form class="form-inline"> -->
               <div class="form-group d-flex align-items-center mb-0">
                 <label class="justify-content-start me-2">Show</label>
                 <div class="short-by">
-                  <select class="form-control basic-select">
-                    <option>20</option>
-                    <option>40</option>
-                    <option>80</option>
-                    <option>120</option>
-                  </select>
+                  {{ Form::select('perPage', $pagelimit, $perPage, array('class'=>'form-control basic-select', 'id'=>'perPage', 'onchange' => "document.getElementById('formName').submit()")) }}
                 </div>
               </div>
-            </form>
-            <form class="form-inline">
+            <!-- </form> -->
+            <!-- <form class="form-inline"> -->
               <div class="form-group d-flex align-items-center mb-0">
                 <label class="justify-content-start me-2">Sort by :</label>
                 <div class="short-by">
-                  <select class="form-control basic-select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                    <option >Newest</option>
-                    <option >Oldest</option>
-                  </select>
+                  {{ Form::select('sorting', $sortBy, $sorting, array('class'=>'form-control basic-select', 'id'=>'sorting', 'onchange' => "document.getElementById('formName').submit()")) }}
                 </div>
               </div>
-            </form>
+            <!-- </form> -->
           </div>
           
         </div> 
@@ -395,10 +391,9 @@ candidate post-box list -->
                 <li><a href="#"><i class="fas fa-check pe-2"></i>Shortlist</a></li>
                 <li><a href="#"><i class="fas fa-registered pe-2"></i>Reject</a></li>
                 <li><a href="#"><i class="fas fa-envelope pe-2"></i>Email</a></li>
-                <li><a href="#"><i class="fas fa-download pe-2"></i>Download</a></li>
+                <li><a href="{{ route('export.candidate.list',[$job_id]) }}"><i class="fas fa-download pe-2"></i>Download</a></li>
                 <li><a><i class="fas fa-trash pe-2"></i>Delete</a></li>
-              </ul>
-              
+              </ul>              
             </div>
            
           </div>
@@ -524,8 +519,6 @@ candidate post-box list -->
         </div>
           @endif
         @endforeach
-        
-
         <div class="row">
           <div class="col-12 text-center mt-4 mt-sm-5">
             <ul class="pagination justify-content-center mb-0">
@@ -541,6 +534,7 @@ candidate post-box list -->
         </div>
       </div>
     </div>
+    </form>
   </div>
 </section>
 <!--=================================
@@ -550,6 +544,10 @@ candidate post-box list -->
 @push('scripts')
 <script type="text/javascript">
 $(function() {
+  $("#formname").on("change", "input:checkbox", function(){
+            $("#formname").submit();
+  });
+    
   $('#change_status').on('change', function (e) {
         e.preventDefault();
         $.post("{{ route('change.candidate.status') }}", {user_id: $("#user_id").val(), status_val: $(this).val(), _method: 'POST', _token: '{{ csrf_token() }}'})

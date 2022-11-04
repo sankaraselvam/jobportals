@@ -152,7 +152,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-		Jrean\UserVerification\UserVerificationServiceProvider::class,
+		    Jrean\UserVerification\UserVerificationServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
@@ -160,8 +160,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         App\Providers\CustomConfigServiceProvider::class,
-		Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-		
+		    Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -216,7 +216,8 @@ return [
         'ImgUploader' => App\Helpers\ImageUploadingHelper::class,
         'APAuthHelp' => App\Helpers\AdminAuthorizationHelper::class,
         'MiscHelper' => App\Helpers\MiscHelper::class,
-		'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-		'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+		    'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
+		    'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 ];

@@ -25,6 +25,8 @@ Route::get('company-candidate-listing/{id}', 'Company\CompanyController@companyC
 Route::delete('delete-apply-candidate', 'Company\CompanyController@deleteApplyCandidate')->name('delete.apply.candidate');
 Route::post('change-candidate-status', 'Company\CompanyController@changeCandidateStatus')->name('change.candidate.status');
 Route::get('export-candidate-list/{id}', 'Company\CompanyController@exportCandidateListing')->name('export.candidate.list');
+Route::get('candidate-shortlist/{id}/{jobid}', 'Company\CompanyController@candidateShortlisted')->name('candidate.shortlist');
+Route::get('candidate-rejected/{id}/{jobid}', 'Company\CompanyController@candidateRejected')->name('candidate.rejected');
 
 // // Clear application cache:
 // Route::get('/clear-cache', function() {

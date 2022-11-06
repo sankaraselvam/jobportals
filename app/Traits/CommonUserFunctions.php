@@ -13,6 +13,7 @@ use App\ProfileEducation;
 use App\ProfileSkill;
 use App\ProfileLanguage;
 use App\Http\Requests;
+use App\ProfileCareer;
 use Illuminate\Http\Request;
 use App\Traits\Active;
 
@@ -101,14 +102,45 @@ trait CommonUserFunctions
 	
 	}
 	
-	public static function countNumJobSeekers($field = 'country_id', $value = '')
+	public static function countNumJobSeekers($field = 'country_id', $value = '', $user_id='')
 	{
 		if(!empty($value))
 		{
 			
 			if($field == 'industry_id')
 			{
-				return User::where('industry_id', $value)->active()->count('id');
+				return ProfileCareer::where('industry_id', $value)->count('profile_career.id');
+				//->where('user_id',$user_id)
+				
+				//return User::where('industry_id', $value)->active()->count('id');
+			}
+			if($field == 'salary')
+			{
+				return ProfileCareer::where('salary_from', $value)->count('profile_career.id');
+				//->where('user_id',$user_id)
+				
+				//return User::where('industry_id', $value)->active()->count('id');
+			}
+			if($field == 'institutions')
+			{
+				return ProfileEducation::where('institution', $value)->count('profile_educations.id');
+				//->where('user_id',$user_id)
+				
+				//return User::where('industry_id', $value)->active()->count('id');
+			}
+			if($field == 'company')
+			{
+				return ProfileExperience::where('company', $value)->count('profile_experiences.id');
+				//->where('user_id',$user_id)
+				
+				//return User::where('industry_id', $value)->active()->count('id');
+			}
+			if($field == 'designation')
+			{
+				return ProfileExperience::where('title', $value)->count('profile_experiences.id');
+				//->where('user_id',$user_id)
+				
+				//return User::where('industry_id', $value)->active()->count('id');
 			}
 			if($field == 'job_skill_id')
 			{
@@ -117,7 +149,8 @@ trait CommonUserFunctions
 			}
 			if($field == 'functional_area_id')
 			{
-				return User::where('functional_area_id','=',$value)->active()->count('id');
+				return ProfileCareer::where('functional_area_id', $value)->count('profile_career.id');
+				// return User::where('functional_area_id','=',$value)->active()->count('id');
 			}
 			if($field == 'careel_level_id')
 			{
@@ -141,7 +174,13 @@ trait CommonUserFunctions
 			}
 			if($field == 'city_id')
 			{
-				return User::where('city_id','=',$value)->active()->count('id');
+				return ProfileCareer::with(['cities'])
+				->whereHas('cities', function($q) use($value){
+					$q->where('cities.city_id','=',$value);
+				})
+				//->where('user_id',$user_id)
+				->count('profile_career.id');
+				//return User::where('city_id','=',$value)->count('id');
 			}
 		}
 	}

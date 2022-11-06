@@ -114,6 +114,17 @@ class AjaxController extends Controller
 	
 	/********************************************/
 	
+	public function filterDegreeLevels(Request $request)
+    {
+        $degree_level_id = $request->input('degree_level_id');
+        $major_subject_id = $request->input('major_subject_id');
+		
+        $degreeLevels = DataArrayHelper::langDegreelevelsArray($major_subject_id);
+		
+        $dd = Form::select('degree_level_id', ['' => 'Select degree type'] + $degreeLevels, $degree_level_id, array('id' => 'degree_level_id', 'class' => 'form-control basic-select'));
+        echo $dd;
+    }
+
 	public function filterDegreeTypes(Request $request)
     {
         $degree_level_id = $request->input('degree_level_id');

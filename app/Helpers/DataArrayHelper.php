@@ -250,17 +250,17 @@ class DataArrayHelper
 	
 	/*******************************/
 	
-	public static function defaultDegreelevelsArray()
+	public static function defaultDegreelevelsArray($major_subject_id)
     {
-        $array = DegreeLevel::select('degree_levels.degree_level', 'degree_levels.degree_level_id')->isDefault()->active()->sorted()->pluck('degree_levels.degree_level', 'degree_levels.degree_level_id')->toArray();
+        $array = DegreeLevel::select('degree_levels.degree_level', 'degree_levels.degree_level_id')->where('major_subject_id','=',$major_subject_id)->isDefault()->active()->sorted()->pluck('degree_levels.degree_level', 'degree_levels.degree_level_id')->toArray();
         return $array;
     }
 	
-	public static function langDegreelevelsArray()
+	public static function langDegreelevelsArray($major_subject_id)
     {
-        $array = DegreeLevel::select('degree_levels.degree_level', 'degree_levels.degree_level_id')->lang()->active()->sorted()->pluck('degree_levels.degree_level', 'degree_levels.degree_level_id')->toArray();
+        $array = DegreeLevel::select('degree_levels.degree_level', 'degree_levels.degree_level_id')->where('major_subject_id','=',$major_subject_id)->lang()->active()->sorted()->pluck('degree_levels.degree_level', 'degree_levels.degree_level_id')->toArray();
 		if((int)count($array) === 0){
-			$array = self::defaultDegreelevelsArray();
+			$array = self::defaultDegreelevelsArray($major_subject_id);
 		}
         return $array;
     }

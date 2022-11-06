@@ -118,7 +118,7 @@ class CompanyController extends Controller
             ->with('user', $users);
     }
 
-    public function jobApplyList($job_id,$perPage,$sorting){
+    public function jobApplyList($job_id,$perPage,$sorting , $shortlist, $rejected){
 
         
 
@@ -129,24 +129,70 @@ class CompanyController extends Controller
         ->whereHas('user', function($q){
             $q->whereNotNull('id');
         })
-        ->where('job_id', '=', $job_id)
-        ->orderBy('job_id', $sorting)
+        ->where('job_id', '=', $job_id);
+        if($shortlist==1){
+            $job_applied_users=$job_applied_users->where('shortlisted',1);
+        }
+        if($rejected==1){
+            $job_applied_users=$job_applied_users->where('rejected',1);
+        }
+        $job_applied_users=$job_applied_users->orderBy('job_id', $sorting)
         ->limit($perPage)
         ->get();
         return  $job_applied_users;
     }
     
     public function companyCandidateListing(Request $request, $job_id){
-        //dd($request->all());
+        // dd($request->all());
         $callStatus = config('constants.callStatus');
         $pageLimit = config('constants.pageLimit');
         $sortBy = config('constants.sortBy');
+        $shortlist = $request->input('shortlist')?$request->input('shortlist'):'';
+        $rejected = $request->input('rejected')?$request->input('rejected'):'';
         $perPage = $request->input('perPage')?$request->input('perPage'):10;
         $sorting = $request->input('sorting')?$request->input('sorting'):'desc';
-        $job_applied_users = $this->jobApplyList($job_id,$perPage,$sorting);
+        $search = $request->query('search', '');
+		$company_ids = $request->query('company_id', array());
+		$industry_ids = $request->query('industry_id', array());
+		$institution = $request->query('institution', array());
+		$designation = $request->query('designation', array());
+		$functional_area_ids = $request->query('functional_area_id', array());
+		// $country_ids = $request->query('country_id', array());
+		// $state_ids = $request->query('state_id', array());
+		$city_ids = $request->query('city_id', array());
+		// $is_freelance = $request->query('is_freelance', array());
+		// $career_level_ids = $request->query('career_level_id', array());
+		// $job_type_ids = $request->query('job_type_id', array());
+		// $job_shift_ids = $request->query('job_shift_id', array());
+		$gender_ids = $request->query('gender_id', array());
+		// $degree_level_ids = $request->query('degree_level_id', array());
+		// $job_experience_ids = $request->query('job_experience_id', array());
+		$salary = $request->query('salary', array());
+        // $salary_from = array();//$salary['salary_from'];
+        // $salary_to = array();//$salary['salary_to'];
+		// $salary_currency = $request->query('salary_currency', '');
+        // $is_featured = $request->query('is_featured', 2);
+        // $order_by = $request->query('order_by', 'id');
+
+        $job_applied_users = $this->jobApplyList($job_id, $perPage, $sorting, $shortlist, $rejected);
+
+        $cityIdsArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution,  $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'city_ids');
+        $industryIdsArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution,  $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'industry_id');
+        $institutionsArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'institution');
+        $salaryArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'salary');
+        $companyArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'company');
+        $designationArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'designation');
+        $functionalAreaIdsArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'functional_area');
+        $genderIdsArray = $this->fetchCompanyCandidateIds($job_id,$city_ids,$industry_ids, $institution, $salary, $company_ids, $designation, $functional_area_ids, $gender_ids, $sorting, $perPage, 'gender');
+
+        $shortlistedCount = JobApply::where('shortlisted',1)->where('job_id', $job_id)->count('id');
+        $rejectedCount = JobApply::where('rejected',1)->where('job_id', $job_id)->count('id');
+        
+        // $cityIdsArray = app('App\Http\Controllers\Job\JobController')->fetchIdsArray($search, $job_titles, $company_ids, $industry_ids, $job_skill_ids,$functional_area_ids, $country_ids, $state_ids, $city_ids, $is_freelance, $career_level_ids, $job_type_ids, $job_shift_ids, $gender_ids, $degree_level_ids, $job_experience_ids, $salary_from, $salary_to, $salary_currency, $is_featured, 'jobs.city_id', $job_id);
+
         // flash(__('Job has been added in favorites list'))->success();
         // return \Redirect::route('index');
-        // dd($callStatus);
+        // dd($functionalAreaIdsArray);
             return view('company.company_candidate_listing')
                             ->with('job_applied_users', $job_applied_users)
                             ->with('job_id', $job_id)
@@ -154,7 +200,17 @@ class CompanyController extends Controller
                             ->with('perPage', $perPage)
                             ->with('sortBy', $sortBy)
                             ->with('sorting', $sorting)
-                            ->with('callStatus', $callStatus);
+                            ->with('callStatus', $callStatus)
+                            ->with('shortlistedCount', $shortlistedCount)
+                            ->with('rejectedCount', $rejectedCount)
+                            ->with('cityIdsArray', $cityIdsArray)
+                            ->with('industryIdsArray', $industryIdsArray)
+                            ->with('institutionsArray', $institutionsArray)
+                            ->with('companyArray', $companyArray)
+                            ->with('designationArray', $designationArray)
+                            ->with('functionalAreaIdsArray', $functionalAreaIdsArray)
+                            ->with('genderIdsArray', $genderIdsArray)
+                            ->with('salaryArray', $salaryArray);
            
     }   
 
@@ -596,6 +652,21 @@ class CompanyController extends Controller
 		return view('company.company_message_detail')
                         ->with('company', $company)
 						->with('message', $message);
+    }
+
+    public function candidateShortlisted($jobApplyId, $jobid){
+        $JobApply = JobApply::findOrFail($jobApplyId);
+        $JobApply->shortlisted=1;
+        $JobApply->update();
+        flash(__('Candidate has been shortlisted'))->success();
+        return \Redirect::route('company.candidate.listing', $jobid);
+    }
+    public function candidateRejected($jobApplyId, $jobid){
+        $JobApply = JobApply::findOrFail($jobApplyId);
+        $JobApply->rejected=1;
+        $JobApply->update();
+        flash(__('Candidate has been rejected'))->success();
+        return \Redirect::route('company.candidate.listing', $jobid);
     }
 	
 }

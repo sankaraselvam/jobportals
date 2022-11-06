@@ -182,7 +182,15 @@
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Education <span style="color: red;"> *</span></label>
-                            {!! Form::select('degree_level_id', ['' =>__('Select Required Degree Level')]+$degreeLevels, (isset($job)? $job->degree_level_id:''), array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
+                            {!! Form::select('major_subject_id', ['' =>__('Select Required Major Subject')]+$majorSubjects, (isset($job)? $job->major_subject_id:''), array('class'=>'form-control basic-select', 'id'=>'major_subject_id')) !!}
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label class="mb-2">Degree Level <span style="color: red;"> *</span></label>
+                            <span id="default_degree_level_dd">{!! Form::select('degree_level_id', ['' =>__('Select Required Degree Level')], null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}</span>
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label class="mb-2">Degree Type <span style="color: red;"> *</span></label>
+                            <span id="default_degree_type_dd">{!! Form::select('degree_type_id', ['' =>__('Select Required Degree Type')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Gender <span style="color: red;">*</span> </label>
@@ -354,6 +362,8 @@ $(document).ready(function() {
     filterLangStates(<?php echo old('state_id', (isset($job))? $job->state_id:0); ?>);
     filterLangCities(<?php echo old('city_id', (isset($job))? $job->city_id:0); ?>);
     filterLangRoles(<?php echo old('role_id', (isset($job))? $job->role_id:0); ?>);
+    filterLangDegreeLevel(<?php echo old('degree_level_id', (isset($job))? $job->degree_level_id:0); ?>);
+    filterLangDegreeType(<?php echo old('degree_type_id', (isset($job))? $job->degree_type_id:0); ?>);
 
    
 });
@@ -435,10 +445,20 @@ $(document).ready(function($) {
         e.preventDefault();
         filterLangRoles($(this).val());
     });
+    
     $(document).on('change', '#state_id',function (e) {
        
         e.preventDefault();
         filterLangCities($(this).val());
+    });
+    $('#major_subject_id').on('change', function (e) {
+        e.preventDefault();
+        filterLangDegreeLevel($(this).val());
+    });
+
+    $(document).on('change', '#degree_level_id',function (e) {
+        e.preventDefault();
+        filterLangDegreeType($(this).val());
     });
 
 });
@@ -467,9 +487,8 @@ $(document).ready(function($) {
     }
     }
 
-    function filterLangRoles(functional_area_id){
+    function filterLangRoles(role_id){
         var functional_area_id = $('#functional_area_id').val();
-        var role_id = $('#role_id').val();
         if (functional_area_id != ''){
         $.post("{{ route('filter.lang.roles.dropdown') }}", {functional_area_id: functional_area_id, role_id: role_id, _method: 'POST', _token: '{{ csrf_token() }}'})
                 .done(function (response) {
@@ -479,6 +498,36 @@ $(document).ready(function($) {
                
                 });
         }
+    }
+
+    function filterLangDegreeLevel(degree_level_id){
+        var major_subject_id = $('#major_subject_id').val();
+        // var degree_level_id = $('#degree_level_id').val();
+        if (major_subject_id != ''){
+            $.post("{{ route('filter.degree.level.dropdown') }}", {major_subject_id: major_subject_id,degree_level_id:degree_level_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+                .done(function (response) {
+                    console.log('ROLWWEEEEEE');
+                    $('#default_degree_level_dd').html(response);
+                    filterLangDegreeType(<?php echo old('degree_type_id', (isset($job))? $job->degree_type_id:0); ?>);
+                    //$('#degree_level_id').val("{{isset($job)?$job->degree_level_id:''}}");
+                    $('#degree_level_id').select2();
+               
+                });
+        }
+    }
+
+    function filterLangDegreeType(degree_type_id){
+        var degree_level_id = $('#degree_level_id').val();
+        if (degree_level_id != ''){
+            $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id,degree_type_id:degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+                .done(function (response) {
+                    console.log('ROLWWEEEEEE');
+                    $('#default_degree_type_dd').html(response);
+                    $('#degree_type_id').select2();
+                    //$('#degree_type_id').val("{{isset($job)?$job->degree_type_id:''}}");
+               
+                });
+       }
     }
 </script> 
 @endpush

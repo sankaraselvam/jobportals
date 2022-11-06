@@ -83,11 +83,12 @@ candidate post-box list -->
 
 <section class="space-ptb">
   <div class="container">
+  @include('flash::message')
     <form action="{{route('company.candidate.listing',[$job_id])}}" method="get" id="formName">
     <div class="row">
       <div class="col-lg-3 mb-0">
         <div class="sidebar">
-          <div class="widget">
+          <!-- <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Relavent Score</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
@@ -109,24 +110,33 @@ candidate post-box list -->
               </div>
             </div>
           </div>
-          <hr>
+          <hr> -->
           <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Location</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="specialism">
-              <div class="widget-content">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism1">
-                  <label class="form-check-label" for="specialism1">Chennai</label><span style="float:right;">(15)</span>
+            @if(isset($cityIdsArray) && count($cityIdsArray))
+                @foreach($cityIdsArray as $key=>$city_id)
+                @php
+                $city = App\City::where('city_id','=',$city_id)->lang()->active()->first();			  
+                @endphp
+                @if(null !== $city)
+                @php
+                $checked = (in_array($city->city_id, Request::get('city_id', array())))? 'checked="checked"':'';
+                @endphp
+                <div class="widget-content">
+                  <div class="form-check">
+                    <input type="checkbox"  class="form-check-input" name="city_id[]" id="city_{{$city->city_id}}" value="{{$city->city_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                    <label class="form-check-label me-2 mt-2" for="city_{{$city->city_id}}"></label>
+                    {{$city->city}} <span style="float:right;">({{App\User::countNumJobSeekers('city_id', $city->city_id)}})</span> 
+                  </div>
                 </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism2">
-                  <label class="form-check-label" for="specialism2">Bangalore</label><span style="float:right;">(10)</span>
-                </div>                
-              </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @endif
+          @endforeach
+          @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
@@ -136,22 +146,30 @@ candidate post-box list -->
               <a class="ms-auto" data-bs-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="specialism">
-              <div class="widget-content">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism1">
-                  <label class="form-check-label" for="specialism1">Anna University</label><span style="float:right;">(15)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="specialism2">
-                  <label class="form-check-label" for="specialism2">Manipal University</label><span style="float:right;">(10)</span>
-                </div>                
-              </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @if(isset($institutionsArray) && count($institutionsArray))
+                    @foreach($institutionsArray as $key=>$institutions)
+                    @php
+                    $institution = App\ProfileEducation::where('id','=',$key)->first();			  
+                    @endphp
+                    @if(null !== $institution)
+                    @php
+                    $checked = (in_array($institution->id, Request::get('institution', array())))? 'checked="checked"':'';
+                    @endphp
+                    <div class="widget-content">
+                      <div class="form-check">
+                        <input type="checkbox"  class="form-check-input" name="institution[]" id="institution_{{$institution->id}}" value="{{$institution->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                        <label class="form-check-label me-2 mt-2" for="institution_{{$institution->id}}"></label>
+                        {{$institution->institution}} <span style="float:right;">({{App\User::countNumJobSeekers('institutions', $institutions)}})</span> 
+                      </div>
+                    </div>
+                  @endif
+              @endforeach
+              @endif 
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
-
-                   <div class="widget">
+          <!-- <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Experience</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#experience" role="button" aria-expanded="false" aria-controls="experience"> <i class="fas fa-chevron-down"></i> </a>
@@ -182,36 +200,33 @@ candidate post-box list -->
               <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
-          <hr>
+          <hr> -->
           <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Salary</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#Offeredsalary" role="button" aria-expanded="false" aria-controls="Offeredsalary"> <i class="fas fa-chevron-down"></i> </a>
             </div>
             <div class="collapse show" id="Offeredsalary">
+            @if(isset($salaryArray) && count($salaryArray))
+              @foreach($salaryArray as $key=>$salary)
+              @php
+              $salary = App\ProfileCareer::where('id','=',$key)->first();	
+              @endphp
+              @if(null !== $salary)
+              @php
+              $checked = (in_array($salary->id, Request::get('salary', array())))? 'checked="checked"':'';
+              @endphp
               <div class="widget-content">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="Offeredsalary1">
-                  <label class="form-check-label" for="Offeredsalary1">10k - 20k</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="Offeredsalary2">
-                  <label class="form-check-label" for="Offeredsalary2">20k - 30k</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="Offeredsalary3">
-                  <label class="form-check-label" for="Offeredsalary3">30k - 40k</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="Offeredsalary4">
-                  <label class="form-check-label" for="Offeredsalary4">40k - 50k</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="Offeredsalary5">
-                  <label class="form-check-label" for="Offeredsalary5">50k - 60k</label><span style="float:right;">(5)</span>
+                  <input type="checkbox"  class="form-check-input" name="salary[]" id="salary_{{$salary->id}}" value="{{$salary->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                  <label class="form-check-label me-2 mt-2" for="salary_{{$salary->id}}"></label>
+                  {{$salary->salary_from}} Lac(s)<span style="float:right;">({{App\User::countNumJobSeekers('salary', $salary->salary_from)}})</span> 
                 </div>
               </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @endif
+              @endforeach
+              @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
@@ -221,17 +236,26 @@ candidate post-box list -->
               <a class="ms-auto" data-bs-toggle="collapse" href="#gender" role="button" aria-expanded="false" aria-controls="gender"><i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="gender">
+            @if(isset($companyArray) && count($companyArray))
+              @foreach($companyArray as $key=>$curentcCmpy)
+              @php
+              $company = App\ProfileExperience::where('id','=',$key)->first();
+              @endphp
+              @if(null !== $company)
+              @php
+              $checked = (in_array($company->id, Request::get('company_id', array())))? 'checked="checked"':'';
+              @endphp
               <div class="widget-content">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="gender1">
-                  <label class="form-check-label" for="gender1">IHD INDUSTRIES</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="gender2">
-                  <label class="form-check-label" for="gender2">Toppan Merrill</label><span style="float:right;">(5)</span>
-                </div>
+                  <input type="checkbox"  class="form-check-input" name="company_id[]" id="company_id{{$company->id}}" value="{{$company->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                  <label class="form-check-label me-2 mt-2" for="company_id{{$company->id}}"></label>
+                  {{$company->company}}<span style="float:right;">({{App\User::countNumJobSeekers('company', $company->company)}})</span> 
+                </div>                
               </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @endif
+              @endforeach
+              @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
@@ -241,21 +265,26 @@ candidate post-box list -->
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="qualification">
+              @if(isset($designationArray) && count($designationArray))
+              @foreach($designationArray as $key=>$designations)
+              @php
+              $designation = App\ProfileExperience::where('id','=',$key)->first();	
+              @endphp
+              @if(null !== $designation)
+              @php
+              $checked = (in_array($designation->id, Request::get('designation', array())))? 'checked="checked"':'';
+              @endphp
               <div class="widget-content">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification1">
-                  <label class="form-check-label" for="qualification1">Accountant</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification2">
-                  <label class="form-check-label" for="qualification2">Accounts Assistant</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification3">
-                  <label class="form-check-label" for="qualification3">Junior Accounts Executive</label><span style="float:right;">(5)</span>
+                  <input type="checkbox"  class="form-check-input" name="designation[]" id="designation_{{$designation->id}}" value="{{$designation->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                  <label class="form-check-label me-2 mt-2" for="designation_{{$designation->id}}"></label>
+                  {{$designation->title}}<span style="float:right;">({{App\User::countNumJobSeekers('designation', $designation->title)}})</span> 
                 </div>
               </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @endif
+              @endforeach
+              @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
@@ -265,17 +294,26 @@ candidate post-box list -->
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="qualification">
+            @if(isset($functionalAreaIdsArray) && count($functionalAreaIdsArray))
+                  @foreach($functionalAreaIdsArray as $key=>$functional_area_id)
+                  @php
+                  $functionalArea = App\FunctionalArea::where('functional_area_id','=',$functional_area_id)->lang()->active()->first();
+                  @endphp
+                  @if(null !== $functionalArea)
+                  @php
+                  $checked = (in_array($functionalArea->functional_area_id, Request::get('functional_area_id', array())))? 'checked="checked"':'';
+                  @endphp
               <div class="widget-content">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification1">
-                  <label class="form-check-label" for="qualification1">Finance & Accounting</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification2">
-                  <label class="form-check-label" for="qualification2">Other</label><span style="float:right;">(5)</span>
-                </div>                
+                  <input type="checkbox" class="form-check-input" name="functional_area_id[]" id="functional_area_id_{{$functionalArea->functional_area_id}}" value="{{$functionalArea->functional_area_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                  <label class="form-check-label me-2 mt-2" for="functional_area_id_{{$functionalArea->functional_area_id}}" ></label>
+                  {{str_limit(strip_tags($functionalArea->functional_area), 25, '...')}}  <span style="float:right;">({{App\User::countNumJobSeekers('functional_area_id', $functionalArea->functional_area_id)}})</span>
+                </div>        
               </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+              @endif
+              @endforeach
+              @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
@@ -285,25 +323,30 @@ candidate post-box list -->
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="qualification">
-              <div class="widget-content">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification1">
-                  <label class="form-check-label" for="qualification1">Accounting / Auditing</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification2">
-                  <label class="form-check-label" for="qualification2">Miscellaneous</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification3">
-                  <label class="form-check-label" for="qualification3">Financial Services</label><span style="float:right;">(5)</span>
-                </div>
-              </div>
-              <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
+                @if(isset($industryIdsArray) && count($industryIdsArray))
+                  @foreach($industryIdsArray as $key=>$industry_id)
+                  @php
+                  $industry = App\Industry::where('id','=',$industry_id)->lang()->active()->first();
+                  @endphp
+                  @if(null !== $industry)
+                  @php
+                  $checked = (in_array($industry->id, Request::get('industry_id', array())))? 'checked="checked"':'';
+                  @endphp
+                  <div class="widget-content">
+                      <div class="form-check">
+                          <input type="checkbox" class="form-check-input" name="industry_id[]" id="industry_{{$industry->id}}" value="{{$industry->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                          <label class="form-check-label me-2 mt-2" for="industry_{{$industry->id}}"></label>
+                          {{str_limit(strip_tags($industry->industry), 25, '...')}} <span style="float:right;">({{App\User::countNumJobSeekers('industry_id', $industry->id)}})</span>
+                      </div>                          
+                  </div>                                                      
+                @endif
+                @endforeach
+                @endif
+              <!-- <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a> -->
             </div>
           </div>
           <hr>
-          <div class="widget">
+          <!-- <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Education</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
@@ -326,27 +369,32 @@ candidate post-box list -->
               <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
             </div>
           </div>
-          <hr>
+          <hr> -->
           <div class="widget">
             <div class="widget-title widget-collapse">
               <h6>Gender</h6>
               <a class="ms-auto" data-bs-toggle="collapse" href="#qualification" role="button" aria-expanded="false" aria-controls="qualification"> <i class="fas fa-chevron-down"></i></a>
             </div>
             <div class="collapse show" id="qualification">
+              @if(isset($genderIdsArray) && count($genderIdsArray))
+              @foreach($genderIdsArray as $key=>$gender_id)
+              @php
+              $gender = App\Gender::where('id','=',$gender_id)->lang()->active()->first();
+              @endphp
+              @if(null !== $gender)
+              @php
+              $checked = (in_array($gender->id, Request::get('gender_id', array())))? 'checked="checked"':'';
+              @endphp
               <div class="widget-content">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification1">
-                  <label class="form-check-label" for="qualification1">Male</label><span style="float:right;">(5)</span>
+                  <input type="checkbox" class="form-check-input" name="gender_id[]" id="gender_{{$gender->id}}" value="{{$gender->id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                  <label class="form-check-label me-2 mt-2" for="gender_{{$gender->id}}"></label>
+                  {{$gender->gender}} <span style="float:right;">({{App\User::countNumJobSeekers('gender_id', $gender->id)}})</span>
                 </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification2">
-                  <label class="form-check-label" for="qualification2">Female</label><span style="float:right;">(5)</span>
-                </div>
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="qualification3">
-                  <label class="form-check-label" for="qualification3">Others</label>
-                </div>
-              </div>              
+              </div> 
+              @endif
+              @endforeach
+              @endif             
             </div>
           </div>
           <div class="widget">
@@ -388,8 +436,9 @@ candidate post-box list -->
                 <li>
                 <input type="checkbox" class="form-check-input mt-2" id="select_all">
                 <label class="form-check-label ps-2 mt-2" for="select_all">Select All</label>
-                <li><a href="#"><i class="fas fa-check pe-2"></i>Shortlist</a></li>
-                <li><a href="#"><i class="fas fa-registered pe-2"></i>Reject</a></li>
+
+                <li><a href="{{route('company.candidate.listing',[$job_id,'shortlist'=>1])}}"><i class="fas fa-check pe-2"></i>Shortlist({{ $shortlistedCount }})</a></li>
+                <li><a href="{{route('company.candidate.listing',[$job_id,'rejected'=>1])}}"><i class="fas fa-registered pe-2"></i>Reject({{ $rejectedCount }})</a></li>
                 <li><a href="#"><i class="fas fa-envelope pe-2"></i>Email</a></li>
                 <li><a href="{{ route('export.candidate.list',[$job_id]) }}"><i class="fas fa-download pe-2"></i>Download</a></li>
                 <li><a><i class="fas fa-trash pe-2"></i>Delete</a></li>
@@ -485,12 +534,26 @@ candidate post-box list -->
                     <div class="row mt-2">
                       <div class="col-md-6" style="margin-right: 5%;">
                         <div class="feature-info-content">
-                          <a class="btn btn-info mb-2 btn-sm ps-4" href="#">Shortlist </a>                          
+                          @if ($appliedUsers->shortlisted==1)
+                            <p style="color:green">Shortlisted</p>
+                          @else
+                            @if ($appliedUsers->shortlisted==0 && $appliedUsers->rejected==0)
+                              <a class="btn btn-info mb-2 btn-sm ps-4" href="{{ route('candidate.shortlist',[$appliedUsers->id,$appliedUsers->job_id]) }}">Shortlist </a> 
+                            @endif
+                             
+                          @endif                  
                       </div>
                       </div>                      
                       <div class="col-md-4">
-                        <div class="feature-info-content">                          
-                          <a class="btn btn-danger mb-2 btn-sm ps-4" href="#">Reject </a></div>
+                          <div class="feature-info-content">
+                            @if ($appliedUsers->rejected==1)
+                              <p style="color:red">Rejected</p>
+                            @else
+                              @if ($appliedUsers->shortlisted==0 && $appliedUsers->rejected==0)
+                                <a class="btn btn-danger mb-2 btn-sm ps-4" href="{{ route('candidate.rejected', [$appliedUsers->id,$appliedUsers->job_id]) }}">Reject </a>
+                              @endif
+                            @endif
+                          </div> 
                       </div>
                       </div>
                       

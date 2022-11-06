@@ -100,7 +100,9 @@ trait JobTrait
         $job->num_of_positions = $request->input('num_of_positions');
         $job->gender_id = $request->input('gender_id');
         $job->expiry_date = $request->input('expiry_date');
+        $job->major_subject_id = $request->input('major_subject_id');
         $job->degree_level_id = $request->input('degree_level_id');
+        $job->degree_type_id = $request->input('degree_type_id');
 		$job->job_experience_id_from = $request->input('job_experience_id_from');
         $job->job_experience_id_to = $request->input('job_experience_id_to');
 		if($request->input('walk_in')==1){
@@ -259,7 +261,8 @@ trait JobTrait
         $genders = DataArrayHelper::langGendersArray();
         $jobExperiences = DataArrayHelper::langJobExperiencesArray();
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
-        $degreeLevels = DataArrayHelper::langDegreeLevelsArray();
+        $majorSubjects = DataArrayHelper::langMajorSubjectsArray();
+        //$degreeLevels = DataArrayHelper::langDegreeLevelsArray();
         $industry = DataArrayHelper::langIndustryArray();
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		
@@ -277,7 +280,8 @@ trait JobTrait
                         ->with('jobExperiences', $jobExperiences)
                         ->with('jobSkills', $jobSkills)
 						->with('jobSkillIds', $jobSkillIds)
-						->with('degreeLevels', $degreeLevels)
+						//->with('degreeLevels', $degreeLevels)
+						->with('majorSubjects', $majorSubjects)
 						->with('industry', $industry)
 						->with('salaryPeriods', $salaryPeriods)
 						->with('postJobs', $postJobs);
@@ -328,7 +332,8 @@ trait JobTrait
         $genders = DataArrayHelper::langGendersArray();
         $jobExperiences = DataArrayHelper::langJobExperiencesArray();
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
-        $degreeLevels = DataArrayHelper::langDegreeLevelsArray();
+		$majorSubjects = DataArrayHelper::langMajorSubjectsArray();
+        //$degreeLevels = DataArrayHelper::langDegreeLevelsArray();
 		$salaryPeriods = DataArrayHelper::langSalaryPeriodsArray();
 		$industry = DataArrayHelper::langIndustryArray();
 		
@@ -346,7 +351,7 @@ trait JobTrait
                         ->with('jobExperiences', $jobExperiences)
 						->with('jobSkills', $jobSkills)
                         ->with('jobSkillIds', $jobSkillIds)
-						->with('degreeLevels', $degreeLevels)
+						->with('majorSubjects', $majorSubjects)
 						->with('salaryPeriods', $salaryPeriods)
 						->with('industry', $industry)
                         ->with('job', $job);

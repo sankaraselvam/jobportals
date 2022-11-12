@@ -80,6 +80,15 @@ trait JobTrait
 	
 	private function assignJobValues($job, $request)
 	{
+		$industry_id=0;
+        $functional_area_id=0;
+        if($request->input('industry')!=""){
+            $industry_id=app('App\Http\Controllers\UserController')->storeIndustry($request->input('industry'));
+        }
+        if($request->input('functional_area')!=""){
+            $functional_area_id=app('App\Http\Controllers\UserController')->storeFunctionalArea($request->input('functional_area'));
+        }
+
 		$job->title = $request->input('title');
         $job->description = $request->input('description');
         $job->candidate_profile = $request->input('candidate_profile');
@@ -92,8 +101,9 @@ trait JobTrait
         $job->salary_to = (int)$request->input('salary_to');
 		//$job->salary_currency = isset($request->input('salary_currency'))?$request->input('salary_currency'):null;
         //$job->hide_salary = isset($request->input('hide_salary'))?$request->input('hide_salary'):0;
-        $job->industry_id = $request->input('industry_id');
-        $job->functional_area_id = $request->input('functional_area_id');
+		
+        $job->industry_id = ($industry_id==0)?$request->input('industry_id'):$industry_id;
+        $job->functional_area_id = ($functional_area_id==0)?$request->input('functional_area_id'):$functional_area_id;
         $job->role_id = $request->input('role_id');
         $job->job_type_id = $request->input('job_type_id');
         $job->job_shift_id = $request->input('job_shift_id');
@@ -268,6 +278,8 @@ trait JobTrait
 		
 		$jobSkillIds = array();
 		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->where('deleted_at', 'N')->orderBy('jobs.id', 'DESC')->limit(5)->get();
+
+		$duration = config('constants.duration');
 		
         return view('job.add_edit_job')
                         ->with('countries', $countries)
@@ -284,6 +296,7 @@ trait JobTrait
 						->with('majorSubjects', $majorSubjects)
 						->with('industry', $industry)
 						->with('salaryPeriods', $salaryPeriods)
+						->with('duration', $duration)
 						->with('postJobs', $postJobs);
     }
 

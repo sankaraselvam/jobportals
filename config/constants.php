@@ -29,5 +29,25 @@ return [
     'sortBy' => [
         'desc' => 'Newest',
         'asc' => 'Oldest'
+    ],
+    'noticePeriod' => [
+        '15 Days or less' => '15 Days or less',
+        '1 Months1 Months' => '1 Months',
+        '2 Months1 Months' => '2 Months',
+        '3 Months1 Months' => '2 Months'
+    ],
+    'duration' => [
+        '1' => 1,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+        '10' => 10,
+        '11' => 11,
+        '12' => 12
     ]
 ];

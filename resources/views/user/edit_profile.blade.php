@@ -78,9 +78,7 @@
     transition: all 0.5s ease-in-out;
     border-radius: 3px;
 }
-.othertext{
-    display: none;
-}
+
 
     </style>
 

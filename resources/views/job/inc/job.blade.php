@@ -114,8 +114,8 @@
                       
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
-                            <!-- {!! Form::select('salary_from', [''=>__('Min Annual Salary')]+MiscHelper::getSalaryDD(), null, array('class'=>'form-control basic-select', 'id'=>'min-annual-salary')) !!} -->
-                                <select class="form-control basic-select" name="salary_from" id="min-annual-salary">
+                            {!! Form::select('salary_from', [''=>__('Min Annual Salary')]+MiscHelper::getSalaryDD(), (isset($job)? $job->salary_from:''), array('class'=>'form-control basic-select', 'id'=>'min-annual-salary')) !!}
+                                <!-- <select class="form-control basic-select" name="salary_from" id="min-annual-salary">
                                     <option value="" selected="selected">Min Annual Salary</option>
                                     <option value="50000">50000</option>
                                     <option value="100000">100000</option>
@@ -127,12 +127,13 @@
                                     <option value="400000">400000</option>
                                     <option value="450000">450000</option>
                                     <option value="500000">500000</option>
-                                  </select>
+                                  </select> -->
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
-                                <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
+                            {!! Form::select('salary_to', [''=>__('Max Annual Salary')]+MiscHelper::getSalaryDD(), (isset($job)? $job->salary_to:''), array('class'=>'form-control basic-select', 'id'=>'max-annual-salary')) !!}
+                                <!-- <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
                                     <option value="" selected="selected">Max Annual Salary</option>
                                     <option value="50000">50000</option>
                                     <option value="75000">75000</option>
@@ -145,18 +146,19 @@
                                     <option value="400000">400000</option>
                                     <option value="450000">450000</option>
                                     <option value="500000">500000</option>
-                                  </select>
+                                  </select> -->
                             </div>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Industry <span style="color: red;">*</span> </label>
                             {!! Form::select('industry_id', ['' =>__('Select Industry')]+$industry, (isset($job)? $job->industry_id:''), array('class'=>'form-control basic-select', 'id'=>'industry_id')) !!}
+                            <input class="form-control othertext" type="text" id="other_industry" name="industry" value="" placeholder="Please enter industry">
                         </div>
 
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Functional Area <span style="color: red;">*</span> </label>
-                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, (isset($job)? $job->functional_area_id:''), array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!}         
-                          </select>
+                            {!! Form::select('functional_area_id', ['' => __('Select Functional Area')]+$functionalAreas, (isset($job)? $job->functional_area_id:''), array('class'=>'form-control basic-select', 'id'=>'functional_area_id')) !!} 
+                            <input class="form-control othertext" type="text" id="other_functional_area" name="functional_area" value="" placeholder="Please enter functional area">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="mb-2">Roles <span style="color: red;">*</span> </label>
@@ -217,7 +219,8 @@
 
                         <div class="form-group col-md-4 mb-3 specialism_hide_show">
                             <label class="mb-2">Duration (Days) <span style="color:red;">*</span> </label><br>
-                            <select class="form-control basic-select" name="duration" id="duration">
+                            {!! Form::select('duration', ['' => __('No preference')]+$duration, (isset($job)? $job->duration:''), array('class'=>'form-control basic-select', 'id'=>'duration')) !!}  
+                            <!-- <select class="form-control basic-select" name="duration" id="duration">
                                 <option value="1" selected="selected">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -226,7 +229,7 @@
                                 <option value="6">6</option>
                                 <option value="7">7</option>
                                 <option value="8">8</option>          
-                            </select>
+                            </select> -->
                         </div>
                         <div class="form-group mt-0 mb-3 col-md-4 datetimepickers specialism_hide_show">
                             <label class="form-label">Walk-in timing <span style="color:red;">*</span></label>
@@ -342,6 +345,22 @@ $(document).ready(function() {
     	placeholder: "{{__('Select Required Skills')}}",
     	allowClear: true
 	});
+
+    $("#industry_id").on("change", function(){
+        if($(this).find('option:selected').text()=="Other"){
+            $("#other_industry").show();
+        }else{
+            $("#other_industry").hide();
+        }   
+    });
+    $("#functional_area_id").on("change", function(){        
+        if($(this).find('option:selected').text()=="Other"){
+            $("#other_functional_area").show();
+        }else{
+            $("#other_functional_area").hide();
+        }   
+    });
+
 	// $(".datepicker").datepicker({
 	// 	autoclose: true,
 	// 	format:'yyyy-m-d'	
@@ -376,12 +395,12 @@ $(document).ready(function($) {
     $('#state_id').select2();
     $('#functional_area_id').select2();
     
-    $('#min-annual-salary').val("{{isset($job)?$job->salary_from:'' }}");
-    $('#min-annual-salary').select2().trigger('change');
-    $('#max-annual-salary').val("{{isset($job)?$job->salary_to:''}}");
-    $('#max-annual-salary').select2().trigger('change');
-    $('#duration').val("{{isset($job)?$job->duration:''}}");
-    $('#duration').select2().trigger('change');
+    // $('#min-annual-salary').val("{{isset($job)?$job->salary_from:'' }}");
+    // $('#min-annual-salary').select2().trigger('change');
+    // $('#max-annual-salary').val("{{isset($job)?$job->salary_to:''}}");
+    // $('#max-annual-salary').select2().trigger('change');
+    // $('#duration').val("{{isset($job)?$job->duration:''}}");
+    // $('#duration').select2().trigger('change');
 
     
 

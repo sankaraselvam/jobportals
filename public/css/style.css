@@ -7871,4 +7871,7 @@ label.error {
 span.help-block {
     color: red;
 }
+.othertext{
+    display: none;
+}
 /*# sourceMappingURL=../css/style.css.map */

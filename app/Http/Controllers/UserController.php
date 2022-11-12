@@ -101,7 +101,7 @@ class UserController extends Controller
 		$languages = DataArrayHelper::languagesArray();
 		$languagesLevel = DataArrayHelper::langLanguageLevelsArray();
 		$jobSkills = DataArrayHelper::langJobSkillsArray();
-		$degreeLevels = DataArrayHelper::langDegreelevelsArray();
+		$degreeLevels = DataArrayHelper::langDegreelevelsArray(0);
 		$majorSubjects = DataArrayHelper::langMajorSubjectsArray();
 		$resultTypes = DataArrayHelper::langResultTypesArray();
 		$jobRole = DataArrayHelper::langRolesArrays();

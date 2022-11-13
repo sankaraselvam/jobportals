@@ -41,8 +41,8 @@ class DataExport implements FromCollection, WithHeadings
         return [
             'Name',
             'Year',
-            'Salary From',
-            'Salary To',
+            'Salary From(Lacs)',
+            'Salary To(Thousand)',
             'Address',
             'Notice Period',
             'Current Company',
@@ -94,6 +94,7 @@ class DataExport implements FromCollection, WithHeadings
             }
             array_push($candidateListArr,$candidateListData);
         }
+        // return $candidateListArr;
         return collect($candidateListArr);
     }
 }

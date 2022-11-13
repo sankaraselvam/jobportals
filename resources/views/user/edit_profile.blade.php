@@ -1336,7 +1336,7 @@
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Location <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
-                                            {!! Form::select('city_id[]', $cities, $cityidArray, array('class'=>'form-control js-example-basic-multiple', 'id'=>'city_id','multiple'=>'multiple')) !!} 
+                                            {!! Form::select('city_id[]', $cities, $cityidArray, array('class'=>'form-control js-example-city-multiple', 'id'=>'city_id','multiple'=>'multiple')) !!} 
                                             </div>
                                         </div>
                                         <div class="form-group col-10 mb-2">                                           
@@ -1582,9 +1582,11 @@
 @push('scripts')
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
-
-<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/themes/cupertino/jquery-ui.css">
+<!-- <script src="{{asset('/')}}js/jquery-validate/jquery-validate.min.js"></script> -->
+<script src="{{asset('/')}}js/jqueryUI/jquery-ui.js"></script>
+<link rel="stylesheet" href="{{asset('/')}}js/jqueryUI/jquery-ui.css">
+<!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/themes/cupertino/jquery-ui.css"> -->
 
 
 
@@ -1606,7 +1608,6 @@ $(function() {
     //     $('body').animate({ scrollTop: pos.top });
     //     e.preventDefault();
     // });
-    
     $(".working_to").hide();
     $("#emp_working_to").hide();
     $("#working_to_year").prop('disabled', true);
@@ -1655,10 +1656,10 @@ $(function() {
         dateFormat: 'yy-mm-dd'	
 	});
 
-    $('.js-example-basic-multiple').select2({
-    	placeholder: "{{__('Select City')}}",
-    	allowClear: true
-	});
+    // $('.js-example-city-multiple').select2({
+    // 	placeholder: "{{__('Select City')}}",
+    // 	allowClear: true
+	// });
     $('.js-example-jobskill-multiple').select2({
     	placeholder: "{{__('Select Skill')}}",
     	allowClear: true

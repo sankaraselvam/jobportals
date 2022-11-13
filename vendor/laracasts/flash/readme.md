@@ -10,15 +10,7 @@ Begin by pulling in the package through Composer.
 composer require laracasts/flash
 ```
 
-Next, if using Laravel 5, include the service provider within your `config/app.php` file.
-
-```php
-'providers' => [
-    Laracasts\Flash\FlashServiceProvider::class,
-];
-```
-
-Finally, as noted above, the default CSS classes for your flash message are optimized for Twitter Bootstrap. As such, pull in the Bootstrap's CSS within your HTML or layout file.
+Next, as noted above, the default CSS classes for your flash message are optimized for Twitter Bootstrap. As such, either pull in the Bootstrap's CSS within your HTML or layout file, or write your own CSS based on these classes.
 
 ```html
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -97,23 +89,17 @@ flash('Welcome Aboard!');
 return home();
 ```
 
-![https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/message.png](https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/message.png)
-
 ```php
 flash('Sorry! Please try again.')->error();
 
 return home();
 ```
 
-![https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/error.png](https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/error.png)
-
 ```php
 flash()->overlay('You are now a Laracasts member!', 'Yay');
 
 return home();
 ```
-
-![https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/overlay.png](https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/overlay.png)
 
 > [Learn exactly how to build this very package on Laracasts!](https://laracasts.com/lessons/flexible-flash-messages)
 

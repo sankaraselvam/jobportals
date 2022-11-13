@@ -24,8 +24,7 @@ trait VerifiesUsers
      * @return \Illuminate\Http\Response
      */
     public function getVerification(Request $request, $token)
-    {		
-		
+    {
         if (! $this->validateRequest($request)) {
             return redirect($this->redirectIfVerificationFails());
         }

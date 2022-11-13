@@ -345,7 +345,7 @@ class UserController extends Controller
             $ProfileCareer = new ProfileCareer();
             $ProfileCareer->user_id = $request->input('id');
             $ProfileCareer->industry_id = ($industry_id==0)?$request->input('industry_id'):$industry_id;
-            $ProfileCareer->functional_area_id = ($functional_area_id==0)?$request->input('functional_area_id'):$functional_area_id;
+            $ProfileCareer->functional_area_id = ($functional_area_id==0)?$request->input('functional_area'):$functional_area_id;
             $ProfileCareer->role_id = $request->input('role_id');
             $ProfileCareer->job_type_id = $request->input('job_type_id');
             $ProfileCareer->job_shift_id = $request->input('job_shift_id');

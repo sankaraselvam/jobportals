@@ -42,9 +42,10 @@ class PolynomialBestFit extends BestFit
     {
         $retVal = $this->getIntersect();
         $slope = $this->getSlope();
+        // @phpstan-ignore-next-line
         foreach ($slope as $key => $value) {
             if ($value != 0.0) {
-                $retVal += $value * pow($xValue, $key + 1);
+                $retVal += $value * $xValue ** ($key + 1);
             }
         }
 
@@ -76,6 +77,7 @@ class PolynomialBestFit extends BestFit
         $intersect = $this->getIntersect($dp);
 
         $equation = 'Y = ' . $intersect;
+        // @phpstan-ignore-next-line
         foreach ($slope as $key => $value) {
             if ($value != 0.0) {
                 $equation .= ' + ' . $value . ' * X';
@@ -93,7 +95,7 @@ class PolynomialBestFit extends BestFit
      *
      * @param int $dp Number of places of decimal precision to display
      *
-     * @return string
+     * @return float
      */
     public function getSlope($dp = 0)
     {
@@ -103,6 +105,7 @@ class PolynomialBestFit extends BestFit
                 $coefficients[] = round($coefficient, $dp);
             }
 
+            // @phpstan-ignore-next-line
             return $coefficients;
         }
 
@@ -111,6 +114,7 @@ class PolynomialBestFit extends BestFit
 
     public function getCoefficients($dp = 0)
     {
+        // @phpstan-ignore-next-line
         return array_merge([$this->getIntersect($dp)], $this->getSlope($dp));
     }
 
@@ -121,12 +125,12 @@ class PolynomialBestFit extends BestFit
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
      */
-    private function polynomialRegression($order, $yValues, $xValues)
+    private function polynomialRegression($order, $yValues, $xValues): void
     {
         // calculate sums
         $x_sum = array_sum($xValues);
         $y_sum = array_sum($yValues);
-        $xx_sum = $xy_sum = 0;
+        $xx_sum = $xy_sum = $yy_sum = 0;
         for ($i = 0; $i < $this->valueCount; ++$i) {
             $xy_sum += $xValues[$i] * $yValues[$i];
             $xx_sum += $xValues[$i] * $xValues[$i];
@@ -140,9 +144,11 @@ class PolynomialBestFit extends BestFit
          *    a series of x-y data points using least squares.
          *
          */
+        $A = [];
+        $B = [];
         for ($i = 0; $i < $this->valueCount; ++$i) {
             for ($j = 0; $j <= $order; ++$j) {
-                $A[$i][$j] = pow($xValues[$i], $j);
+                $A[$i][$j] = $xValues[$i] ** $j;
             }
         }
         for ($i = 0; $i < $this->valueCount; ++$i) {
@@ -155,7 +161,7 @@ class PolynomialBestFit extends BestFit
         $coefficients = [];
         for ($i = 0; $i < $C->getRowDimension(); ++$i) {
             $r = $C->get($i, 0);
-            if (abs($r) <= pow(10, -9)) {
+            if (abs($r) <= 10 ** (-9)) {
                 $r = 0;
             }
             $coefficients[] = $r;
@@ -176,11 +182,12 @@ class PolynomialBestFit extends BestFit
      * @param int $order Order of Polynomial for this regression
      * @param float[] $yValues The set of Y-values for this regression
      * @param float[] $xValues The set of X-values for this regression
-     * @param bool $const
      */
-    public function __construct($order, $yValues, $xValues = [], $const = true)
+    public function __construct($order, $yValues, $xValues = [])
     {
-        if (parent::__construct($yValues, $xValues) !== false) {
+        parent::__construct($yValues, $xValues);
+
+        if (!$this->error) {
             if ($order < $this->valueCount) {
                 $this->bestFitType .= '_' . $order;
                 $this->order = $order;

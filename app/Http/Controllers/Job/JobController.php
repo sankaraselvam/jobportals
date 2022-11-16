@@ -206,7 +206,8 @@ class JobController extends Controller
 	public function jobDetail(Request $request, $job_slug)
 	{		
 		
-	        $job = Job::where('slug', 'like', $job_slug)->firstOrFail();        	
+	        $job = Job::where('slug', 'like', $job_slug)->firstOrFail();  
+			// dd($job);      	
 			/*****************************************************/
 			$search = '';
 			$job_titles = array();

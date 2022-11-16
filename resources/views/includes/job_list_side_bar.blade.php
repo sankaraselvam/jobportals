@@ -212,13 +212,13 @@
                             <a class="btn btn-link view_more hide_vm" style="float:right;" href="#"> More </a>
                         </div>
                         <hr>                       
-                        <div class="widget">
+                        <!-- <div class="widget">
                             <div class="widget-title widget-collapse mb-4">
                                 <h6>Kilometer Radius</h6>                               
                             </div>                                  
                             <input id="ex5" class="form-range" type="range" data-min="-5" data-max="20" data-step="1" data-value="0"/>
                         </div>
-                        <hr>
+                        <hr> -->
                         <div class="widget">
                             <div class="widget-title widget-collapse">
                                 <h6>Job Type</h6>
@@ -247,7 +247,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="widget">
+                        <!-- <div class="widget">
                             <div class="widget-title widget-collapse">
                                 <h6>Job Freshness</h6>
                                 <a class="ms-auto" data-bs-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
@@ -281,7 +281,7 @@
                                 <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search" aria-hidden="true"></i> {{__('Search Jobs')}}</button>
                             </div>
                         </div>
-                        <hr>
+                        <hr> -->
                         <div class="employers-grid bg-white mt-4 py-4">
                             <div class="employers-list-details">
                                 <div class="employers-list-info">

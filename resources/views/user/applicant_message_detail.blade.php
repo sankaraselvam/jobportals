@@ -110,7 +110,7 @@
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width:85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
                             <span class="progress-bar-number">85%</span>
-                            <span class="progress-bar-number1">Profile Strength (Excellent)</span>
+                            <span class="progress-bar-number1">Profile Strength</span>
                         </div>
                     </div>
                     <div class="row">

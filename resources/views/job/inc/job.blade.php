@@ -210,7 +210,7 @@
                         <div class="form-group mt-0 mb-3 col-md-4 datetimepickers specialism_hide_show">
                             <label class="form-label">Walk-in Start Date <span style="color:red;">*</span></label>
                             <div class="input-group date" id="datetimepicker-01" data-target-input="nearest">
-                                <input type="text" name="start_date" class="form-control datetimepicker-input" placeholder="Date" data-target="#datetimepicker-01" value="{{(isset($job)? date('d/m/Y', strtotime($job->start_date)):'')}}">
+                                <input type="text" name="start_date" class="form-control datetimepicker-input" placeholder="Date" data-target="#datetimepicker-01" value="{{(isset($job)? date('m/d/Y', strtotime($job->start_date)):'')}}">
                                 <div class="input-group-append d-flex" data-target="#datetimepicker-01" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                 </div>
@@ -220,16 +220,6 @@
                         <div class="form-group col-md-4 mb-3 specialism_hide_show">
                             <label class="mb-2">Duration (Days) <span style="color:red;">*</span> </label><br>
                             {!! Form::select('duration', ['' => __('No preference')]+$duration, (isset($job)? $job->duration:''), array('class'=>'form-control basic-select', 'id'=>'duration')) !!}  
-                            <!-- <select class="form-control basic-select" name="duration" id="duration">
-                                <option value="1" selected="selected">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>          
-                            </select> -->
                         </div>
                         <div class="form-group mt-0 mb-3 col-md-4 datetimepickers specialism_hide_show">
                             <label class="form-label">Walk-in timing <span style="color:red;">*</span></label>
@@ -427,6 +417,7 @@ $(document).ready(function($) {
     $('#max-experience').on("change", function(e) {
         if($('#max-experience').val() < $('#min-experience').val()){
             $('#max-experience').val($('#min-experience').val());
+            $('#max-experience').select2().trigger('change');
         }
     });
 
@@ -438,8 +429,12 @@ $(document).ready(function($) {
     });
 
     $('#max-annual-salary').on("change", function(e) {
-        if($('#max-annual-salary').val() < $('#min-annual-salary').val()){
+        var max_salary = parseInt($('#max-annual-salary').val());
+        var min_salary = parseInt($('#min-annual-salary').val());
+
+        if(min_salary > max_salary){
             $('#max-annual-salary').val($('#min-annual-salary').val());
+            $('#max-annual-salary').select2().trigger('change');
         }
     });
     if("{{isset($job->walk_in) && $job->walk_in==1}}"){

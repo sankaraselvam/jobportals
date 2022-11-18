@@ -57,15 +57,15 @@ span
                 </div>
               </div>
               <div class="col-md-6 col-sm-7 mt-3 mt-sm-0" style="display:flex;">
-                <div class="form-group" style="margin-top:5px;">
+                <!-- <div class="form-group" style="margin-top:5px;">
                     <label for="select2" class="ms-2">Posted By</label>
                     <select class="test mt-2 ms-2" name="select2" id="select2">
                         <option value="0">All</option>
                         <option value="1">You</option>
                         <option value="2">Others</option>
                     </select>
-                </div>
-                <div class="form-group"  style="margin-top:5px;">
+                </div> -->
+                <!-- <div class="form-group"  style="margin-top:5px;">
                     <label for="select2" class="ms-2">Status</label>
                     <select class="test mt-2 ms-2" name="select2" id="select2">
                         <option value="0">All Jobs</option>
@@ -74,8 +74,8 @@ span
                         <option value="3">Inactive</option>
                         <option value="4">Shared</option>
                     </select>
-                </div>
-                <div class="form-group"  style="margin-top:5px;">
+                </div> -->
+                <!-- <div class="form-group"  style="margin-top:5px;">
                     <label for="select3" class="ms-3">Show Page</label>
                     <select class="test mt-2 ms-2" name="select3" id="select3">
                         <option value="0">20</option>
@@ -85,8 +85,7 @@ span
                         <option value="2">150</option>
                         <option value="2">200</option>
                     </select>
-                   
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="user-dashboard-table table-responsive">
@@ -97,6 +96,7 @@ span
                     <th scope="col">Responses</th>
                     <th scope="col">Posted By</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -110,7 +110,13 @@ span
                       </th>                                   
                         <td class="text-center"> <a href="#" class="text-primary">{{count($jobs->appliedUsers)}}</a></td>
                         <td class="text-center"><span>{{$user->name}}</span></td>
-                        <td>{{ date("d-M-Y", strtotime($jobs->created_at)) }} </td>
+                        <td>
+                          @if (strtotime($jobs->created_at) <= strtotime($jobs->expiry_date))
+                            <p class="text-center" style="color:green;"><b>Active</b></p> 
+                          @else 
+                            <p class="text-center" style="color:red;"><b>In Active</b></p>
+                          @endif
+                        </td>
                         <td>
                           <ul class="list-unstyled mb-0 d-flex">
                             <li><a  href="{{route('job.detail', [$jobs->slug,'type' => 'View'])}}" class="text-primary" data-bs-toggle="tooltip" title="view"><i class="far fa-eye"></i></a></li>

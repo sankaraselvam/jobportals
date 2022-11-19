@@ -55,6 +55,7 @@ $company = $job->getCompany();
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
+                @include('flash::message')
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-12">
                             <div class="job-list border">

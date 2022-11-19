@@ -201,7 +201,7 @@ banner -->
                                 </div>
                                 <div class="job-list-option">
                                   <ul class="list-unstyled">  
-                                      <li><i class="fas fa-briefcase pe-2"></i> 8- 13 Years</li>                                             
+                                      <li><i class="fas fa-briefcase pe-2"></i>{{$job->jobExperienceFrom->job_experience}} - {{$job->jobExperienceTo->job_experience}} Years</li>                                             
                                       <li><i class="fas fa-rupee-sign pe-2"></i>{{$job->salary_from}} - {{$job->salary_to}} PA</li>                                           
                                       <li><i class="fas fa-map-marker-alt pe-2"></i>{{$job->getCity('city')}}</a></li>
                                   </ul>

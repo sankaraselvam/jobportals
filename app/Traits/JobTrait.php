@@ -409,8 +409,9 @@ trait JobTrait
 			}
 			if($field == 'industry_id')
 			{
-				$company_ids = Company::where('industry_id','=',$value)->where('is_active','=',1)->pluck('id')->toArray();
-				return DB::table('jobs')->whereIn('company_id', $company_ids)->where('is_active','=',1)->count('id');
+				// $company_ids = Company::where('industry_id','=',$value)->where('is_active','=',1)->pluck('id')->toArray();
+				// return DB::table('jobs')->whereIn('company_id', $company_ids)->where('is_active','=',1)->count('id');
+				return DB::table('jobs')->where('industry_id','=',$value)->where('is_active','=',1)->count('id');
 			}
 			if($field == 'job_skill_id')
 			{
@@ -420,6 +421,10 @@ trait JobTrait
 			if($field == 'functional_area_id')
 			{
 				return DB::table('jobs')->where('functional_area_id','=',$value)->where('is_active','=',1)->count('id');
+			}
+			if($field == 'role_id')
+			{
+				return DB::table('jobs')->where('role_id','=',$value)->where('is_active','=',1)->count('id');
 			}
 			if($field == 'careel_level_id')
 			{
@@ -444,6 +449,10 @@ trait JobTrait
 			if($field == 'job_experience_id')
 			{
 				return DB::table('jobs')->where('job_experience_id','=',$value)->where('is_active','=',1)->count('id');
+			}
+			if($field == 'job_experience_id_from')
+			{
+				return DB::table('jobs')->where('job_experience_id_from','=',$value)->where('is_active','=',1)->count('id');
 			}
 			if($field == 'country_id')
 			{

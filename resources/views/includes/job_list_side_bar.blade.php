@@ -21,7 +21,7 @@
                                     <div class="form-check">
                                     <input type="checkbox" name="job_experience_id[]" id="job_experience_{{$jobExperience->job_experience_id}}" value="{{$jobExperience->job_experience_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
                                        <label class="form-check-label me-2 mt-2" for="job_experience_{{$jobExperience->job_experience_id}}" ></label>
-                                       {{$jobExperience->job_experience}} <span style="float:right;">({{App\Job::countNumJobs('job_experience_id', $jobExperience->job_experience_id)}})</span>
+                                       {{$jobExperience->job_experience}} <span style="float:right;">({{App\Job::countNumJobs('job_experience_id_from', $jobExperience->job_experience_id)}})</span>
                                     </div>
                                 </div>               
                           @endif
@@ -131,20 +131,20 @@
                                 <a class="ms-auto" data-bs-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
                             </div>
                             <div class="collapse show" id="specialism">
-                            @if(isset($careerLevelIdsArray) && count($careerLevelIdsArray))
-                                @foreach($careerLevelIdsArray as $key=>$career_level_id)
+                            @if(isset($roleIdsArray) && count($roleIdsArray))
+                                @foreach($roleIdsArray as $key=>$role_id)
                                 @php
-                                $careerLevel = App\CareerLevel::where('career_level_id','=',$career_level_id)->lang()->active()->first();
+                                $jobroles = App\JobRole::where('role_id','=',$role_id)->lang()->active()->first();
                                 @endphp
-                                @if(null !== $careerLevel)
+                                @if(null !== $jobroles)
                                 @php
-                                $checked = (in_array($careerLevel->career_level_id, Request::get('career_level_id', array())))? 'checked="checked"':'';
+                                $checked = (in_array($jobroles->role_id, Request::get('role_id', array())))? 'checked="checked"':'';
 			                        @endphp
                                 <div class="widget-content">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="career_level_id[]" id="career_level_{{$careerLevel->career_level_id}}" value="{{$careerLevel->career_level_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
-                                        <label class="form-check-label me-2 mt-2" for="career_level_{{$careerLevel->career_level_id}}"></label>
-                                        {{str_limit(strip_tags($careerLevel->career_level), 25, '...')}} <span style="float:right;">({{App\Job::countNumJobs('career_level_id', $careerLevel->career_level_id)}})</span>
+                                        <input type="checkbox" class="form-check-input" name="role_id[]" id="role_{{$jobroles->role_id}}" value="{{$jobroles->role_id}}" {{$checked}} onchange="document.getElementById('formName').submit()">
+                                        <label class="form-check-label me-2 mt-2" for="career_level_{{$jobroles->role_id}}"></label>
+                                        {{str_limit(strip_tags($jobroles->role), 25, '...')}} <span style="float:right;">({{App\Job::countNumJobs('role_id', $jobroles->role_id)}})</span>
                                     </div>                                    
                                 </div>                                 
                                   @endif

@@ -297,7 +297,7 @@ abel.error {
                             </div>
                             <div class="col-md-6">
                                 <div style="box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%), 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 1px -4px rgb(0 0 0 / 20%);padding: 5px;">
-                                    <a href="">
+                                    <a href="{{route('my.followings')}}">
                                         <span> {{Auth::user()->countFollowings()}} <br><small>My Followings</small></span>
                                     </a>
                                 </div>

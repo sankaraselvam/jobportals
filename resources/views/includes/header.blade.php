@@ -106,7 +106,7 @@ $routeName = app('request')->route()->getAction();
                                     <ul class="dropdown-menu left-side">
                                         <li><a class="dropdown-item" href="{{route('home')}}">Dashboard</a></li>
                                         <li><a class="dropdown-item" href="{{ route('my.profile') }}">Profile</a></li>
-                                        <li class="active"><a class="dropdown-item" href="">Change Password </a></li>
+                                        <li><a class="dropdown-item" href="{{ route('candidate.change.password') }}">Change Password </a></li>
                                         <li><a class="dropdown-item" href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
                                         <li><a class="dropdown-item" href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>
                                         <li><a class="dropdown-item" href="{{route('my.messages')}}">My Message</a></li>

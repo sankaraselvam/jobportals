@@ -7,7 +7,7 @@
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="{{route('home')}}">Dashboard</a></li>
                                     <li><a href="{{ route('my.profile') }}" id="my_profile">My Profile</a></li>
-                                    <li><a href="" id="change_pwd">Change Password</a></li>
+                                    <li><a href="{{ route('candidate.change.password') }}" id="change_pwd">Change Password</a></li>
                                     <li><a href="{{ route('my.job.applications') }}" id="manage_jobs">Manage Jobs</a></li>
                                     <li><a href="{{ route('my.favourite.jobs') }}" id="saved_jobs">Saved Jobs</a></li>                                
                                     <li><a href="{{route('my.messages')}}" id="my_mesg">My Message</a></li>

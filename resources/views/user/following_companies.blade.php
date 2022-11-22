@@ -5,40 +5,13 @@
 @include('includes.header') 
 <!-- Header end --> 
 
- <!--================================= banner -->
+<!--================================= banner -->
  <section class="banner bg-holder bg-overlay-black-30" style="background-image: url({{asset('/')}}images/bg/dashboardbg.png); padding: 40px 0 40px 0!important;"></section>
 
 <!--- ================================ banner -->
-
-<!--================================= Dashboard Nav -->
-    <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="sticky-top secondary-menu-sticky-top">
-                            <div class="secondary-menu">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="{{route('home')}}">Dashboard</a></li>
-                                    <li><a href="{{ route('my.profile') }}">My Profile</a></li>
-                                    <li><a href="{{ route('candidate.change.password') }}">Change Password</a></li>
-                                    <li><a href="{{ route('my.job.applications') }}">Manage Jobs</a></li>
-                                    <li><a href="{{ route('my.favourite.jobs') }}">Saved Jobs</a></li>                                
-                                    <li><a href="{{route('my.messages')}}">My Message</a></li>
-                                    <li><a class="active" href="{{route('my.followings')}}">My Followings</a></li>
-                                    <li><a href="">Pricing Plan</a></li>
-                                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </section>
-    <!--================================= Dashboard Nav -->
+ <!--=================================    Dashboard Nav -->
+ @include('common.nav_menu')
+ <!--=================================    Dashboard Nav -->
 
     <section style="margin-bottom:120px!important">
         <div class="container">
@@ -90,46 +63,6 @@
         </div>
     </section>
 
-
-<div class="listpgWraper">
-  <div class="container">
-    <div class="row">
-      @include('includes.user_dashboard_menu')
-      
-      <div class="col-md-9 col-sm-8"> 
-        <div class="myads">
-          <h3>{{__('My Followings')}}</h3>
-          <ul class="searchList">
-            <!-- job start --> 
-            @if(isset($companies) && count($companies))
-            @foreach($companies as $company)
-            <li>
-              <div class="row">
-                <div class="col-md-8 col-sm-8">
-                  <div class="jobimg">{{$company->printCompanyImage()}}</div>
-                  <div class="jobinfo">
-                    <h3><a href="{{route('company.detail', $company->slug)}}" title="{{$company->name}}">{{$company->name}}</a></h3>
-                    <div class="location">
-                      <label class="fulltime">{{$company->getLocation()}}</label>
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="col-md-4 col-sm-4">
-                  <div class="listbtn"><a href="{{route('company.detail', $company->slug)}}">{{__('View Details')}}</a></div>
-                </div>
-              </div>
-              <p>{{str_limit(strip_tags($company->description), 150, '...')}}</p>
-            </li>
-            <!-- job end --> 
-            @endforeach
-            @endif
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 @include('includes.footer')
 @endsection
 @push('scripts')

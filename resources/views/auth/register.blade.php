@@ -33,7 +33,7 @@
                         <fieldset>
                             <legend class="px-2">Choose your Account Type</legend>
                             <ul class="nav nav-tabs nav-tabs-border d-flex" role="tablist">
-                            <?php  $c_or_e = old('candidate_or_employer', 'candidate');	?>                            
+                            <?php $c_or_e = old('candidate_or_employer', 'candidate');?>                            
                               <li class=""><a data-toggle="tab" href="#employer" aria-expanded="false"></a></li>
                                 <li class="nav-item me-4 {{($c_or_e == 'candidate')? 'active':''}}">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#candidate" role="tab">
@@ -63,6 +63,7 @@
                                 </li>
                             </ul>
                         </fieldset>
+                        
                         <div class="tab-content">
                             <div class="tab-pane {{($c_or_e == 'candidate')? 'active in':''}}" id="candidate" role="tabpanel">
                             <form class="form-horizontal" method="POST" action="{{ route('myregisave') }}">
@@ -71,7 +72,7 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-6 {{ $errors->has('first_name') ? ' has-error' : '' }}">
                                             <label class="form-label" for="Username">Full Name *</label>
-                                              <input type="text" name="first_name" class="form-control" required="required" placeholder="{{__('Full Name')}}" value="{{old('first_name')}}">
+                                              <input type="text" name="first_name" class="form-control" placeholder="{{__('Full Name')}}" value="{{old('first_name')}}">
                                               @if ($errors->has('first_name')) 
                                                 <span class="help-block"> <strong>{{ $errors->first('first_name') }}</strong> </span>
                                               @endif 
@@ -79,7 +80,7 @@
                                         </div>
                                         <div class="mb-3 col-md-6 {{ $errors->has('email') ? ' has-error' : '' }}">
                                             <label class="form-label">Email Address *</label>
-                                            <input type="email" name="email" class="form-control" required="required" placeholder="{{__('Email')}}" value="{{old('email')}}">
+                                            <input type="email" name="email" class="form-control"  placeholder="{{__('Email')}}" value="{{old('email')}}">
                                             @if ($errors->has('email'))
                                             <span class="help-block"> <strong>{{ $errors->first('email') }}</strong> </span>
                                             @endif 
@@ -87,14 +88,14 @@
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">Password *</label>
-                                            <input type="password" name="password" class="form-control" required="required" placeholder="{{__('Create a password for your account')}}" value="">
+                                            <input type="password" name="password" class="form-control" placeholder="{{__('Create a password for your account')}}" value="">
                                             @if ($errors->has('password'))
                                             <span class="help-block"> <strong>{{ $errors->first('password') }}</strong> </span>
                                             @endif
                                         </div>
                                         <div class="mb-3 col-md-6 {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                             <label class="form-label" for="password2">Confirm Password *</label>
-                                            <input type="password" name="password_confirmation" class="form-control" required="required" placeholder="{{__('Password Confirmation')}}" value="">
+                                            <input type="password" name="password_confirmation" class="form-control" placeholder="{{__('Password Confirmation')}}" value="">
                                             @if ($errors->has('password_confirmation'))
                                             <span class="help-block"> <strong>{{ $errors->first('password_confirmation') }}</strong> </span>
                                             @endif 
@@ -102,8 +103,8 @@
                                         <div class="mb-3 col-12 {{ $errors->has('mobile_num') ? ' has-error' : '' }}">
                                             <label class="form-label" for="phone">Phone:</label>                                            
                                             <input type="text" name="mobile_num" class="form-control" placeholder="{{__('mobile number')}}" value="{{old('mobile_num')}}">
-                                            @if ($errors->has('mobile_number')) 
-                                            <span class="help-block"> <strong>{{ $errors->first('mobile_number') }}</strong> </span> 
+                                            @if ($errors->has('mobile_num')) 
+                                            <span class="help-block"> <strong>{{ $errors->first('mobile_num') }}</strong> </span> 
                                             @endif
                                         </div>
 
@@ -144,11 +145,11 @@
                             <div class="tab-pane fade {{($c_or_e == 'employer')? 'active in':''}}" id="employer" role="tabpanel">
                                 <form class="mt-4" method="POST" action="{{ route('employer.register') }}">
                                   {{ csrf_field() }}
-                                    <input type="hidden" name="candidate_or_employer" value="candidate" />
+                                    <input type="hidden" name="candidate_or_employer" value="employer" />
                                     <div class="row">
                                         <div class="mb-3 col-md-6 {{ $errors->has('first_name') ? ' has-error' : '' }}">
                                             <label class="form-label" for="Username">Full Name *</label>
-                                              <input type="text" name="first_name" class="form-control" required="required" placeholder="{{__('Full Name')}}" value="{{old('first_name')}}">
+                                              <input type="text" name="first_name" class="form-control" placeholder="{{__('Full Name')}}" value="{{old('first_name')}}">
                                               @if ($errors->has('first_name')) 
                                                 <span class="help-block"> <strong>{{ $errors->first('first_name') }}</strong> </span>
                                               @endif 
@@ -156,7 +157,7 @@
                                         </div>
                                         <div class="mb-3 col-md-6 {{ $errors->has('email') ? ' has-error' : '' }}">
                                             <label class="form-label">Email Address *</label>
-                                            <input type="email" name="email" class="form-control" required="required" placeholder="{{__('Email')}}" value="{{old('email')}}">
+                                            <input type="email" name="email" class="form-control" placeholder="{{__('Email')}}" value="{{old('email')}}">
                                             @if ($errors->has('email'))
                                             <span class="help-block"> <strong>{{ $errors->first('email') }}</strong> </span>
                                             @endif 
@@ -164,14 +165,14 @@
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">Password *</label>
-                                            <input type="password" name="password" class="form-control" required="required" placeholder="{{__('Create a password for your account')}}" value="">
+                                            <input type="password" name="password" class="form-control" placeholder="{{__('Create a password for your account')}}" value="">
                                             @if ($errors->has('password'))
                                             <span class="help-block"> <strong>{{ $errors->first('password') }}</strong> </span>
                                             @endif
                                         </div>
                                         <div class="mb-3 col-md-6 {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                             <label class="form-label" for="password2">Confirm Password *</label>
-                                            <input type="password" name="password_confirmation" class="form-control" required="required" placeholder="{{__('Password Confirmation')}}" value="">
+                                            <input type="password" name="password_confirmation" class="form-control" placeholder="{{__('Password Confirmation')}}" value="">
                                             @if ($errors->has('password_confirmation'))
                                             <span class="help-block"> <strong>{{ $errors->first('password_confirmation') }}</strong> </span>
                                             @endif 
@@ -179,8 +180,8 @@
                                         <div class="mb-3 col-12 {{ $errors->has('mobile_number') ? ' has-error' : '' }}">
                                             <label class="form-label" for="phone">Phone:</label>                                            
                                             <input type="text" name="mobile_num" class="form-control" placeholder="{{__('Mobile Number')}}" value="{{old('mobile_num')}}">
-                                            @if ($errors->has('middle_name')) 
-                                            <span class="help-block"> <strong>{{ $errors->first('middle_name') }}</strong> </span> 
+                                            @if ($errors->has('mobile_num')) 
+                                            <span class="help-block"> <strong>{{ $errors->first('mobile_num') }}</strong> </span> 
                                             @endif
                                         </div>
 
@@ -212,3 +213,17 @@
     <!--================================= Register -->
 @include('includes.footer')
 @endsection 
+@push('scripts')
+<script type="text/javascript">
+$(function() {
+    var currentTab = "{{$c_or_e}}";
+    if(currentTab=== "candidate"){
+        $("#candidate").addClass('show');
+        $("#employer").removeClass('show');
+    }else if(currentTab=== "employer"){
+        $("#candidate").removeClass('show');
+        $("#employer").addClass('show');
+    }
+});
+</script>
+@endpush

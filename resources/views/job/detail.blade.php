@@ -55,6 +55,7 @@ $company = $job->getCompany();
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
+                @include('flash::message')
                     <div class="row" style="margin-bottom:15px;">
                         <div class="col-md-12">
                             <div class="job-list border">
@@ -121,7 +122,7 @@ $company = $job->getCompany();
                             support & implement HR initiatives</p>                           
                         <h6 class="mb-3" style="font-size:14px;">Education</h6>                       
                         <ul class="list-unstyled list-style">
-                            <li><label style="width:130px;">UG </label>         <span style="color:#333;">{{$job->getDegreeLevel('degree_level')}}</a></span></li>                                                      
+                            <li><label style="width:130px;">{{$job->getmajorSubject('major_subject')}} </label>     <span style="color:#333;">{{$job->getDegreeLevel('degree_level')}} - {{$job->getDegreeType('degree_type')}}</a></span></li>                                                      
                         </ul> 
                         <h6 class="mb-3" style="font-size:14px;">Key Skills</h6> 
                         <ul class="skillslist">

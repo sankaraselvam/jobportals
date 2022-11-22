@@ -60,13 +60,11 @@
                                     <div class="job-list-favourite-time"> <a class="job-list-favourite order-2" href="#"><i class="fas fa-heart text-danger"></i></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span> </div>
                                 </div>
                             </div> 
-                            @endif
-
-            @endforeach
-
-            @endif                         
+                        @endif
+                        @endforeach
+                        @endif                         
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12 text-center mt-4 mt-sm-5">
                                 <ul class="pagination justify-content-center mb-0 mb-sm-4">
                                     <li class="page-item disabled"> <span class="page-link b-radius-none">Prev</span> </li>
@@ -78,7 +76,7 @@
                                     <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                         
                     </div>
                 </div>
@@ -113,21 +111,28 @@
                                 </div>
                                 <div class="job-list-option">
                                     <ul class="list-unstyled" style="justify-content: left;">
-                                        <li> <span>Your Preferred Job Role</span> <a href="employer-detail.html"><i class="far fa-edit"></i></a>
+                                        @if ($role && $company)
                                             <p><span class="chip">{{$role}} at {{$company}}</span> </p>
-                                        </li>
-                                        <li> <span>Your Preferred Work Location </span> <a href="employer-detail.html"><i class="far fa-edit"></i></a> 
+                                        @else 
+                                            <li> <span>Your Preferred Job Role</span> <a href="{{route('my.profile')}}"><i class="far fa-edit"></i></a></li>   
+                                        @endif
+
+                                        @if (count($cityArray)>0)
                                             <p><span class="chip">{{ implode(' , ',$cityArray) }}</span></p>
-                                        </li>
-                                        <li> <span>Add Your Preferred Salary</span> <a href="employer-detail.html"><i class="far fa-edit"></i></a>
+                                        @else 
+                                            <li><span>Your Preferred Work Location </span> <a href="{{route('my.profile')}}"><i class="far fa-edit"></i></a></li>  
+                                        @endif
+
+                                        @if (isset($user->profileCarrer))
                                             <p><span class="chip">INR {{ isset($user->profileCarrer)?$user->profileCarrer->salary_from:0 }} Lakh(s) {{ isset($user->profileCarrer)?$user->profileCarrer->salary_to:0 }} Thousand</span></p>
-                                        </li>
-                                         
+                                        @else 
+                                            <li><span>Add Your Preferred Salary</span> <a href="{{route('my.profile')}}"><i class="far fa-edit"></i></a></li>  
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="job-list-favourite-time"> <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span> </div>
+                        <!-- <div class="job-list-favourite-time"> <a class="job-list-favourite order-2" href="#"><i class="far fa-heart"></i></a> <span class="job-list-time order-1"><i class="far fa-clock pe-1"></i>3D ago</span> </div> -->
                     </div>
                 </div>
             </div>

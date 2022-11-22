@@ -1,3 +1,6 @@
+<?php 
+use Carbon\Carbon;
+?>
 @extends('layouts.app')
 
 @section('content') 
@@ -35,8 +38,14 @@ td {
             <div class="card-body mb-4" style="border: 1px solid #ddd;">
                 <p style="color:#000;">Product Description</p>
                 <p style="color:#000;">Classified Annual Subscription (Upto {{Auth::guard('company')->user()->jobs_quota}} Job Postings)</p>
-                - Classified Annual Subscription (Upto {{Auth::guard('company')->user()->jobs_quota}} Job Postings) {{Auth::guard('company')->user()->package_start_date->format('d M, Y')}}- {{Auth::guard('company')->user()->package_end_date->format('d M, Y')}} <span style="float: right;color:green;">Active</span></p>
-
+                - Classified Annual Subscription (Upto {{Auth::guard('company')->user()->jobs_quota}} Job Postings) {{Auth::guard('company')->user()->package_start_date->format('d M, Y')}}- {{Auth::guard('company')->user()->package_end_date->format('d M, Y')}} 
+                @if (strtotime(Auth::guard('company')->user()->package_end_date) <= strtotime(Carbon::now()))
+                    <span style="float: right;color:red;"><b>In Active</b></span>
+                @else 
+                    <span style="float: right;color:green;"><b>Active</b></span>   
+                @endif
+                
+                </p>
             </div>
         </div>
         <!--=================================      sidebar -->

@@ -208,6 +208,26 @@ class Job extends Model
 		}
     }
 	
+	
+	public function majorSubject()
+    {
+        return $this->belongsTo('App\MajorSubject', 'major_subject_id', 'major_subject_id');
+    }
+
+    public function getmajorSubject($field = '')
+    {
+		$majorSubject = $this->majorSubject()->lang()->first();
+		if(null === $majorSubject){
+			$majorSubject = $this->majorSubject()->first();
+		}
+        if(null !== $majorSubject){
+			if (!empty($field)) {
+				return $majorSubject->$field;
+			} else {
+				return $majorSubject;
+			}
+		}
+    }
 	public function degreeLevel()
     {
         return $this->belongsTo('App\DegreeLevel', 'degree_level_id', 'degree_level_id');
@@ -227,6 +247,27 @@ class Job extends Model
 			}
 		}
     }
+
+	public function degreeType()
+    {
+        return $this->belongsTo('App\DegreeType', 'degree_type_id', 'degree_type_id');
+    }
+
+    public function getDegreeType($field = '')
+    {
+		$degreeType = $this->degreeType()->lang()->first();
+		if(null === $degreeType){
+			$degreeType = $this->degreeType()->first();
+		}
+        if(null !== $degreeType){
+			if (!empty($field)) {
+				return $degreeType->$field;
+			} else {
+				return $degreeType;
+			}
+		}
+    }
+
 	
 	public function jobExperience()
     {

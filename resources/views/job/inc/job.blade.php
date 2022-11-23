@@ -115,38 +115,23 @@
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
                             {!! Form::select('salary_from', [''=>__('Min Annual Salary')]+MiscHelper::getSalaryDD(), (isset($job)? $job->salary_from:''), array('class'=>'form-control basic-select', 'id'=>'min-annual-salary')) !!}
-                                <!-- <select class="form-control basic-select" name="salary_from" id="min-annual-salary">
-                                    <option value="" selected="selected">Min Annual Salary</option>
-                                    <option value="50000">50000</option>
-                                    <option value="100000">100000</option>
-                                    <option value="150000">150000</option>
-                                    <option value="200000">200000</option>
-                                    <option value="250000">250000</option>
-                                    <option value="300000">300000</option>
-                                    <option value="350000">350000</option>
-                                    <option value="400000">400000</option>
-                                    <option value="450000">450000</option>
-                                    <option value="500000">500000</option>
-                                  </select> -->
+                               
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="input-group mb-2">
                             {!! Form::select('salary_to', [''=>__('Max Annual Salary')]+MiscHelper::getSalaryDD(), (isset($job)? $job->salary_to:''), array('class'=>'form-control basic-select', 'id'=>'max-annual-salary')) !!}
-                                <!-- <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
-                                    <option value="" selected="selected">Max Annual Salary</option>
-                                    <option value="50000">50000</option>
-                                    <option value="75000">75000</option>
-                                    <option value="100000">100000</option>
-                                    <option value="150000">150000</option>
-                                    <option value="200000">200000</option>
-                                    <option value="250000">250000</option>
-                                    <option value="300000">300000</option>
-                                    <option value="350000">350000</option>
-                                    <option value="400000">400000</option>
-                                    <option value="450000">450000</option>
-                                    <option value="500000">500000</option>
-                                  </select> -->
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="mb-2">Kilometer <span style="color: red;">*</span> </label>
+                            <div class="input-group mb-2">                            
+                                <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
+                                    <option value="" selected="selected">Kilometer Radius</option>
+                                    <option value="5">0-5</option>
+                                    <option value="10">5-10</option>                                    
+                                  </select>
                             </div>
                         </div>
                         <div class="form-group col-md-6 mb-3">
@@ -173,8 +158,8 @@
                         </div>
                         
                         <div class="form-group col-md-6 mb-3">
-                            <label class="mb-2">Job Shift <span style="color: red;">*</span> </label>
-                            {!! Form::select('job_shift_id', ['' => __('Select Job Shift')]+$jobShifts, (isset($job)? $job->job_shift_id:''), array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}       
+                            <label class="mb-2">Work Mode <span style="color: red;">*</span> </label>
+                            {!! Form::select('job_shift_id', ['' => __('Select Work Mode')]+$jobShifts, (isset($job)? $job->job_shift_id:''), array('class'=>'form-control basic-select', 'id'=>'job_shift_id')) !!}       
                           </select>
                         </div>
 

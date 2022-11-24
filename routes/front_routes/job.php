@@ -14,6 +14,7 @@ Route::get('my-favourite-jobs', 'Job\JobController@myFavouriteJobs')->name('my.f
 Route::get('post-job', 'Job\JobPublishController@createFrontJob')->name('post.job');
 Route::post('store-front-job', 'Job\JobPublishController@storeFrontJob')->name('store.front.job');
 Route::get('edit-front-job/{id}', 'Job\JobPublishController@editFrontJob')->name('edit.front.job');
+Route::get('job-active/{id}', 'Job\JobPublishController@activeJob')->name('job.active');
 Route::put('update-front-job/{id}', 'Job\JobPublishController@updateFrontJob')->name('update.front.job');
 Route::get('delete-front-job/{id}', 'Job\JobPublishController@deleteJob')->name('delete.front.job');
 

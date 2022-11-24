@@ -31,6 +31,27 @@ class ProfileEducation extends Model
             return '';
         }
     }
+
+    public function majorSubject()
+    {
+        return $this->belongsTo('App\MajorSubject', 'major_subject_id', 'major_subject_id');
+    }
+
+    public function getMajorSubject($field = '')
+    {
+		$majorSubject = $this->majorSubject()->lang()->first();
+		if(null === $majorSubject){
+			$majorSubject = $this->majorSubject()->first();
+		}
+        if(null !== $majorSubject){
+            if (empty($field))
+                return $majorSubject;
+            else
+                return $majorSubject->$field;
+        } else {
+            return '';
+        }
+    }
 	
 	public function degreeLevel()
     {
@@ -69,6 +90,27 @@ class ProfileEducation extends Model
                 return $degreeType;
             else
                 return $degreeType->$field;
+        } else {
+            return '';
+        }
+    }
+
+    public function university()
+    {
+        return $this->belongsTo('App\University', 'university_id', 'univid');
+    }
+
+    public function getUniversity($field = '')
+    {
+		$university = $this->university()->first();
+		if(null === $university){
+			$university = $this->university()->first();
+		}
+        if(null !== $university){
+            if (empty($field))
+                return $university;
+            else
+                return $university->$field;
         } else {
             return '';
         }

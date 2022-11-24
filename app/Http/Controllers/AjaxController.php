@@ -121,7 +121,7 @@ class AjaxController extends Controller
 		
         $degreeLevels = DataArrayHelper::langDegreelevelsArray($major_subject_id);
 		
-        $dd = Form::select('degree_level_id', ['' => 'Select degree type'] + $degreeLevels, $degree_level_id, array('id' => 'degree_level_id', 'class' => 'form-control basic-select'));
+        $dd = Form::select('degree_level_id', ['' => 'Select degree level'] + $degreeLevels, $degree_level_id, array('id' => 'degree_level_id', 'class' => 'form-control basic-select'));
         echo $dd;
     }
 

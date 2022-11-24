@@ -47,6 +47,7 @@ span
   <!--================================= Manage Jobs -->
 <section>
     <div class="container">
+    @include('flash::message')
       <div class="row">
         <div class="col-md-12">
           <div class="user-dashboard-info-box mb-0">
@@ -114,7 +115,7 @@ span
                           @if (strtotime($jobs->created_at) <= strtotime($jobs->expiry_date))
                             <p class="text-center" style="color:green;"><b>Active</b></p> 
                           @else 
-                            <p class="text-center" style="color:red;"><b>In Active</b></p>
+                          <a href="{{route('job.active', [$jobs->id])}}" title="Active"><p class="text-center" style="color:red;"><b>In Active</b></p></a>
                           @endif
                         </td>
                         <td>

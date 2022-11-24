@@ -333,7 +333,15 @@ trait JobTrait
         return \Redirect::route('edit.front.job', array($job->id));
     }
 	
-	
+	public function activeJob($id){
+		$now = Carbon::now(); 
+
+		$job = Job::findOrFail($id);
+	    $job->expiry_date = $now->addDays(30);
+		$job->update();
+		flash('Job has been Activated!')->success();
+        return \Redirect::route('company.managejobs');
+	}
 
     public function editFrontJob($id)
     {

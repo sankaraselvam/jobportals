@@ -143,8 +143,7 @@ trait ProfileEducationTrait
 
     public function storeProfileEducation(ProfileEducationFormRequest $request, $user_id)
     {
-        
-		$profileEducation = new ProfileEducation();
+       	$profileEducation = new ProfileEducation();
 		$profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
         $profileEducation->save();
 		/*         * ************************************ */
@@ -156,11 +155,11 @@ trait ProfileEducationTrait
 	
 	public function storeFrontProfileEducation(Request $request, $user_id)
     {
-        $profileEducation = new ProfileEducation();
+	    $profileEducation = new ProfileEducation();
 		$profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
         $profileEducation->save();
 		/*         * ************************************ */
-        $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
+        //$this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
 		/*         * ************************************ */
 		// $returnHTML = view('user.forms.education.education_thanks')->render();
 		$this->myProfile();
@@ -170,6 +169,7 @@ trait ProfileEducationTrait
 	private function assignEducationValues($profileEducation, $request, $user_id)
 	{
 		$profileEducation->user_id = $user_id;
+        $profileEducation->major_subject_id = $request->input('major_subject_id');
         $profileEducation->degree_level_id = $request->input('degree_level_id');
 		$profileEducation->degree_type_id = $request->input('degree_type_id');
 		// $profileEducation->degree_title = $request->input('degree_title');
@@ -177,8 +177,10 @@ trait ProfileEducationTrait
 		// $profileEducation->state_id = $request->input('state_id');
 		// $profileEducation->city_id = $request->input('city_id');
 		$profileEducation->course_type = $request->input('course_type');
-		$profileEducation->date_completion = $request->input('date_completion');
-		$profileEducation->institution = $request->input('institution');
+		// $profileEducation->date_completion = $request->input('date_completion');
+		$profileEducation->date_completion_start = $request->input('date_completion_start');
+		$profileEducation->date_completion_end = $request->input('date_completion_end');
+		$profileEducation->university_id = $request->input('institution');
 		// $profileEducation->degree_result = $request->input('degree_result');
 		$profileEducation->result_type_id = $request->input('result_type_id');
 		return $profileEducation;
@@ -236,7 +238,7 @@ trait ProfileEducationTrait
 
 	public function editProfileEducation(Request $request, $user_id){
         $education_id = $request->input('education_id');
-        $profileEducation = ProfileEducation::with(['profileEducationMajorSubjects'])->find($education_id);
+        $profileEducation = ProfileEducation::with(['majorSubject','degreeLevel','degreeType','university','profileEducationMajorSubjects'])->find($education_id);
         return response()->json(array('success' => true, 'data' => $profileEducation));
 	}
 
@@ -261,7 +263,7 @@ trait ProfileEducationTrait
         $profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
 		$profileEducation->update();
 		/*         * ************************************ */
-        $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
+        // $this->storeprofileEducationMajorSubjects($request, $profileEducation->id);
 		/*         * ************************************ */
 		
 		// $returnHTML = view('user.forms.education.education_edit_thanks')->render();

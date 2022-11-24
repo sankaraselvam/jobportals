@@ -301,9 +301,9 @@
                                                 <li><a href="javascript:void(0);" onclick="delete_profile_education('{{$education->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
                                         </div>
-                                        <span class="jobber-timeline-time">{{ $education->date_completion }}</span>
+                                        <span class="jobber-timeline-time">{{ $education->date_completion_start }}-{{ $education->date_completion_end }}</span>
                                         <h6 class="mb-2">{{ $education->degreeType->degree_type }}</h6>
-                                        <span>- {{ $education->institution }}</span>
+                                        <span>- {{ ($education->university)?$education->university->universityname:'' }}</span>
                                         <p class="mt-2"></p>
                                     </div>
                                 </div>
@@ -574,7 +574,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
                                     <label>Date of Birth</label>
-                                    <p style="color: #000;">{{ date("d-M-Y", strtotime($user->date_of_birth)) }}</p>
+                                    <p style="color: #000;">{{ ($user->date_of_birth)?date("d-M-Y", strtotime($user->date_of_birth)):'' }}</p>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label>Gender</label>
@@ -857,29 +857,9 @@
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Specialization')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
+                                                <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Specialization')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
                                         </div>
-                                        <!-- <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
-                                        </div> -->
                                         
-                                            {!! Form::select('degree_level_id', [''=>__('Select Education')]+$degreeLevels, '', array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
-
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" name="institution" id="institution" placeholder="Select university/institute">
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Course <span style="color: red;">*</span></label>
-                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
-                                        </div>
-                                       
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
@@ -1642,6 +1622,12 @@ $(function() {
     $("#working_to_month").prop('disabled', true);
     $("#emp_working_to_year").prop('disabled', true);
     $("#emp_working_to_month").prop('disabled', true);
+
+    $('#Education').modal({backdrop: 'static', keyboard: false}, 'show');
+
+    $('#Education').on('hidden.bs.modal', function () {
+        $('#add_edit_profile_education form')[0].reset();
+    })
     
     $(".project_status").on('change', function (e) {
         if($(this).val()==1){
@@ -1960,7 +1946,7 @@ $(function() {
         filterLangDegreeLevel($(this).val());
     });
 
-    $(document).on('change', '#degree_level_id',function (e) {
+    $(document).on('change','#degree_level_id',function (e) {
         e.preventDefault();
         filterLangDegreeType($(this).val());
     });
@@ -1976,6 +1962,7 @@ $(function() {
     //     filterDegreeTypes($(this).val());
     // });
     filterLangRoles('{{ isset($user->profileCarrer->functional_area_id)?$user->profileCarrer->functional_area_id:0 }}');
+    
 });
 function submitProfileDetailsForm(){    
     var form = $('#add_edit_personal_details');
@@ -2275,20 +2262,29 @@ function showProfileEducationEditModal(education_id){
                 $.each(json.data.profile_education_major_subjects, function (i, subjects) {
                     subjectsArray.push(subjects.major_subject_id);
                 });
-                console.log(subjectsArray);
-                $("#degree_level_id").val(json.data.degree_level_id);
-                $('#degree_level_id').select2().trigger('change');
-                $("#degree_type_id").val(json.data.degree_type_id);
-                $('#degree_type_id').select2().trigger('change');
-                $("#institution").val(json.data.institution);
+                
+                $("#major_subject_id").val(json.data.major_subject_id);
+                $('#major_subject_id').select2().trigger('change');
+                // $("#degree_level_id").val(json.data.degree_level_id);
+                // $('#degree_level_id').select2().trigger('change');
+                // $("#degree_type_id").val(json.data.degree_type_id);
+                // $('#degree_type_id').select2().trigger('change');
+                $("#institution").val(json.data.university_id);
+                $('#institution').select2().trigger('change');
                 $('input[name=course_type][value='+json.data.course_type+']').attr('checked', true);
-                $("#date_completion").val(json.data.date_completion);
-                $('#date_completion').select2().trigger('change');
+                $("#date_completion_start").val(json.data.date_completion_start);
+                $('#date_completion_start').select2().trigger('change');
+                $("#date_completion_end").val(json.data.date_completion_end);
+                $('#date_completion_end').select2().trigger('change');
+                // $("#date_completion").val(json.data.date_completion);
+                // $('#date_completion').select2().trigger('change');
                 $("#result_type_id").val(json.data.result_type_id);
                 $('#result_type_id').select2().trigger('change');
-                $("#major_subjects").val(subjectsArray);
-                $('#major_subjects').select2().trigger('change');
-                filterDegreeTypes(json.data.degree_type_id);
+                // $("#major_subjects").val(subjectsArray);
+                // $('#major_subjects').select2().trigger('change');
+                filterLangDegreeLevel(json.data.major_subject_id, json.data.degree_level_id);
+                filterLangDegreeType(json.data.degree_level_id, json.data.degree_type_id);
+                // 
                 
 			}
 	});
@@ -2432,24 +2428,27 @@ function filterLangRoles(functional_area_id){
 //     }
 // }
 
-function filterLangDegreeLevel(degree_level_id){
-        var major_subject_id = $('#major_subject_id').val();
+function filterLangDegreeLevel(major_subject_id, degree_level_id=0){
+        var degree_level_id = (degree_level_id!=0)?degree_level_id:$('#degree_level_id').val();
+        console.log(major_subject_id+'========'+degree_level_id);
         if (major_subject_id != ''){
             $.post("{{ route('filter.degree.level.dropdown') }}", {major_subject_id: major_subject_id,degree_level_id:degree_level_id, _method: 'POST', _token: '{{ csrf_token() }}'})
                 .done(function (response) {
                     $('#degree_level_dd').html(response);
                     $('#degree_level_id').select2();
+                    // filterLangDegreeType(degree_type_id);
                 });
         }
-    }
+}
 
-    function filterLangDegreeType(degree_type_id){
-        var degree_level_id = $('#degree_level_id').val();
+function filterLangDegreeType(degree_level_id, degree_type_id=0){
+        var degree_type_id = (degree_type_id!=0)?degree_type_id:$('#degree_type_id').val();
+        console.log(degree_type_id+'========'+degree_level_id);
         if (degree_level_id != ''){
             $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id,degree_type_id:degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
                 .done(function (response) {
                     console.log('ROLWWEEEEEE');
-                    $('#degree_type_dd').html(response);
+                    $('#degree_types_dd').html(response);
                     $('#degree_type_id').select2();
                 });
        }

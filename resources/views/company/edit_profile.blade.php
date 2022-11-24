@@ -70,11 +70,11 @@
                                 <div class="row"> 
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" name="email" placeholder="Enter your mail id" value="{{$company->email}}" disabled>
+                                        <input type="text" class="form-control" name="email" placeholder="Enter your mail id" value="{{$company->email}}" readonly>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label">User Communication Mail</label>
-                                        <input type="email" class="form-control" name="communication_email" value="{{$company->email}}" placeholder="Communication Mail" disabled>
+                                        <input type="email" class="form-control" name="communication_email" value="{{$company->email}}" placeholder="Communication Mail" readonly>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label">Role</label>

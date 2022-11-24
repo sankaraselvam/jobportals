@@ -26,6 +26,7 @@ use App\JobType;
 use App\JobShift;
 use App\JobTitle;
 use App\Company;
+use App\University;
 use App\MaritalStatus;
 use App\OwnershipType;
 use App\SalaryPeriod;
@@ -100,6 +101,23 @@ class DataArrayHelper
         $array = Gender::select('genders.gender', 'genders.gender_id')->lang()->active()->sorted()->pluck('genders.gender', 'genders.gender_id')->toArray();
 		if((int)count($array) === 0){
 			$array = self::defaultGendersArray();
+		}
+        return $array;
+    }
+
+    /*******************************/
+	
+	public static function defaultUniversityArray()
+    {
+        $array = University::select('universityname.universityname', 'universityname.univid')->pluck('universityname.universityname', 'universityname.univid')->toArray();
+        return $array;
+    }
+	
+	public static function langUniversityArray()
+    {
+        $array = University::select('universityname.universityname', 'universityname.univid')->pluck('universityname.universityname', 'universityname.univid')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultUniversityArray();
 		}
         return $array;
     }

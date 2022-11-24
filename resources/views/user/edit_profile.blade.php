@@ -844,21 +844,26 @@
                                     <div class="row">
                                         <div class="form-group col-12 mb-2">
                                             <label class="mb-2" for="Email2">Education <span style="color: red;">*</span></label>
-                                            {!! Form::select('degree_level_id', [''=>__('Select Education')]+$degreeLevels, '', array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
-
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Course <span style="color: red;">*</span></label>
-                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
+                                            {!! Form::select('major_subject_id', [''=>__('Select Education')]+$majorSubjects, '', array('class'=>'form-control basic-select', 'id'=>'major_subject_id')) !!}
                                         </div>
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" name="institution" id="institution" placeholder="Select university/institute">
+                                            {!! Form::select('institution', [''=>__('Select university/Institute')]+$university, '', array('class'=>'form-control basic-select', 'id'=>'institution')) !!}
                                         </div>
+
+                                        <div class="form-group col-12 mb-2">
+                                            <label class="mb-2" for="Email2">Course <span style="color: red;">*</span></label>
+                                            <span id="degree_level_dd">{!! Form::select('degree_level_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}</span>
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
+                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Specialization')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
+                                        </div>
+                                        <!-- <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
+                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
+                                        </div> -->
+                                        
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">
@@ -873,15 +878,22 @@
                                               </label>
                                             </div>
                                         </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <div class="row">
-                                                <label class="mb-2">Passing Out Year <span style="color: red;">*</span></label>
-                                                <div class="form-group col-md-6 select-border mb-3">
-                                                    {!! Form::select('date_completion', [''=>__('Select Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion')) !!}
-                                                </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="mb-2">Course Duration <span style="color: red;"> *</span> </label>
+                                        </div>
+                                        <div class="col-md-5 mb-3">
+                                            <div class="input-group mb-2">
+                                            {!! Form::select('date_completion_start', [''=>__('Select Starting Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_start')) !!}   
                                             </div>
                                         </div>
-
+                                        <div class="col-md-1 mb-3" style="margin-top: 15px;margin-bottom: 15px;">
+                                            <span>To</span>
+                                        </div>
+                                        <div class="col-md-5 mb-3">
+                                            <div class="input-group mb-2">
+                                            {!! Form::select('date_completion_end', [''=>__('Select Ending Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_end')) !!}
+                                            </div>
+                                        </div>
                                         <div class="form-group col-12 mb-4">
                                             <div class="row">
                                                 <label class="mb-2">Grading System<span style="color: red;">*</span></label>
@@ -1927,6 +1939,15 @@ $(function() {
         });
     });
 
+    $('#major_subject_id').on('change', function (e) {
+        e.preventDefault();
+        filterLangDegreeLevel($(this).val());
+    });
+
+    $(document).on('change', '#degree_level_id',function (e) {
+        e.preventDefault();
+        filterLangDegreeType($(this).val());
+    });
     
     
     $('#functional_area_id').on('change', function (e) {
@@ -1934,10 +1955,10 @@ $(function() {
         filterLangRoles($(this).val());
     });
 
-    $('#degree_level_id').on('change',function (e) {
-    e.preventDefault();
-        filterDegreeTypes($(this).val());
-    });
+    // $('#degree_level_id').on('change',function (e) {
+    // e.preventDefault();
+    //     filterDegreeTypes($(this).val());
+    // });
     filterLangRoles('{{ isset($user->profileCarrer->functional_area_id)?$user->profileCarrer->functional_area_id:0 }}');
 });
 function submitProfileDetailsForm(){    
@@ -2384,16 +2405,39 @@ function filterLangRoles(functional_area_id){
         }
 }
 
-function filterDegreeTypes(degree_type_id){
-    var degree_level_id = $('#degree_level_id').val();
-    if (degree_level_id != ''){
-    $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id, degree_type_id: degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
-            .done(function (response) {
-            	$('#degree_types_dd').html(response); 
-                $('#degree_type_id').select2();           
-            });
+// function filterDegreeTypes(degree_type_id){
+//     var degree_level_id = $('#degree_level_id').val();
+//     if (degree_level_id != ''){
+//     $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id, degree_type_id: degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+//             .done(function (response) {
+//             	$('#degree_types_dd').html(response); 
+//                 $('#degree_type_id').select2();           
+//             });
+//     }
+// }
+
+function filterLangDegreeLevel(degree_level_id){
+        var major_subject_id = $('#major_subject_id').val();
+        if (major_subject_id != ''){
+            $.post("{{ route('filter.degree.level.dropdown') }}", {major_subject_id: major_subject_id,degree_level_id:degree_level_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+                .done(function (response) {
+                    $('#degree_level_dd').html(response);
+                    $('#degree_level_id').select2();
+                });
+        }
     }
-}
+
+    function filterLangDegreeType(degree_type_id){
+        var degree_level_id = $('#degree_level_id').val();
+        if (degree_level_id != ''){
+            $.post("{{ route('filter.degree.types.dropdown') }}", {degree_level_id: degree_level_id,degree_type_id:degree_type_id, _method: 'POST', _token: '{{ csrf_token() }}'})
+                .done(function (response) {
+                    console.log('ROLWWEEEEEE');
+                    $('#degree_type_dd').html(response);
+                    $('#degree_type_id').select2();
+                });
+       }
+    }
 </script>
 @include('includes.immediate_available_btn')
 @endpush

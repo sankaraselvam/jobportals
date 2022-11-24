@@ -326,7 +326,7 @@ class JobController extends Controller
 		$ProfileEducation = ProfileEducation::where('user_id', '=', $user_id)->count();
 		$ProfileSkill = ProfileSkill::where('user_id', '=', $user_id)->count();
 		if($ProfileCareer==0 && $ProfileEducation==0 && $ProfileSkill==0 && $ProfileCv==0){
-			flash(__('Please update profile deatils'))->error();
+			flash(__('Please update Education, Skills, Resume & Career Details'))->error();
 			return \Redirect::route('job.detail', $job_slug);
 			exit;
 		}

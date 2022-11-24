@@ -24,6 +24,7 @@ use App\JobExperience;
 use App\JobApply;
 use App\CareerLevel;
 use App\Industry;
+use App\University;
 use App\FunctionalArea;
 use App\ProfileCareer;
 use App\ProfileCareerLocation;
@@ -105,6 +106,7 @@ class UserController extends Controller
 		$majorSubjects = DataArrayHelper::langMajorSubjectsArray();
 		$resultTypes = DataArrayHelper::langResultTypesArray();
 		$jobRole = DataArrayHelper::langRolesArrays();
+		$university = DataArrayHelper::langUniversityArray();
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
         
         // $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
@@ -117,7 +119,7 @@ class UserController extends Controller
         // $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         
         // dd(MiscHelper::getSalaryThousands());
-
+            // dd($university);
         $percentage = $this->getProfilePercentage($user);
         return view('user.edit_profile')
                         ->with('genders', $genders)
@@ -139,6 +141,7 @@ class UserController extends Controller
                         ->with('jobSkills', $jobSkills)
                         ->with('degreeLevels', $degreeLevels)
                         ->with('majorSubjects', $majorSubjects)
+                        ->with('university', $university)
                         ->with('resultTypes', $resultTypes)
                         ->with('jobRole', $jobRole)
                         ->with('profilePercentage', $percentage)

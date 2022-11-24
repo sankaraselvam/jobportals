@@ -864,6 +864,22 @@
                                             {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
                                         </div> -->
                                         
+                                            {!! Form::select('degree_level_id', [''=>__('Select Education')]+$degreeLevels, '', array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}
+
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" name="institution" id="institution" placeholder="Select university/institute">
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Course <span style="color: red;">*</span></label>
+                                            <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
+                                        </div>
+                                        <div class="form-group col-12 mb-4">
+                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
+                                            {!! Form::select('major_subjects[]', $majorSubjects, null, array('class'=>'form-control select2-multiple basic-select', 'id'=>'major_subjects', 'multiple'=>'multiple')) !!}
+                                        </div>
+                                       
                                         <div class="form-group col-12 mb-4">
                                             <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
                                             <div class="form-group">

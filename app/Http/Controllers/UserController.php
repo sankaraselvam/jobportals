@@ -312,8 +312,9 @@ class UserController extends Controller
     }
 
     public function updatePersonalDetails(Request $request){    
-               
+         
         $user = User::findOrFail($request->input('id'));
+        
         if ($request->hasFile('profile_image')) {
             $imgName = preg_replace('/\s+/', '', $user->name);
             $image = $request->file('profile_image');
@@ -321,7 +322,7 @@ class UserController extends Controller
             $user->image = $fileName;
         }
        
-        $user->date_of_birth = $request->input('date_of_birth');
+        $user->date_of_birth = date("Y-m-d", strtotime($request->input('date_of_birth')));
         $user->gender_id = $request->input('gender_id');
         $user->marital_status_id = $request->input('marital_status_id');
         $user->category_id = $request->input('category_id');

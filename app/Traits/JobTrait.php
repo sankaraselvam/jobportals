@@ -116,6 +116,7 @@ trait JobTrait
         $job->degree_type_id = $request->input('degree_type_id');
 		$job->job_experience_id_from = $request->input('job_experience_id_from');
         $job->job_experience_id_to = $request->input('job_experience_id_to');
+        $job->kilometer = $request->input('kilometer');
 		if($request->input('walk_in')==1){
 			$job->walk_in = $request->input('walk_in');
 			$job->start_date = date("Y-m-d", strtotime($request->input('start_date')));;
@@ -281,7 +282,7 @@ trait JobTrait
 		$postJobs = Job::with(['jobExperience','jobSkills.jobSkill','cities'])->where('deleted_at', 'N')->orderBy('jobs.id', 'DESC')->limit(5)->get();
 
 		$duration = config('constants.duration');
-		
+		$majorSubjectsFilter = array_diff( $majorSubjects, ["10th","12th"] );
         return view('job.add_edit_job')
                         ->with('countries', $countries)
 						->with('currencies', array_unique($currencies))
@@ -294,7 +295,7 @@ trait JobTrait
                         ->with('jobSkills', $jobSkills)
 						->with('jobSkillIds', $jobSkillIds)
 						//->with('degreeLevels', $degreeLevels)
-						->with('majorSubjects', $majorSubjects)
+						->with('majorSubjects', $majorSubjectsFilter)
 						->with('industry', $industry)
 						->with('salaryPeriods', $salaryPeriods)
 						->with('duration', $duration)

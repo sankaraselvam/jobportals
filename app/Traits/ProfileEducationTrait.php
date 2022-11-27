@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Board;
 use Auth;
 use DB;
 use Input;
@@ -15,6 +16,8 @@ use App\DegreeType;
 use App\ResultType;
 use App\MajorSubject;
 use App\Country;
+use App\University;
+use App\SchoolMedium;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -155,6 +158,7 @@ trait ProfileEducationTrait
 	
 	public function storeFrontProfileEducation(Request $request, $user_id)
     {
+		// dd($request->all());
 	    $profileEducation = new ProfileEducation();
 		$profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
         $profileEducation->save();
@@ -168,10 +172,34 @@ trait ProfileEducationTrait
 	
 	private function assignEducationValues($profileEducation, $request, $user_id)
 	{
+		$university_id=0;
+        $degree_level_id=0;
+        $degree_type_id=0;
+        $board_id=0;
+        $medium_id=0;
+        if($request->input('other_institution')!=""){
+            $university_id=$this->storeUniversity($request->input('other_institution'));
+        }
+        if($request->input('other_degree_level')!=""){
+            $degree_level_id=$this->storeDegreeLevel($request->input('major_subject_id'),$request->input('other_degree_level'));
+        }
+        if($request->input('other_degree_type')!=""){
+			if($request->input('degree_type_id') !=""){
+				$degree_type_id=$this->storeDegreeType($request->input('degree_type_id'),$request->input('other_degree_type'));
+			}else{
+				$degree_type_id=$this->storeDegreeType($degree_level_id,$request->input('other_degree_type'));
+			}            
+        }
+        if($request->input('other_board')!=""){
+            $board_id=$this->storeBoard($request->input('other_board'));
+        }
+        if($request->input('other_medium')!=""){
+            $medium_id=$this->storeMedium($request->input('other_medium'));
+        }
 		$profileEducation->user_id = $user_id;
         $profileEducation->major_subject_id = $request->input('major_subject_id');
-        $profileEducation->degree_level_id = $request->input('degree_level_id');
-		$profileEducation->degree_type_id = $request->input('degree_type_id');
+        $profileEducation->degree_level_id = ($degree_level_id==0)?$request->input('degree_level_id'):$degree_level_id;
+		$profileEducation->degree_type_id = ($degree_type_id==0)?$request->input('degree_type_id'):$degree_type_id;
 		// $profileEducation->degree_title = $request->input('degree_title');
 		// $profileEducation->country_id = $request->input('country_id');
 		// $profileEducation->state_id = $request->input('state_id');
@@ -180,17 +208,88 @@ trait ProfileEducationTrait
 		// $profileEducation->date_completion = $request->input('date_completion');
 		$profileEducation->date_completion_start = $request->input('date_completion_start');
 		$profileEducation->date_completion_end = $request->input('date_completion_end');
-		$profileEducation->university_id = $request->input('institution');
+		$profileEducation->university_id = ($university_id==0)?$request->input('institution'):$university_id; 
 		// $profileEducation->degree_result = $request->input('degree_result');
 		$profileEducation->result_type_id = $request->input('result_type_id');
+		if($request->input('board') != null && $request->input('school_medium') != null){
+			$profileEducation->board_id = ($board_id==0)?$request->input('board'):$board_id;
+			$profileEducation->passing_year = $request->input('passing_out_year');
+			$profileEducation->medium_id = ($medium_id==0)?$request->input('school_medium'):$medium_id;  
+		}
+		$profileEducation->mark = ($request->input('total_mark'))?$request->input('total_mark'):$request->input('mark');
+		
 		return $profileEducation;
+	}
+
+	public function storeUniversity($university){
+		$exitsUniversity = University::where('universityname', '=', $university)->count();
+        if($exitsUniversity==0){
+            $universityMod = new University();
+            $universityMod->universityname = $university;
+            $universityMod->save();
+            return $universityMod->id;
+        }
+	}
+	public function storeBoard($boardname){
+		$exitsBoard = Board::where('boardname', '=', $boardname)->count();
+        if($exitsBoard==0){
+            $boardMod = new Board();
+            $boardMod->boardname = $boardname;
+            $boardMod->save();
+            return $boardMod->id;
+        }
+	}
+	public function storeMedium($mediumname){
+		$exitsMedium = SchoolMedium::where('medium', '=', $mediumname)->count();
+        if($exitsMedium==0){
+            $mediumMod = new Board();
+            $mediumMod->medium = $mediumname;
+            $mediumMod->save();
+            return $mediumMod->id;
+        }
+	}
+	public function storeDegreeLevel($major_subject_id,$degree_level){
+		$exitsDegreeLevel = DegreeLevel::where('major_subject_id', '=', $major_subject_id)->where('degree_level', '=', $degree_level)->count();
+        if($exitsDegreeLevel==0){
+            $degreeLevel = new DegreeLevel();
+			$degreeLevel->major_subject_id = $major_subject_id;
+			$degreeLevel->lang = 'en';
+			$degreeLevel->degree_level = $degree_level;
+			$degreeLevel->is_default = 1;
+			$degreeLevel->is_active = 1;
+			$degreeLevel->save();
+			/** ************************************ */
+			$degreeLevel->sort_order = $degreeLevel->id;
+			$degreeLevel->degree_level_id = $degreeLevel->id;
+			$degreeLevel->update();
+            return $degreeLevel->id;
+        }
+		
+	}
+	public function storeDegreeType($degree_level_id,$degree_type){
+		$exitsDegreeType = DegreeType::where('degree_level_id', '=', $degree_level_id)->where('degree_type', '=', $degree_type)->count();
+        if($exitsDegreeType==0){
+            $degreeType = new DegreeType();
+			$degreeType->degree_level_id = $degree_level_id;
+			$degreeType->lang = 'en';
+			$degreeType->degree_type = $degree_type;
+			$degreeType->is_default = 1;
+			$degreeType->is_active = 1;
+			$degreeType->save();
+			/** ************************************ */
+			$degreeType->sort_order = $degreeType->id;
+			$degreeType->degree_type_id = $degreeType->id;
+			$degreeType->update();
+            return $degreeType->id;
+        }
+		
 	}
 	
 	public function getProfileEducationEditForm(Request $request, $user_id)
     {
 		$education_id = $request->input('education_id');
 		
-		$degreeLevels = DataArrayHelper::defaultDegreelevelsArray();
+		$degreeLevels = DataArrayHelper::defaultDegreelevelsArray(0);
 		$resultTypes = DataArrayHelper::defaultResultTypesArray();
 		$majorSubjects = DataArrayHelper::defaultMajorSubjectsArray();
 		$countries = DataArrayHelper::defaultCountriesArray();
@@ -258,8 +357,7 @@ trait ProfileEducationTrait
 	
 	public function updateFrontProfileEducation(Request $request, $education_id, $user_id)
     {
-        
-		$profileEducation = ProfileEducation::find($education_id);
+        $profileEducation = ProfileEducation::find($education_id);
         $profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);
 		$profileEducation->update();
 		/*         * ************************************ */

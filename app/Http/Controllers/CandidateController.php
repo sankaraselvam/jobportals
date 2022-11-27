@@ -22,6 +22,7 @@ class CandidateController extends Controller
         $data = new User();
         //$data->candidate_or_employer = $request->candidate_or_employer;
         $data->first_name = $request->first_name;
+        $data->name = str_slug($request->first_name);
         $data->email = $request->email;        
         if($request->password_confirmation != $request->password){
             return redirect('/register-cmpy')->with('message', 'Password and Confirm password must be same');
@@ -37,7 +38,7 @@ class CandidateController extends Controller
         }
     }
     public function employerRegistration(UserFrontRegisterFormRequest $request){
-        // dd($request->all());
+        //dd($request->all());
         $data = new Company();
         $data->name = $request->first_name;
         $data->email = $request->email;        
@@ -55,7 +56,7 @@ class CandidateController extends Controller
         $package = Package::find($package_id);
 		$this->addJobSeekerPackage($data, $package);
         if($data){
-            return redirect('/')->with('message', 'Welcome to our site');
+            return redirect('/company-home')->with('message', 'Welcome to our site');
         }else{
             return redirect('/register-cmpy')->with('message', 'Something went wrong Do again!');
         }

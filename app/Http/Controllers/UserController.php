@@ -25,6 +25,7 @@ use App\JobApply;
 use App\CareerLevel;
 use App\Industry;
 use App\University;
+use App\SchoolMedium;
 use App\FunctionalArea;
 use App\ProfileCareer;
 use App\ProfileCareerLocation;
@@ -107,20 +108,28 @@ class UserController extends Controller
 		$resultTypes = DataArrayHelper::langResultTypesArray();
 		$jobRole = DataArrayHelper::langRolesArrays();
 		$university = DataArrayHelper::langUniversityArray();
+		$board = DataArrayHelper::langBoardArray();
+		$medium = DataArrayHelper::langMediumArray();
 		$upload_max_filesize = UploadedFile::getMaxFilesize() / (1048576);
         
         // $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])->findOrFail(Auth::user()->id);
-        $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.majorSubject','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.university','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])
+        $user = User::with(['maritalStatus','gender','country','state','city','profileCarrer','profileCarrer.industry','profileCarrer.functionalArea','profileCarrer.jobrole','profileCarrer.jobType','profileCarrer.jobShift','profileCarrer.cities','profileSummary','profileLanguages.language','profileLanguages.languageLevel','profileResumeSummary','ProfileItSkills','profileSkills.jobSkill','profileProjects','profileEducation','profileEducation.majorSubject','profileEducation.degreeLevel','profileEducation.degreeType','profileEducation.university','profileEducation.board','profileEducation.schoolMedium','profileEducation.resultType','profileEducation.profileEducationMajorSubjects','profileExperience','profileExperience.jobRole','profileCvs'])
+        // ->whereHas('profileEducation', function($q){
+        //     $q->orderBy('profile_educations.date_completion_start', 'asc');
+        // })
         // ->whereHas('profileExperience', function($q){
-        //     $q->orderBy('profile_experiences.id', 'desc');
+        //     $q->orderBy('profile_experiences.emp_working_from_year', 'asc');
         // })
         ->findOrFail(Auth::user()->id);
         //dd($user);
         // $profileCareer = ProfileCareer::with(['industry','functionalArea','jobrole','jobType','jobShift','cities'])->where('user_id',Auth::user()->id)->first();
         
         // dd(MiscHelper::getSalaryThousands());
+        $majorSubjectsFilter = array_diff( $majorSubjects, ["Graduation Not Required"] );
+        // dd(array_values($majorSubjects1));
         // dd($user);
         $percentage = $this->getProfilePercentage($user);
+        $otherDatas = config('constants.otherData');
         return view('user.edit_profile')
                         ->with('genders', $genders)
                         ->with('maritalStatuses', $maritalStatuses)
@@ -140,11 +149,14 @@ class UserController extends Controller
                         //->with('profileCareer', $profileCareer)
                         ->with('jobSkills', $jobSkills)
                         ->with('degreeLevels', $degreeLevels)
-                        ->with('majorSubjects', $majorSubjects)
+                        ->with('majorSubjects', $majorSubjectsFilter)
                         ->with('university', $university)
+                        ->with('board', $board)
+                        ->with('medium', $medium)
                         ->with('resultTypes', $resultTypes)
                         ->with('jobRole', $jobRole)
                         ->with('profilePercentage', $percentage)
+                        ->with('otherDatas', $otherDatas)
 						->with('upload_max_filesize', $upload_max_filesize);
     }
 
@@ -209,14 +221,14 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail(Auth::user()->id);
-        /*         * **************************************** */
+        /** **************************************** */
         if ($request->hasFile('image')) {
             $is_deleted = $this->deleteUserImage($user->id);
             $image = $request->file('image');
             $fileName = ImgUploader::UploadImage('user_images', $image, $request->input('name'), 300, 300, false);
             $user->image = $fileName;
         }
-        /*         * ************************************** */
+        /** ************************************** */
 
         $user->first_name = $request->input('first_name');
         $user->middle_name = $request->input('middle_name');

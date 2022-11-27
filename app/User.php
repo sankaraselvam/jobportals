@@ -83,7 +83,7 @@ class User extends Authenticatable
 	
 	public function profileProjects()
     {
-        return $this->hasMany('App\ProfileProject', 'user_id', 'id')->orderBy('profile_projects.id', 'desc');
+        return $this->hasMany('App\ProfileProject', 'user_id', 'id')->whereNotNull('working_from_year')->whereNotNull('working_from_month')->orderBy('profile_projects.working_from_year', 'asc')->orderBy('profile_projects.working_from_month', 'asc');
     }
 	
 	
@@ -120,12 +120,12 @@ class User extends Authenticatable
 	
 	public function profileExperience()
     {
-        return $this->hasMany('App\ProfileExperience', 'user_id', 'id')->orderBy('profile_experiences.id', 'desc');
+        return $this->hasMany('App\ProfileExperience', 'user_id', 'id')->whereNotNull('emp_working_from_year')->orderBy('profile_experiences.emp_working_from_year', 'asc');
     }
 	
 	public function profileEducation()
     {
-        return $this->hasMany('App\ProfileEducation', 'user_id', 'id');
+        return $this->hasMany('App\ProfileEducation', 'user_id', 'id')->whereNotNull('major_subject_id')->orderBy('profile_educations.date_completion_start', 'asc')->orderBy('profile_educations.passing_year', 'asc');
     }
 	
 	public function profileSkills()

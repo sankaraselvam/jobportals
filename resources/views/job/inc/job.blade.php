@@ -127,10 +127,10 @@
                         <div class="col-md-6 mb-3">
                             <label class="mb-2">Kilometer <span style="color: red;">*</span> </label>
                             <div class="input-group mb-2">                            
-                                <select class="form-control basic-select" name="salary_to" id="max-annual-salary">
+                                <select class="form-control basic-select" name="kilometer" id="kilometer">
                                     <option value="" selected="selected">Kilometer Radius</option>
-                                    <option value="5">0-5</option>
-                                    <option value="10">5-10</option>                                    
+                                    <option value="0-5">0-5</option>
+                                    <option value="5-10">5-10</option>                                    
                                   </select>
                             </div>
                         </div>

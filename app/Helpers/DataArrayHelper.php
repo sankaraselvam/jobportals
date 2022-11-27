@@ -27,6 +27,8 @@ use App\JobShift;
 use App\JobTitle;
 use App\Company;
 use App\University;
+use App\Board;
+use App\SchoolMedium;
 use App\MaritalStatus;
 use App\OwnershipType;
 use App\SalaryPeriod;
@@ -118,6 +120,39 @@ class DataArrayHelper
         $array = University::select('universityname.universityname', 'universityname.univid')->pluck('universityname.universityname', 'universityname.univid')->toArray();
 		if((int)count($array) === 0){
 			$array = self::defaultUniversityArray();
+		}
+        return $array;
+    }
+
+    /*******************************/
+	
+	public static function defaultBoardArray()
+    {
+        $array = Board::select('board.boardname', 'board.boardid')->pluck('board.boardname', 'board.boardid')->toArray();
+        return $array;
+    }
+	
+	public static function langBoardArray()
+    {
+        $array = Board::select('board.boardname', 'board.boardid')->pluck('board.boardname', 'board.boardid')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultBoardArray();
+		}
+        return $array;
+    }
+    /*******************************/
+	
+	public static function defaultMediumArray()
+    {
+        $array = SchoolMedium::select('school_medium.medium', 'school_medium.id')->pluck('school_medium.medium', 'school_medium.id')->toArray();
+        return $array;
+    }
+	
+	public static function langMediumArray()
+    {
+        $array = SchoolMedium::select('school_medium.medium', 'school_medium.id')->pluck('school_medium.medium', 'school_medium.id')->toArray();
+		if((int)count($array) === 0){
+			$array = self::defaultBoardArray();
 		}
         return $array;
     }

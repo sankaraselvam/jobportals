@@ -301,10 +301,12 @@
                                                 <li><a href="javascript:void(0);" onclick="delete_profile_education('{{$education->id}}');"><i class="far fa-trash-alt text-danger"></i></a></li>
                                             </ul>
                                         </div>
-                                        <span class="jobber-timeline-time">{{ $education->date_completion_start }}-{{ $education->date_completion_end }}</span>
-                                        <h6 class="mb-2">{{ $education->degreeType->degree_type }}</h6>
-                                        <span>- {{ ($education->university)?$education->university->universityname:'' }}</span>
-                                        <p class="mt-2"></p>
+                                            <span class="jobber-timeline-time">{{ ($education->passing_year!=null)?$education->passing_year:$education->date_completion_start.' - '. $education->date_completion_end}}</span>
+                                            <h6 class="mb-2">{{ ($education->degreeType)?$education->degreeType->degree_type:$education->board->boardname }}</h6>
+                                            <span>- {{ ($education->university)?$education->university->universityname:$education->schoolMedium->medium }}</span>
+                                            <p class="mt-2"></p>
+                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -842,62 +844,113 @@
                             <div class="tab-pane active" id="candidate" role="tabpanel">
                                 <form class="form" id="add_edit_profile_education" method="POST" action="{{ route('store.front.profile.education', [$user->id]) }}">{{ csrf_field() }}
                                     <div class="row">
-                                        <div class="form-group col-12 mb-2">
+                                        <div class="form-group col-md-12 mb-2">
                                             <label class="mb-2" for="Email2">Education <span style="color: red;">*</span></label>
                                             {!! Form::select('major_subject_id', [''=>__('Select Education')]+$majorSubjects, '', array('class'=>'form-control basic-select', 'id'=>'major_subject_id')) !!}
                                         </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
-                                            {!! Form::select('institution', [''=>__('Select university/Institute')]+$university, '', array('class'=>'form-control basic-select', 'id'=>'institution')) !!}
-                                        </div>
+                                        <div class="with_degree degree">
+                                            <div class="form-group col-md-12 mb-4">
+                                                <label class="mb-2" for="Email2">University/Institute <span style="color: red;">*</span></label>
+                                                {!! Form::select('institution', [''=>__('Select university/Institute')]+$university, '', array('class'=>'form-control basic-select', 'id'=>'institution')) !!}
+                                                <input class="form-control othertext" type="text" id="other_institution" name="other_institution" value="" placeholder="Please enter university/Institute">
+                                            </div>
 
-                                        <div class="form-group col-12 mb-2">
-                                            <label class="mb-2" for="Email2">Course <span style="color: red;">*</span></label>
-                                            <span id="degree_level_dd">{!! Form::select('degree_level_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}</span>
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
-                                                <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Specialization')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
-                                        </div>
-                                        
-                                        <div class="form-group col-12 mb-4">
-                                            <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
-                                            <div class="form-group">
-                                                <label>
-                                              <input class="form-group" type="radio" name="course_type" value="1" checked> Full Time
-                                            </label>
-                                                <label class="radio-inline">
-                                              <input type="radio" name="course_type" value="2"> Part Time
-                                            </label>
-                                                <label class="radio-inline">
-                                                <input type="radio" name="course_type" value="3"> Correspondence/Distance learning
-                                              </label>
+                                            <div class="form-group col-md-12 mb-2">
+                                                <label class="mb-2" for="Email2">Course <span style="color: red;">*</span></label>
+                                                <span id="degree_level_dd">{!! Form::select('degree_level_id', [''=>__('Select Course')], null, array('class'=>'form-control basic-select', 'id'=>'degree_level_id')) !!}</span>
+                                                <input class="form-control othertext" type="text" id="other_degree_level" name="other_degree_level" value="" placeholder="Please Enter Course">
                                             </div>
-                                        </div>
-                                        <div class="form-group col-md-12">
-                                            <label class="mb-2">Course Duration <span style="color: red;"> *</span> </label>
-                                        </div>
-                                        <div class="col-md-5 mb-3">
-                                            <div class="input-group mb-2">
-                                            {!! Form::select('date_completion_start', [''=>__('Select Starting Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_start')) !!}   
+                                            <div class="form-group col-md-12 mb-4">
+                                                <label class="mb-2" for="password2">Specialization <span style="color: red;">*</span></label>
+                                                    <span id="degree_types_dd">{!! Form::select('degree_type_id', [''=>__('Select Specialization')], null, array('class'=>'form-control basic-select', 'id'=>'degree_type_id')) !!}</span>
+                                                    <input class="form-control othertext" type="text" id="other_degree_type" name="other_degree_type" value="" placeholder="Please Enter Specialization">
                                             </div>
-                                        </div>
-                                        <div class="col-md-1 mb-3" style="margin-top: 15px;margin-bottom: 15px;">
-                                            <span>To</span>
-                                        </div>
-                                        <div class="col-md-5 mb-3">
-                                            <div class="input-group mb-2">
-                                            {!! Form::select('date_completion_end', [''=>__('Select Ending Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_end')) !!}
+                                            
+                                            <div class="form-group col-md-12 mb-4">
+                                                <label class="mb-2" for="password2">Course Type <span style="color: red;">*</span></label><br>
+                                                <div class="form-group">
+                                                    <label>
+                                                <input class="form-group" type="radio" name="course_type" value="1" checked> Full Time
+                                                </label>
+                                                    <label class="radio-inline">
+                                                <input type="radio" name="course_type" value="2"> Part Time
+                                                </label>
+                                                    <label class="radio-inline">
+                                                    <input type="radio" name="course_type" value="3"> Correspondence/Distance learning
+                                                </label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group col-12 mb-4">
-                                            <div class="row">
-                                                <label class="mb-2">Grading System<span style="color: red;">*</span></label>
-                                                <div class="form-group col-md-12 select-border mb-3">
-                                                {!! Form::select('result_type_id', [''=>__('Select Result Type')]+$resultTypes, '', array('class'=>'form-control basic-select', 'id'=>'result_type_id')) !!}
+                                            <div class="form-group col-md-12">
+                                                <label class="mb-2">Course Duration <span style="color: red;"> *</span> </label>
+                                            </div>
+                                            <div class="form-group col-md-12" style="display: inline-flex;">
+                                                <div class="col-md-6">
+                                                    <div class="col-md-10">
+                                                    <div class="input-group mb-2">
+                                                    {!! Form::select('date_completion_start', [''=>__('Select Starting Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_start')) !!}   
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-10">
+                                                        <div class="input-group mb-2">
+                                                        {!! Form::select('date_completion_end', [''=>__('Select Ending Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_end')) !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md-5 mb-3">
+                                                <div class="input-group mb-2">
+                                                {!! Form::select('date_completion_start', [''=>__('Select Starting Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_start')) !!}   
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 mb-3" style="margin-top: 15px;margin-bottom: 15px;">
+                                                <span>To</span>
+                                            </div>
+                                            <div class="col-md-5 mb-3">
+                                                <div class="input-group mb-2">
+                                                {!! Form::select('date_completion_end', [''=>__('Select Ending Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'date_completion_end')) !!}
+                                                </div>
+                                            </div> -->
+                                            <div class="form-group col-md-12 mb-4">
+                                                <div class="row">
+                                                    <label class="mb-2">Grading System<span style="color: red;">*</span></label>
+                                                    <div class="form-group col-md-12 select-border mb-3">
+                                                    {!! Form::select('result_type_id', [''=>__('Select Result Type')]+$resultTypes, '', array('class'=>'form-control basic-select', 'id'=>'result_type_id')) !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-12 mb-4">
+                                                <div class="row">
+                                                    <label class="mb-2">Mark<span style="color: red;">*</span></label>
+                                                    <div class="form-group col-md-12 select-border mb-3">
+                                                    <input type="text" class="form-control" name="mark" id="mark" value="">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="without_degree degree">
+                                            <div class="form-group col-12 mb-4">
+                                                <label class="mb-2" for="Email2">Board<span style="color: red;">*</span></label>
+                                                {!! Form::select('board', [''=>__('Select Board')]+$board, null, array('class'=>'form-control basic-select', 'id'=>'board')) !!}
+                                                <input class="form-control othertext" type="text" id="other_board" name="other_board" value="" placeholder="Please Enter Board">
+                                                
+                                            </div>
+                                            <div class="form-group col-12 mb-4">
+                                                <label class="mb-2">Passing Out Year<span style="color: red;">*</span></label>
+                                                {!! Form::select('passing_out_year', [''=>__('Select Passing Out Year')]+MiscHelper::getYear(), null, array('class'=>'form-control basic-select', 'id'=>'passing_out_year')) !!}   
+                                            </div>
+                                            <div class="form-group col-12 mb-4">
+                                                <label class="mb-2">School Medium<span style="color: red;">*</span></label>
+                                                {!! Form::select('school_medium', [''=>__('Select Medium')]+$medium, null, array('class'=>'form-control basic-select', 'id'=>'school_medium')) !!}
+                                                <input class="form-control othertext" type="text" id="other_medium" name="other_medium" value="" placeholder="Please Enter Medium">   
+                                            </div>
+                                            <div class="form-group col-12 mb-4">
+                                                <label class="mb-2">Total Marks<span style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" name="total_mark" id="total_mark" value="">  
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                     <div class="row mt-2" style="float: right;">
                                         <div class="col-md-6">
@@ -1616,6 +1669,10 @@ $(function() {
     //     $('body').animate({ scrollTop: pos.top });
     //     e.preventDefault();
     // });
+    
+    var otherRecord = <?php echo json_encode($otherDatas); ?>;
+     
+    $(".degree").hide();
     $(".working_to").hide();
     $("#emp_working_to").hide();
     $("#working_to_year").prop('disabled', true);
@@ -1626,7 +1683,11 @@ $(function() {
     $('#Education').modal({backdrop: 'static', keyboard: false}, 'show');
 
     $('#Education').on('hidden.bs.modal', function () {
-        $('#add_edit_profile_education form')[0].reset();
+        $("#major_subject_id").val("")
+        $("#major_subject_id").trigger('change');
+        $("#add_edit_profile_education select").val("")
+        $("#add_edit_profile_education select").trigger('change');
+        $('.degree').hide();
     })
     
     $(".project_status").on('change', function (e) {
@@ -1670,10 +1731,10 @@ $(function() {
         dateFormat: 'yy-mm-dd'	
 	});
 
-    // $('.js-example-city-multiple').select2({
-    // 	placeholder: "{{__('Select City')}}",
-    // 	allowClear: true
-	// });
+    $('.js-example-city-multiple').select2({
+    	placeholder: "{{__('Select City')}}",
+    	allowClear: true
+	});
     $('.js-example-jobskill-multiple').select2({
     	placeholder: "{{__('Select Skill')}}",
     	allowClear: true
@@ -1689,17 +1750,57 @@ $(function() {
     $('#salary_to').select2().trigger('change');
 
     $("#industry_id").on("change", function(){
-        if($(this).find('option:selected').text()=="Other"){
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text())){
             $("#other_industry").show();
         }else{
             $("#other_industry").hide();
         }   
     });
+
+    $("#institution").on("change", function(){
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text()))  
+        {  
+            $("#other_institution").show();
+        }else{
+            $("#other_institution").hide();
+        }   
+    });
+    $("#degree_level_id").on("change", function(){
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text()))  
+        {  
+            $("#other_degree_level").show();
+        }else{
+            $("#other_degree_level").hide();
+        }   
+    });
+    $("#degree_type_id").on("change", function(){
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text()))  
+        {  
+            $("#other_degree_type").show();
+        }else{
+            $("#other_degree_type").hide();
+        }   
+    });
     $("#functional_area_id").on("change", function(){        
-        if($(this).find('option:selected').text()=="Other"){
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text())){
             $("#other_functional_area").show();
         }else{
             $("#other_functional_area").hide();
+        }   
+    });
+    $("#board").on("change", function(){  
+        console.log($(this).find('option:selected').text());
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text())){
+            $("#other_board").show();
+        }else{
+            $("#other_board").hide();
+        }   
+    });
+    $("#school_medium").on("change", function(){        
+        if(Object.values(otherRecord).includes($(this).find('option:selected').text())){
+            $("#other_medium").show();
+        }else{
+            $("#other_medium").hide();
         }   
     });
 
@@ -1854,22 +1955,69 @@ $(function() {
         e.preventDefault;
         $("#add_edit_profile_education").validate({
             rules: { 
+                major_subject_id: 'required',
+                degree_level_id: 'required',
                 degree_level_id: 'required',
                 degree_type_id: 'required',
-                "major_subjects[]": 'required',
-                institute: 'required',
+               // "major_subjects[]": 'required',
+                institution: 'required',
                 course_type: 'required',
-                date_completion: 'required',
+                date_completion_start: 'required',
+                date_completion_end: 'required',
                 result_type_id: 'required',
+                board: 'required',
+                passing_out_year: 'required',
+                school_medium: 'required',
+                mark: 'required',
+                total_mark: 'required',
             },
             messages: {
-                degree_level_id: 'Please select education',
-                degree_type_id: 'Please select course',
-                "major_subjects[]": 'Please select specialization ',
-                institute: 'Please enter University/Institute',
+                major_subject_id: 'Please select education',
+                degree_level_id: 'Please select course',
+                degree_type_id: 'Please select specialization',
+//"major_subjects[]": 'Please select specialization ',
+                institution: 'Please select University/Institute',
                 course_type: 'Please choose course type',
-                date_completion: 'Please select passing year',
+                date_completion_start: 'Please select passing year start',
+                date_completion_end: 'Please select passing year end',
                 result_type_id: 'Please select grading system',
+                mark: 'Please enter mark',
+                board: {
+                    required: function (element) {
+                        if($("#major_subject_id").find('option:selected').text()=="10th" || $(this).find('option:selected').text()=="12th"){
+                            return "Please select Board";
+                        } else {
+                            return false;
+                        }
+                    }  
+                },
+                passing_out_year: {
+                    required: function (element) {
+                        if($("#major_subject_id").find('option:selected').text()=="10th" || $(this).find('option:selected').text()=="12th"){
+                            return "Please select Passing Out Year";
+                        } else {
+                            return false;
+                        }
+                    }  
+                },
+                school_medium: {
+                    required: function (element) {
+                        if($("#major_subject_id").find('option:selected').text()=="10th" || $(this).find('option:selected').text()=="12th"){
+                            return "Please select School Medium";
+                        } else {
+                            return false;
+                        }
+                    }  
+                },
+                total_mark: {
+                    required: function (element) {
+                        if($("#major_subject_id").find('option:selected').text()=="10th" || $(this).find('option:selected').text()=="12th"){
+                            return "Please Enter Total Mark";
+                        } else {
+                            return false;
+                        }
+                    }  
+                },
             },
             submitHandler: function() {
                 submitProfileEducationForm();
@@ -1944,6 +2092,13 @@ $(function() {
     $('#major_subject_id').on('change', function (e) {
         e.preventDefault();
         filterLangDegreeLevel($(this).val());
+        if($(this).find('option:selected').text()=="10th" || $(this).find('option:selected').text()=="12th"){
+            $(".without_degree").show();
+            $(".with_degree").hide();
+        }else{
+            $(".without_degree").hide();
+            $(".with_degree").show();
+        }   
     });
 
     $(document).on('change','#degree_level_id',function (e) {
@@ -2280,6 +2435,21 @@ function showProfileEducationEditModal(education_id){
                 // $('#date_completion').select2().trigger('change');
                 $("#result_type_id").val(json.data.result_type_id);
                 $('#result_type_id').select2().trigger('change');
+                $("#board").val(json.data.board_id);
+                $('#board').select2().trigger('change');
+                $("#passing_out_year").val(json.data.passing_year);
+                $('#passing_out_year').select2().trigger('change');
+                $("#school_medium").val(json.data.medium_id);
+                $('#school_medium').select2().trigger('change');
+                if(json.data.board_id !=null){
+                    $("#total_mark").val(json.data.mark);
+                }else{
+                    $("#mark").val(json.data.mark);
+                }
+                
+                
+
+
                 // $("#major_subjects").val(subjectsArray);
                 // $('#major_subjects').select2().trigger('change');
                 filterLangDegreeLevel(json.data.major_subject_id, json.data.degree_level_id);

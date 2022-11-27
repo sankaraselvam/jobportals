@@ -19,6 +19,10 @@ return [
         '3' => 'Call not picked',
         '4' => 'Not Reachable'
     ],
+    'otherData' => [
+        '1' => 'Other',
+        '2' => 'Others'
+    ],
     'pageLimit' => [
         '10' => '10',
         '20' => '20',

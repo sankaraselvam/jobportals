@@ -115,6 +115,48 @@ class ProfileEducation extends Model
             return '';
         }
     }
+
+    public function board()
+    {
+        return $this->belongsTo('App\Board', 'board_id', 'boardid');
+    }
+
+    public function getBoard($field = '')
+    {
+		$board = $this->board()->first();
+		if(null === $board){
+			$board = $this->board()->first();
+		}
+        if(null !== $board){
+            if (empty($field))
+                return $board;
+            else
+                return $board->$field;
+        } else {
+            return '';
+        }
+    }
+
+    public function schoolMedium()
+    {
+        return $this->belongsTo('App\SchoolMedium', 'medium_id', 'id');
+    }
+
+    public function getMedium($field = '')
+    {
+		$medium = $this->schoolMedium()->first();
+		if(null === $medium){
+			$medium = $this->schoolMedium()->first();
+		}
+        if(null !== $medium){
+            if (empty($field))
+                return $medium;
+            else
+                return $medium->$field;
+        } else {
+            return '';
+        }
+    }
 	
 	public function resultType()
     {

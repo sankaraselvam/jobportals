@@ -1,7 +1,11 @@
 
 <!--================================= header -->
 @php
-$routeName = app('request')->route()->getAction();
+/** $routeName = app('request')->route()->getAction(); */
+$routeNames=null;
+if(!App::runningInConsole()){
+    $routeNames = Route::getCurrentRoute()->getAction()['as'];
+}
 @endphp
     
 <header class="header bg-white">
@@ -15,7 +19,7 @@ $routeName = app('request')->route()->getAction();
                 <a class="navbar-brand" href="{{url('/')}}">
                     <img class="img-fluid" src="{{asset('/')}}images/udhyog.png" alt="logo">
                 </a>
-                <input type="hidden" value="{{$routeName['as']}}" id="routeName">
+                <input type="hidden" value="{{$routeNames}}" id="routeName">
                 <div class="navbar-collapse collapse justify-content-start">
                     <ul class="nav navbar-nav">
                         <li class="nav-item {{ Request::url() == route('index') ? 'active' : '' }}">
